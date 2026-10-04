@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://cri52ovalqh17"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_20vo2"]
+size = Vector3(100, 2, 100)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Ground" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_y = true
+axis_lock_angular_z = true
+
+[node name="GroundCollision" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+shape = SubResource("BoxShape3D_20vo2")
