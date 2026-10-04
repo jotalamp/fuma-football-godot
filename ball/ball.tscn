@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://ck72rdt4iaj3a"]
+
+[ext_resource type="PackedScene" uid="uid://chi1n7lr2qmia" path="res://resources/models/ball.glb" id="1_6plaf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pwunn"]
+albedo_color = Color(1, 0, 0, 1)
+metallic = 1.0
+
+[node name="ball" instance=ExtResource("1_6plaf")]
+
+[node name="Ball" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_pwunn")

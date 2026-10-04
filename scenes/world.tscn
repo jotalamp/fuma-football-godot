@@ -1,0 +1,83 @@
+[gd_scene load_steps=13 format=3 uid="uid://dp0s6t76qkg24"]
+
+[ext_resource type="Script" uid="uid://ce3dienxqun3m" path="res://main/main.gd" id="1_4wyf3"]
+[ext_resource type="PackedScene" uid="uid://chi1n7lr2qmia" path="res://resources/models/ball.glb" id="1_nnsk1"]
+[ext_resource type="PackedScene" uid="uid://c347shudmgc4c" path="res://addons/infinite_grid/infinite_grid_3d.tscn" id="2_rwgxs"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_rwgxs"]
+
+[sub_resource type="Sky" id="Sky_4wyf3"]
+sky_material = SubResource("PhysicalSkyMaterial_rwgxs")
+
+[sub_resource type="Environment" id="Environment_rwgxs"]
+background_mode = 2
+sky = SubResource("Sky_4wyf3")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 16.0
+reflected_light_source = 2
+
+[sub_resource type="Environment" id="Environment_nnsk1"]
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_rwgxs"]
+
+[sub_resource type="Compositor" id="Compositor_4wyf3"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rwgxs"]
+resource_name = "BallPhysicsMaterial"
+friction = 0.6
+bounce = 0.6
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_e5uuo"]
+radius = 0.22
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_20vo2"]
+size = Vector3(200, 2, 200)
+
+[node name="World" type="Node3D"]
+process_mode = 3
+script = ExtResource("1_4wyf3")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_rwgxs")
+
+[node name="SunDirectionalLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 50, 0)
+light_indirect_energy = 3.0
+directional_shadow_mode = 0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, -10)
+environment = SubResource("Environment_nnsk1")
+attributes = SubResource("CameraAttributesPhysical_rwgxs")
+compositor = SubResource("Compositor_4wyf3")
+current = true
+
+[node name="BallRigidBody" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+rotation_edit_mode = 1
+top_level = true
+mass = 0.44
+physics_material_override = SubResource("PhysicsMaterial_rwgxs")
+can_sleep = false
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 2
+
+[node name="BallCollisionShape" type="CollisionShape3D" parent="BallRigidBody"]
+shape = SubResource("SphereShape3D_e5uuo")
+
+[node name="BallMesh" parent="BallRigidBody" instance=ExtResource("1_nnsk1")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+
+[node name="GroundStaticBody" type="StaticBody3D" parent="."]
+
+[node name="GroundCollision" type="CollisionShape3D" parent="GroundStaticBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+shape = SubResource("BoxShape3D_20vo2")
+
+[node name="InfiniteGrid3D" parent="GroundStaticBody" instance=ExtResource("2_rwgxs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.5389, -1, -2.2368)
+skeleton = NodePath("../..")
+thin_line_color = Color(0.68, 0.68, 0.68, 0.65098)
+thick_line_color = Color(1, 1, 1, 1)
