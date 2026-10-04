@@ -1,21 +1,26 @@
-[gd_scene load_steps=13 format=3 uid="uid://dp0s6t76qkg24"]
+[gd_scene load_steps=20 format=3 uid="uid://dp0s6t76qkg24"]
 
 [ext_resource type="Script" uid="uid://ce3dienxqun3m" path="res://main/main.gd" id="1_4wyf3"]
-[ext_resource type="PackedScene" uid="uid://chi1n7lr2qmia" path="res://resources/models/ball.glb" id="1_nnsk1"]
+[ext_resource type="Script" uid="uid://ck8t3nsx8jj0k" path="res://ball/ball.gd" id="2_71j4m"]
 [ext_resource type="PackedScene" uid="uid://c347shudmgc4c" path="res://addons/infinite_grid/infinite_grid_3d.tscn" id="2_rwgxs"]
-
-[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_rwgxs"]
-
-[sub_resource type="Sky" id="Sky_4wyf3"]
-sky_material = SubResource("PhysicalSkyMaterial_rwgxs")
+[ext_resource type="Script" uid="uid://dvnrwelj7vka2" path="res://fps/LabelFPS.gd" id="4_k0juu"]
+[ext_resource type="ArrayMesh" uid="uid://bx8j5r1r36iv6" path="res://ball/Football.obj" id="4_qfnet"]
 
 [sub_resource type="Environment" id="Environment_rwgxs"]
-background_mode = 2
-sky = SubResource("Sky_4wyf3")
-ambient_light_source = 3
-ambient_light_color = Color(1, 1, 1, 1)
-ambient_light_energy = 16.0
-reflected_light_source = 2
+background_color = Color(0, 0.572549, 1, 1)
+ssao_enabled = true
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0, 0.580392, 0.862745, 1)
+fog_light_energy = 16.0
+fog_sun_scatter = 1.0
+fog_density = 1.0
+fog_sky_affect = 0.487
+fog_height_density = 16.0
+fog_depth_begin = 0.0
+fog_depth_end = 59.4
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.7708
 
 [sub_resource type="Environment" id="Environment_nnsk1"]
 
@@ -25,14 +30,42 @@ reflected_light_source = 2
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rwgxs"]
 resource_name = "BallPhysicsMaterial"
-friction = 0.6
-bounce = 0.6
+friction = 0.9
+rough = true
+bounce = 0.3
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_e5uuo"]
 radius = 0.22
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_71j4m"]
+friction = 0.5
+rough = true
+bounce = 0.5
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_20vo2"]
 size = Vector3(200, 2, 200)
+
+[sub_resource type="BoxMesh" id="BoxMesh_qfnet"]
+size = Vector3(100, 2, 100)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_71j4m"]
+frequency = 0.1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_qfnet"]
+width = 64
+height = 64
+in_3d_space = true
+normalize = false
+noise = SubResource("FastNoiseLite_71j4m")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_71j4m"]
+albedo_color = Color(0, 0.407843, 0, 1)
+albedo_texture = SubResource("NoiseTexture2D_qfnet")
+
+[sub_resource type="BoxMesh" id="BoxMesh_71j4m"]
+size = Vector3(8, 4, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qfnet"]
 
 [node name="World" type="Node3D"]
 process_mode = 3
@@ -42,42 +75,71 @@ script = ExtResource("1_4wyf3")
 environment = SubResource("Environment_rwgxs")
 
 [node name="SunDirectionalLight" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 50, 0)
-light_indirect_energy = 3.0
+transform = Transform3D(1, 0, 0, 0, -0.5, 0.866025, 0, -0.866025, -0.5, 0, 50, -50)
+light_indirect_energy = 0.5
+light_volumetric_fog_energy = 0.0
+shadow_enabled = true
 directional_shadow_mode = 0
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1, -10)
+transform = Transform3D(-1, -2.99003e-08, 8.21505e-08, 0, 0.939693, 0.34202, -8.74228e-08, 0.34202, -0.939693, 0, 3, -6)
 environment = SubResource("Environment_nnsk1")
 attributes = SubResource("CameraAttributesPhysical_rwgxs")
 compositor = SubResource("Compositor_4wyf3")
 current = true
 
 [node name="BallRigidBody" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 rotation_edit_mode = 1
 top_level = true
 mass = 0.44
 physics_material_override = SubResource("PhysicsMaterial_rwgxs")
+center_of_mass_mode = 1
 can_sleep = false
 continuous_cd = true
 contact_monitor = true
-max_contacts_reported = 2
+max_contacts_reported = 1
+linear_damp = 0.05
+angular_damp = 0.3
+script = ExtResource("2_71j4m")
 
 [node name="BallCollisionShape" type="CollisionShape3D" parent="BallRigidBody"]
 shape = SubResource("SphereShape3D_e5uuo")
 
-[node name="BallMesh" parent="BallRigidBody" instance=ExtResource("1_nnsk1")]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0)
+[node name="BallMesh" type="MeshInstance3D" parent="BallRigidBody"]
+transform = Transform3D(0.007, 0, 0, 0, 0.007, 0, 0, 0, 0.007, 0, 0, 0)
+mesh = ExtResource("4_qfnet")
 
 [node name="GroundStaticBody" type="StaticBody3D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_71j4m")
 
 [node name="GroundCollision" type="CollisionShape3D" parent="GroundStaticBody"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
 shape = SubResource("BoxShape3D_20vo2")
 
 [node name="InfiniteGrid3D" parent="GroundStaticBody" instance=ExtResource("2_rwgxs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.5389, -1, -2.2368)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9, 0)
+sorting_offset = 0.1
+cast_shadow = 0
 skeleton = NodePath("../..")
-thin_line_color = Color(0.68, 0.68, 0.68, 0.65098)
-thick_line_color = Color(1, 1, 1, 1)
+lod_center_fade_line_count = 160.0
+thin_line_color = Color(0, 0, 0, 0.2)
+thick_line_color = Color(0, 0, 0, 0.65098)
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="GroundStaticBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+use_collision = true
+mesh = SubResource("BoxMesh_qfnet")
+material = SubResource("StandardMaterial3D_71j4m")
+
+[node name="BoxCSGMesh" type="CSGMesh3D" parent="GroundStaticBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 20)
+use_collision = true
+mesh = SubResource("BoxMesh_71j4m")
+material = SubResource("StandardMaterial3D_qfnet")
+
+[node name="LabelFPS" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "FPS: "
+script = ExtResource("4_k0juu")

@@ -1,4 +1,5 @@
 res://scenes/world.tscn
 res://ball/ball.tscn
 res://addons/infinite_grid/infinite_grid_3d.tscn
-res://main/main.gd
+res://ball/ball2.tscn
+res://ball/ball.gd

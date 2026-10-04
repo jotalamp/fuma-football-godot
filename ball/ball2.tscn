@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdqwev6yasrgk"]
+
+[ext_resource type="PackedScene" uid="uid://chi1n7lr2qmia" path="res://resources/models/ball.glb" id="1_kv817"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dhkcg"]
+diffuse_mode = 3
+disable_ambient_light = true
+disable_fog = true
+anisotropy = 1.0
+subsurf_scatter_strength = 0.34
+backlight = Color(1, 1, 1, 1)
+
+[node name="ball" instance=ExtResource("1_kv817")]
+
+[node name="Ball" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_dhkcg")
