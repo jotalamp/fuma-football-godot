@@ -1,5 +1,14 @@
 res://scenes/world.tscn
+res://ground/football_pitch.gdshader
 res://ball/ball.tscn
 res://addons/infinite_grid/infinite_grid_3d.tscn
-res://ball/ball2.tscn
+res://controllers/Controllers.tscn
+res://player/PowerBar.tscn
+res://player/player_animations.tscn
+res://radar/radar_player_dot.tscn
+res://player/player.tscn
 res://ball/ball.gd
+res://player/player.gd
+res://Team/TeamDatas.tscn
+res://Team/team.gd
+res://player/FootballAnimations.gd

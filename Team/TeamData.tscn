@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Team/team_data.gd" type="Script" id=1]
+
+[node name="TeamData" type="Node" groups=["teamDatas"]]
+script = ExtResource( 1 )

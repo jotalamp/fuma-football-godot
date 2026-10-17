@@ -1,0 +1,87 @@
+[gd_scene load_steps=17 format=3 uid="uid://cn30qrkcxa36o"]
+
+[ext_resource type="PackedScene" uid="uid://c0ru1w1tyi3tj" path="res://player/FootballAnimations_03.glb" id="1"]
+
+[sub_resource type="AnimationNodeAnimation" id="21"]
+animation = &"FastRun"
+
+[sub_resource type="AnimationNodeAnimation" id="18"]
+animation = &"Idle_01"
+
+[sub_resource type="AnimationNodeAnimation" id="19"]
+animation = &"Jog_02"
+
+[sub_resource type="AnimationNodeBlendSpace1D" id="15"]
+blend_point_0/node = SubResource("18")
+blend_point_0/pos = 0.0
+blend_point_1/node = SubResource("19")
+blend_point_1/pos = 0.1
+
+[sub_resource type="AnimationNodeAnimation" id="12"]
+animation = &"Idle_01"
+
+[sub_resource type="AnimationNodeAnimation" id="4"]
+animation = &"Jog_02"
+
+[sub_resource type="AnimationNodeAnimation" id="5"]
+animation = &"Kick_01"
+
+[sub_resource type="AnimationNodeAnimation" id="8"]
+animation = &"Kick_02"
+
+[sub_resource type="AnimationNodeAnimation" id="10"]
+animation = &"Kick_03"
+
+[sub_resource type="AnimationNodeAnimation" id="16"]
+animation = &"Kick_05"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="7"]
+xfade_time = 0.1
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="9"]
+xfade_time = 0.1
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="11"]
+xfade_time = 0.2
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="17"]
+xfade_time = 0.4
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="6"]
+states/FastRun-loop/node = SubResource("21")
+states/FastRun-loop/position = Vector2(72, 98)
+states/IdleJog/node = SubResource("15")
+states/IdleJog/position = Vector2(698, 197)
+states/Idle_01/node = SubResource("12")
+states/Idle_01/position = Vector2(235, 246)
+states/Jog_02/node = SubResource("4")
+states/Jog_02/position = Vector2(262, 87)
+states/Kick_01/node = SubResource("5")
+states/Kick_01/position = Vector2(474, 90)
+states/Kick_02/node = SubResource("8")
+states/Kick_02/position = Vector2(474, 140)
+states/Kick_03/node = SubResource("10")
+states/Kick_03/position = Vector2(669, 54)
+states/Kick_05/node = SubResource("16")
+states/Kick_05/position = Vector2(454, 235)
+transitions = ["Kick_01", "Jog_02", SubResource("7"), "Kick_02", "Jog_02", SubResource("9"), "Kick_03", "Jog_02", SubResource("11"), "Kick_05", "Jog_02", SubResource("17")]
+graph_offset = Vector2(-153, -56)
+
+[node name="Animations" instance=ExtResource("1")]
+
+[node name="AnimationPlayer" parent="." index="1"]
+callback_mode_method = 1
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="2"]
+process_mode = 2
+root_motion_track = NodePath("Armature/Skeleton3D:mixamorig5_Hips")
+root_motion_local = false
+tree_root = SubResource("6")
+anim_player = NodePath("../AnimationPlayer")
+parameters/IdleJog/blend_position = 0.0
+
+[node name="RightFoot" type="Node3D" parent="." index="3"]

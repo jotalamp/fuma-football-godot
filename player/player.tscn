@@ -1,0 +1,216 @@
+[gd_scene load_steps=8 format=3 uid="uid://brfpxei7s8od5"]
+
+[ext_resource type="Texture2D" uid="uid://cpgf0yrg484en" path="res://player/arrow.png" id="1"]
+
+[sub_resource type="PhysicsMaterial" id="4"]
+friction = 0.9
+rough = true
+bounce = 0.1
+absorbent = true
+
+[sub_resource type="GDScript" id="3"]
+script/source = "extends RigidBody3D
+
+
+# Declare member variables here. Examples:
+# var a = 2
+# var b = \"text\"
+
+var max_speed = 5
+var force = 10
+
+var torque = 0.2
+
+var direction = Vector2()
+
+var shoot_power_rise_speed = 0.03
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+	
+func _physics_process(_delta):
+	var target_angle 
+	var delta_angle
+	var current_angle
+	
+	var input_x = Input.get_joy_axis(0, 0)
+	var input_y = Input.get_joy_axis(0, 1)
+	var input = Vector2( Input.get_joy_axis(0, 0), Input.get_joy_axis(0, 1) )#.normalized()
+	
+	var deltaX = +input.x;
+	var deltaY = -input.y;
+	#var deltaX = -1.0
+	#var deltaY = 0.0
+	var rad = atan2(deltaY, deltaX) # In radians
+	
+	if(rad<0.0):
+		rad += 2 * PI
+	
+	direction = Vector2(deltaX, deltaY)#.normalized()
+
+	#Then you can convert it to degrees as easy as:
+
+	var deg = rad * (180.0 / PI)
+	target_angle = deg
+	if(target_angle<0.0):
+		target_angle += 360.0 
+	
+	current_angle = rotation_degrees.y + 180.0
+	
+	print(rad)
+	#print(deltaX)
+	#print(deltaY)
+	
+	#print(current_angle)
+	#print(target_angle)
+	
+	delta_angle = target_angle - current_angle
+	
+	if delta_angle > 180.0:
+		delta_angle = -(360.0 - delta_angle)
+	elif delta_angle < -180.0:
+		delta_angle = 360.0 + delta_angle
+	
+	#print(delta_angle)
+
+	apply_torque_impulse(Vector3(0,torque*delta_angle,0));
+	
+	#if( linear_velocity.length() < max_speed ):
+	if input.length() > 0.2:
+		apply_central_impulse(force*input.length()*Vector3(sin(rotation.y),0,cos(rotation.y)));
+	
+	var tf = get_global_transform()
+	var vel = get_linear_velocity()
+	var right_normal = tf.basis.x
+	#get the orthogonal velocity vector
+	var right_vel = right_normal.dot(vel) * right_normal
+	apply_central_impulse( - 0.03 * mass * right_vel );
+	
+	var delta_position = $\"/root/Root/Ball\".position - (position - 0.5 * Vector3(direction.normalized().y,0.0,direction.normalized().x))
+	
+	if delta_position.length() < 2.0:
+		#var direction_to_get_ball = right_normal.dot(delta_position) * right_normal
+		var direction_to_get_ball = delta_position
+		var direction_to_get_ball_2 = right_normal.dot(direction_to_get_ball) * right_normal
+		apply_central_impulse( 0.05 * mass * ( 3.0 * direction_to_get_ball_2 + direction_to_get_ball.normalized() ) );
+	
+	#if(abs(linear_velocity.x) < max_speed):
+					#player.apply_impulse(+speed * delta)
+			#apply_impulse(Vector2.ZERO, 2.0 * force * x * Vector2.RIGHT)
+		#apply_central_impulse(force*Vector3(0*input_y,0,-input_x));
+		
+			
+	#if(abs(linear_velocity.y) < max_speed):
+		#pass
+		#apply_central_impulse(force*Vector3(input_y,0,-0*input_x));
+	
+	#apply_central_impulse(0.5*Vector3(input_y,0,-input_x));
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	
+	var timer_value = $\"./Timer\".time_left
+	if Input.is_action_pressed(\"shoot\"):
+		$\"./ShootPowerBar\".value += shoot_power_rise_speed#Input.get_joy_axis(0, 7)#timer_value
+	else:
+		$\"./ShootPowerBar\".value -= shoot_power_rise_speed#Input.get_joy_axis(0, 7)#timer_value
+	#$\"./ShootPowerBar\".value = Input.get_action_strength()#timer_value
+	
+	$\"./ShootHeightBar\".value = 0.5 - 0.5 * Input.get_joy_axis(0, 3)
+	
+	var speed = 0.2
+	
+	if Input.is_action_pressed(\"movement.right\"):
+		apply_central_impulse(Vector3(0,0,-speed));
+	if Input.is_action_pressed(\"movement.left\"):
+		apply_central_impulse(Vector3(0,0,+speed));
+	if Input.is_action_pressed(\"movement.forward\"):
+		apply_central_impulse(Vector3(-speed,0,0));
+	if Input.is_action_pressed(\"movement.backward\"):
+		apply_central_impulse(Vector3(+speed,0,0));
+#	pass
+
+func _integrate_forces(state):
+	pass
+	#var input_x = Input.get_joy_axis(0, 0)
+	#var input_y = Input.get_joy_axis(0, 1)
+	#var xform = state.get_transform().rotated(Vector3(0,1,0),0.01)
+	#var xform = state.get_transform().looking_at(Vector3(input_y,0,input_x),Vector3(0,1,0))
+	
+	#state.set_transform(xform)
+"
+
+[sub_resource type="CylinderShape3D" id="1"]
+
+[sub_resource type="CylinderMesh" id="2"]
+
+[sub_resource type="CapsuleShape3D" id="5"]
+
+[sub_resource type="CapsuleMesh" id="6"]
+
+[node name="Player" type="RigidBody3D"]
+axis_lock_linear_y = true
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+mass = 77.0
+physics_material_override = SubResource("4")
+continuous_cd = true
+linear_damp = 0.9
+angular_damp = 20.0
+script = SubResource("3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.3, 0, 0, 0, 0.8, 0, 0, 0, 0.2, 0, 1.2, 0)
+shape = SubResource("1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
+mesh = SubResource("2")
+skeleton = NodePath("../..")
+
+[node name="Arrow" type="Sprite3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, -1.74846e-08, -0.4, 0, 0.4, -1.74846e-08, 0, 0.01, 0)
+cast_shadow = 0
+texture = ExtResource("1")
+
+[node name="LeftFootCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0.2, 0.21, 0)
+shape = SubResource("5")
+
+[node name="LeftFoot" type="MeshInstance3D" parent="LeftFootCollision"]
+mesh = SubResource("6")
+
+[node name="RightFootCollision" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.2, 0.21, 0)
+shape = SubResource("5")
+
+[node name="RightFoot" type="MeshInstance3D" parent="RightFootCollision"]
+mesh = SubResource("6")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="ShootPowerBar" type="ProgressBar" parent="."]
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.9
+anchor_right = 0.5
+anchor_bottom = 0.9
+offset_right = 4.0
+offset_bottom = 14.0
+max_value = 1.0
+value = 0.5
+
+[node name="ShootHeightBar" type="ProgressBar" parent="."]
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.8
+anchor_right = 0.5
+anchor_bottom = 0.81
+offset_right = 4.0
+offset_bottom = 14.0
+max_value = 1.0
+value = 0.5
