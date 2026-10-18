@@ -1,11 +1,13 @@
-[gd_scene load_steps=30 format=3 uid="uid://dp0s6t76qkg24"]
+[gd_scene load_steps=32 format=3 uid="uid://dp0s6t76qkg24"]
 
 [ext_resource type="Script" uid="uid://ce3dienxqun3m" path="res://main/main.gd" id="1_4wyf3"]
 [ext_resource type="Script" uid="uid://ck8t3nsx8jj0k" path="res://ball/ball.gd" id="2_71j4m"]
 [ext_resource type="PackedScene" uid="uid://c347shudmgc4c" path="res://addons/infinite_grid/infinite_grid_3d.tscn" id="2_rwgxs"]
 [ext_resource type="Script" uid="uid://dvnrwelj7vka2" path="res://fps/LabelFPS.gd" id="4_k0juu"]
+[ext_resource type="AudioStream" uid="uid://p5y1iy2warwc" path="res://sounds/BallKicked_01.mp3" id="4_pm21f"]
 [ext_resource type="ArrayMesh" uid="uid://bx8j5r1r36iv6" path="res://ball/Football.obj" id="4_qfnet"]
 [ext_resource type="Script" uid="uid://cwkv3qcwpjlve" path="res://cameras/cameras.gd" id="7_i7141"]
+[ext_resource type="Script" uid="uid://iar3qdb0kpmg" path="res://cameras/camera_tv.gd" id="8_2lf6f"]
 [ext_resource type="PackedScene" uid="uid://d3pxk0pl7kvlm" path="res://controllers/Controllers.tscn" id="8_4mrxx"]
 [ext_resource type="PackedScene" uid="uid://cl0utxmipnucm" path="res://controllers/Controller.tscn" id="9_7r4gi"]
 [ext_resource type="PackedScene" uid="uid://bxejaij4jf4q8" path="res://Team/TeamDatas.tscn" id="10_w7kh3"]
@@ -20,13 +22,13 @@
 [ext_resource type="PackedScene" uid="uid://c3kn1f7pj6s0j" path="res://player/PowerBar.tscn" id="16_7t5mc"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_71j4m"]
-sky_top_color = Color(0.0208, 0.28704, 0.52, 1)
-sky_horizon_color = Color(0.6816, 0.692487, 0.71, 1)
-sky_curve = 0.0630673
-ground_bottom_color = Color(0.0814, 0.22, 0.09295, 1)
-ground_horizon_color = Color(0.4624, 0.68, 0.480533, 1)
-ground_curve = 0.00757861
+sky_top_color = Color(2.35841e-06, 0.418987, 0.607327, 1)
+sky_curve = 0.0362226
+ground_bottom_color = Color(0.0313132, 0.45719, 0, 1)
+ground_curve = 0.0168179
+ground_energy_multiplier = 0.5
 sun_angle_max = 14.26
+sun_curve = 0.454715
 
 [sub_resource type="Sky" id="Sky_qfnet"]
 sky_material = SubResource("ProceduralSkyMaterial_71j4m")
@@ -39,12 +41,11 @@ glow_bloom = 0.6
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rwgxs"]
 resource_name = "BallPhysicsMaterial"
-friction = 0.9
-rough = true
+friction = 0.5
 bounce = 0.3
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_e5uuo"]
-radius = 0.22
+radius = 0.11
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_71j4m"]
 friction = 0.5
@@ -52,19 +53,22 @@ rough = true
 bounce = 0.5
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_20vo2"]
-size = Vector3(120, 2, 80)
+margin = 0.01
+size = Vector3(300, 1.98, 300)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qfnet"]
 albedo_color = Color(0, 0.4224, 0, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_qfnet"]
 material = SubResource("StandardMaterial3D_qfnet")
-size = Vector3(120, 2, 80)
+size = Vector3(120, 0.01, 80)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lakw3"]
 friction = 0.0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o8fc1"]
+radius = 0.3
+height = 1.78
 
 [node name="Root" type="Node3D"]
 process_mode = 3
@@ -81,7 +85,7 @@ shadow_enabled = true
 directional_shadow_mode = 0
 
 [node name="Ball" type="RigidBody3D" parent="." node_paths=PackedStringArray("nearestPlayer")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.754808, 0.22, 1)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
 rotation_edit_mode = 1
 top_level = true
 mass = 0.44
@@ -100,8 +104,11 @@ nearestPlayer = NodePath("../TeamHome/Player")
 shape = SubResource("SphereShape3D_e5uuo")
 
 [node name="BallMesh" type="MeshInstance3D" parent="Ball"]
-transform = Transform3D(0.007, 0, 0, 0, 0.007, 0, 0, 0, 0.007, 0, 0, 0)
+transform = Transform3D(0.004, 0, 0, 0, 0.004, 0, 0, 0, 0.004, 0, 0, 0)
 mesh = ExtResource("4_qfnet")
+
+[node name="KickAndBounceSound" type="AudioStreamPlayer3D" parent="Ball"]
+stream = ExtResource("4_pm21f")
 
 [node name="LabelFPS" type="Label" parent="."]
 offset_right = 40.0
@@ -115,27 +122,38 @@ script = ExtResource("4_k0juu")
 cast_shadow = 0
 skeleton = NodePath("../..")
 grid_size = 130.0
-edge_fade_start_ratio = 0.6
-grazing_fade_end = 4.0
+edge_fade_start_ratio = 0.5
+grazing_fade_start = 0.0
+grazing_fade_end = 7.0
+enable_stipple_discard = true
 thin_line_color = Color(0, 0, 0, 0.2)
 thick_line_color = Color(0, 0, 0, 0.65098)
 
 [node name="GroundStaticBody" type="StaticBody3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.01, 0)
 physics_material_override = SubResource("PhysicsMaterial_71j4m")
 
 [node name="GroundCollision" type="CollisionShape3D" parent="Ground/GroundStaticBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
 shape = SubResource("BoxShape3D_20vo2")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground/GroundStaticBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.02, 0)
 mesh = SubResource("BoxMesh_qfnet")
 
 [node name="Cameras" type="Node" parent="."]
 script = ExtResource("7_i7141")
 
-[node name="Camera3D" type="Camera3D" parent="Cameras"]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 2, -20)
+[node name="Camera3D" type="Camera3D" parent="Cameras" node_paths=PackedStringArray("player")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 10, 10, -40)
 current = true
+fov = 45.0
+near = 0.1
+far = 200.0
+script = ExtResource("8_2lf6f")
+player = NodePath("../../TeamHome/Player")
+
+[node name="Camera3D2" type="Camera3D" parent="Cameras"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 fov = 45.0
 
 [node name="Controllers" parent="." instance=ExtResource("8_4mrxx")]
@@ -150,8 +168,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -20.0
-offset_top = -40.0
+offset_top = -80.0
 offset_right = 20.0
+offset_bottom = -40.0
 grow_horizontal = 2
 grow_vertical = 0
 script = ExtResource("11_q5onr")
@@ -197,15 +216,16 @@ physics_material_override = SubResource("PhysicsMaterial_lakw3")
 continuous_cd = true
 contact_monitor = true
 linear_damp_mode = 1
-linear_damp = 2.0
+linear_damp = 1.0
 angular_damp_mode = 1
 angular_damp = 8.0
 script = ExtResource("13_xo05s")
 controllerIDNumber = 1
+maxSpeed = 9.0
 currentCamera = NodePath("../../Cameras/Camera3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TeamHome/Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 0.992546, -0.121869, 0, 0.121869, 0.992546, 0, 0.86, 0.05)
 shape = SubResource("CapsuleShape3D_o8fc1")
 
 [node name="Animations" parent="TeamHome/Player" instance=ExtResource("13_o8fc1")]
@@ -215,6 +235,8 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 
 texture_albedo = ExtResource("15_dss4m")
 
 [node name="PowerBar" parent="TeamHome/Player" instance=ExtResource("16_7t5mc")]
+
+[node name="RightFoot" type="BoneAttachment3D" parent="TeamHome/Player"]
 
 [node name="TeamAway" type="Node" parent="."]
 

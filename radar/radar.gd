@@ -25,8 +25,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	dot_01.position = Vector2( -2.45 * player.position.z, -80.0 + 2.45 * player.position.x )
-	dot_02.position = Vector2( -2.45 * player2.position.z, -80.0 + 2.45 * player2.position.x )
-	dot_ball.position = Vector2( -2.45 * ball.position.z, -80.0 + 2.45 * ball.position.x )
-	#dot_01.modulate = player.getTeamColor()
-	#dot_02.modulate = player2.getTeamColor()
+	dot_01.position = Vector2( -2.45 * player.position.x, -60.0-2.45 * player.position.z )
+	dot_02.position = Vector2( -2.45 * player2.position.x, -60.0-2.45 * player2.position.z )
+	dot_ball.position = Vector2( -2.45 * ball.position.x, -60-2.45 * ball.position.z)
+	dot_01.modulate = player.getTeamColor()
+	dot_02.modulate = player2.getTeamColor()

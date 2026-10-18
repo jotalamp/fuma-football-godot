@@ -7,8 +7,6 @@ res://player/PowerBar.tscn
 res://player/player_animations.tscn
 res://radar/radar_player_dot.tscn
 res://player/player.tscn
-res://ball/ball.gd
-res://player/player.gd
 res://Team/TeamDatas.tscn
-res://Team/team.gd
-res://player/FootballAnimations.gd
+res://ball/ball.gd
+res://cameras/camera_tv.gd

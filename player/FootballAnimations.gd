@@ -26,4 +26,4 @@ func _ready():
 func _process(_delta):
 	var ap = $"./AnimationPlayer"
 	var player = $"../"
-	ap.speed_scale = 0.5 * player.linear_velocity.length()
+	ap.speed_scale = 0.8 * player.linear_velocity.length()

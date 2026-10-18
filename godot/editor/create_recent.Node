@@ -1,3 +1,6 @@
+AudioStreamPlayer3D
+AudioListener3D
+BoneAttachment3D
 Decal
 CollisionShape3D
 RigidBody3D
@@ -9,6 +12,3 @@ MultiplayerSpawner
 MeshInstance3D
 ParallaxBackground
 CSGMesh3D
-Label
-WorldEnvironment
-OmniLight3D

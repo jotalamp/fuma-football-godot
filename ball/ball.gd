@@ -1,7 +1,7 @@
 extends RigidBody3D
 
 var _initial_transform
-var maxShootPower = 18.0
+var maxShootPower = 9.0
 var shooting = false
 var prepareToShoot = false
 var reset
@@ -27,7 +27,7 @@ func _process(_delta):
 	
 	#nearestPlayer = players.nearestPlayerToBall()
 	
-	var delta_position = Vector3.ZERO#nearestPlayer.position - position
+	var delta_position = nearestPlayer.position - position
 	
 	#var playerShootPowerBarValue = nearestPlayer.shootPowerBarValue()
 
@@ -37,7 +37,8 @@ func _process(_delta):
 	#if ( shooting or prepareToShoot ) and delta_position.length() < 0.5:
 	if shooting and delta_position.length() < 0.5:
 		
-		var player_direction_3d = Vector3( -player_direction.y, 0.0, -player_direction.x )
+		#var player_direction_3d = Vector3( -player_direction.y, 0.0, -player_direction.x )
+		var player_direction_3d = Vector3.ZERO
 		player_direction_3d += 2.5 * nearestPlayer.inputDirection3D
 		player_direction_3d = player_direction_3d.normalized()
 		
@@ -61,7 +62,7 @@ func _process(_delta):
 		$KickAndBounceSound.play()
 	
 	# Dribble
-	if delta_position.length() < 0.4 and nearestPlayer.inputDirection2D.length() > 0.1:
+	if delta_position.length() < 0.1 and nearestPlayer.inputDirection2D.length() > 0.1:
 		var positionAtFrontOfPlayer = nearestPlayer.position + 11.0 * nearestPlayer.inputDirection3D
 		var impulseDirection = positionAtFrontOfPlayer - position
 		impulseDirection.y = 0.25 * impulseDirection.length()

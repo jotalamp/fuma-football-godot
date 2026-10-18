@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://iu1omg64igqa"
+path="res://godot/imported/SPRTField_Ball kicked (ID 1044)_BSB.wav-42f76967214cd8cb8d9d40a8603fc086.sample"
+
+[deps]
+
+source_file="res://sounds/SPRTField_Ball kicked (ID 1044)_BSB.wav"
+dest_files=["res://godot/imported/SPRTField_Ball kicked (ID 1044)_BSB.wav-42f76967214cd8cb8d9d40a8603fc086.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

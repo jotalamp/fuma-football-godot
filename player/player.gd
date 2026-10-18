@@ -5,7 +5,7 @@ class_name Player
 @export var controllerIDNumber = 0
 
 @export var maxSpeed = 0.6 * 10.0 # m/s
-@export var jogAnimationSpeed = 0.4
+@export var jogAnimationSpeed = 0.6
 var maxForce = 5.0 * mass * 6.0 # m/s2 = N
 @export var maxTurningTorque = 11000.0
 @export var shootPowerRiseSpeed = 0.05
@@ -17,7 +17,7 @@ var inputDirection2D = Vector2()
 var inputDirection3D = Vector3()
 var dribblePosition = Vector3()
 var verticalCamera = false
-var delta_position
+var delta_position = Vector2()
 
 @onready var teamDatas = $"/root/Root/TeamDatas"
 @onready var cameras = $"/root/Root/Cameras"
@@ -63,6 +63,8 @@ func _ready():
 		#animation.loop = true
 		
 	#arrow.modulate = getTeamColor()
+	
+	direction = -get_global_transform().basis.x
 
 func getTeamId():
 	return team.id
@@ -132,10 +134,10 @@ func _deltaAngle(current: Vector2, target: Vector2):
 	return deltaAngle
 
 func isNearestPlayerToBall():
-	#if playerID == players.idOfNearestPlayerToBall():
+	if playerID == players.idOfNearestPlayerToBall():
 		return true
-	#else:
-		#return false
+	else:
+		return false
 	
 func _physics_process(delta):
 	
@@ -159,8 +161,11 @@ func _physics_process(delta):
 	inputDirection3D = -cameraForward * input.y - cameraForward.cross(Vector3.UP) * input.x
 	inputDirection2D =  Vector2( -inputDirection3D.z, -inputDirection3D.x )
 	
+	direction = -get_global_transform().basis.x
+	
 	if inputDirection2D.length() < 0.3:
 		inputDirection2D = Vector2.ZERO
+		return
 	
 	input = inputDirection2D
 	
@@ -168,17 +173,17 @@ func _physics_process(delta):
 	$"./Arrow".rotation = Vector3( $"./Arrow".rotation.x, inputAngle - rotation.y, $"./Arrow".rotation.z )
 		
 	# AI
-	var deltaPosition3D = ball.position - position - 0.0 * inputDirection3D
+	var deltaPosition3D = ball.position - position - 1.0 * inputDirection3D
 	var deltaPosition2D = Vector2(-deltaPosition3D.z,-deltaPosition3D.x)
 	
 	if (
 			isNearestPlayerToBall() 
 			and abs( ball.position.z ) < 50.0
 			#and not controller().isSuperCancelPressed()
-			and deltaPosition2D.length() < 10.0
+			and deltaPosition2D.length() < 0.01
 	):
 			currentState = State.STATE_DRIBBLE
-			input = 0.5 * deltaPosition2D * ( inputDirection2D.length() + 0.2 )
+			input = 0.05 * deltaPosition2D * ( inputDirection2D.length() + 0.42 )
 		
 	if input.length() > 1.0:
 		input = input.normalized()
@@ -204,8 +209,8 @@ func _physics_process(delta):
 	apply_torque( mass * delta * maxTurningTorque * deltaAngle * Vector3.UP / ( linear_velocity.length() + 1.0 ) );
 	
 	if deltaAngle > 0.5 * PI:
-		pass
-		#apply_central_force( -abs(deltaAngle) * delta * mass * maxForce * input.length() * Vector3( sin( rotation.y ), 0.0, cos( rotation.y ) ));
+		#pass
+		apply_central_force( -abs(deltaAngle) * delta * mass * maxForce * input.length() * Vector3( sin( rotation.y ), 0.0, cos( rotation.y ) ));
 	
 	if( linear_velocity.length() < maxSpeed and input.length() > 0.3):
 		#pass

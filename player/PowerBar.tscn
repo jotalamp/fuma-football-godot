@@ -14,12 +14,13 @@ max_value = 1.0
 value = 0.5
 
 [node name="ShootHeightBar" type="ProgressBar" parent="."]
-anchors_preset = -1
-anchor_left = 0.1
-anchor_top = 0.9
-anchor_right = 0.5
-anchor_bottom = 0.9
-offset_right = 146.0
-offset_bottom = 14.0
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 1040.0
+offset_right = 210.0
+offset_bottom = 1067.0
+grow_vertical = 0
 max_value = 1.0
 value = 0.5

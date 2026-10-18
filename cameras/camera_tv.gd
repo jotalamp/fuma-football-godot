@@ -2,7 +2,8 @@ extends Camera3D
 
 @onready var ball = $"/root/Root/Ball"
 #onready var player = $"/root/Root/TeamHome/Player"
-@onready var player = get_tree().get_nodes_in_group("Player")[0]
+#@onready var player = get_tree().get_nodes_in_group("Player")[0]
+@export var player : RigidBody3D
 @onready var targetPosition = ball.position
 
 # Called when the node enters the scene tree for the first time.
