@@ -8,5 +8,13 @@ res://player/player_animations.tscn
 res://radar/radar_player_dot.tscn
 res://player/player.tscn
 res://Team/TeamDatas.tscn
-res://ball/ball.gd
 res://cameras/camera_tv.gd
+res://goal/FootballNet13.tscn
+res://goal/Goal.tscn
+res://goal/goal.gd
+res://goal/Net_18.tres
+res://goal/Net_19.tres
+res://goal/new_arraymesh.tres
+res://goal/football_goal.tscn
+res://goal/football_goal_1.tscn
+res://goal/football_goal_2.tscn

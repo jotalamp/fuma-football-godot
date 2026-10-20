@@ -1,0 +1,126 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Goal/FootballGoal_01.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Goal/Net_19.tres" type="ArrayMesh" id=2]
+[ext_resource path="res://Goal/Material_001.material" type="Material" id=3]
+[ext_resource path="res://Goal/goal.gd" type="Script" id=4]
+[ext_resource path="res://Goal/NetPole.tscn" type="PackedScene" id=5]
+
+[sub_resource type="BoxShape" id=6]
+
+[sub_resource type="PhysicsMaterial" id=1]
+friction = 0.0
+bounce = 2.0
+absorbent = true
+
+[sub_resource type="BoxShape" id=2]
+
+[sub_resource type="PhysicsMaterial" id=5]
+friction = 0.15
+bounce = 0.1
+
+[sub_resource type="CylinderShape" id=4]
+
+[node name="Goal" type="Area"]
+script = ExtResource( 4 )
+
+[node name="GoalDetection" type="CollisionShape" parent="."]
+transform = Transform( 3.55, 0, 0, 0, 1.11, 0, 0, 0, 0.8, 0, 1.22, -1 )
+shape = SubResource( 6 )
+
+[node name="FootballGoal_02" parent="." instance=ExtResource( 1 )]
+
+[node name="Net" type="StaticBody" parent="."]
+visible = false
+physics_material_override = SubResource( 1 )
+
+[node name="NetBack" type="CollisionShape" parent="Net"]
+transform = Transform( 3.66, 0, 0, 0, 1.22, 0, 0, 0, 0.01, 0, 1.22, -2.1 )
+shape = SubResource( 2 )
+
+[node name="NetTop" type="CollisionShape" parent="Net"]
+transform = Transform( 3.66, 0, 0, 0, 0.01, 0, 0, 0, 1, 0, 2.44, -1 )
+shape = SubResource( 2 )
+
+[node name="NetLeft" type="CollisionShape" parent="Net"]
+transform = Transform( 0.01, 0, 0, 0, 1.22, 0, 0, 0, 1, -3.72, 1.22, -1 )
+shape = SubResource( 2 )
+
+[node name="NetRight" type="CollisionShape" parent="Net"]
+transform = Transform( 0.01, 0, 0, 0, 1.22, 0, 0, 0, 1, 3.72, 1.22, -1 )
+shape = SubResource( 2 )
+
+[node name="Posts" type="StaticBody" parent="." groups=["Posts"]]
+visible = false
+physics_material_override = SubResource( 5 )
+
+[node name="PostA" type="CollisionShape" parent="Posts"]
+transform = Transform( 0.05, 0, 0, 0, 1.27, 0, 0, 0, 0.05, 3.71, 1.22, 0 )
+shape = SubResource( 4 )
+
+[node name="PostB" type="CollisionShape" parent="Posts"]
+transform = Transform( 0.05, 0, 0, 0, 1.27, 0, 0, 0, 0.05, -3.71, 1.22, 0 )
+shape = SubResource( 4 )
+
+[node name="Crossbar" type="CollisionShape" parent="Posts"]
+transform = Transform( -2.18557e-09, -3.71, 0, 0.05, -1.62169e-07, 0, 0, 0, 0.05, 0, 2.49, 0 )
+shape = SubResource( 4 )
+
+[node name="SoftBody" type="SoftBody" parent="."]
+material_override = ExtResource( 3 )
+mesh = ExtResource( 2 )
+material/0 = null
+collision_layer = 2
+collision_mask = 2
+simulation_precision = 80
+linear_stiffness = 0.01
+areaAngular_stiffness = 0.01
+volume_stiffness = 0.0
+pressure_coefficient = 0.01
+pinned_points = [ 1, 3, 4, 6, 10, 12, 13, 14, 16, 18, 0, 2 ]
+attachments/0/point_index = 1
+attachments/0/spatial_attachment_path = NodePath("../Posts/Crossbar")
+attachments/0/offset = Vector3( -3.8147e-06, -1, 0 )
+attachments/1/point_index = 3
+attachments/1/spatial_attachment_path = NodePath("../Posts/Crossbar")
+attachments/1/offset = Vector3( 3.8147e-06, 1, 0 )
+attachments/2/point_index = 4
+attachments/2/spatial_attachment_path = NodePath("../Posts/Crossbar")
+attachments/2/offset = Vector3( -49.8, 1, 0 )
+attachments/3/point_index = 6
+attachments/3/spatial_attachment_path = NodePath("../Posts/Crossbar")
+attachments/3/offset = Vector3( -49.8, -1, 0 )
+attachments/4/point_index = 10
+attachments/4/spatial_attachment_path = NodePath("../Posts/Crossbar")
+attachments/4/offset = Vector3( 0, 0, 0 )
+attachments/5/point_index = 12
+attachments/5/spatial_attachment_path = NodePath("../Posts/Crossbar")
+attachments/5/offset = Vector3( -49.8, -1, -20 )
+attachments/6/point_index = 13
+attachments/6/spatial_attachment_path = NodePath("../Posts/Crossbar")
+attachments/6/offset = Vector3( -49.8, 2.93373e-08, -36 )
+attachments/7/point_index = 14
+attachments/7/spatial_attachment_path = NodePath("../Posts/Crossbar")
+attachments/7/offset = Vector3( -49.8, 1, -20 )
+attachments/8/point_index = 16
+attachments/8/spatial_attachment_path = NodePath("../Posts/Crossbar")
+attachments/8/offset = Vector3( -24.9, -1, 0 )
+attachments/9/point_index = 18
+attachments/9/spatial_attachment_path = NodePath("../Posts/Crossbar")
+attachments/9/offset = Vector3( -24.9, 1, 0 )
+attachments/10/point_index = 0
+attachments/10/spatial_attachment_path = NodePath("../NetPole2")
+attachments/10/offset = Vector3( 0.79, 2.49, 0.5 )
+attachments/11/point_index = 2
+attachments/11/spatial_attachment_path = NodePath("../NetPole1")
+attachments/11/offset = Vector3( -0.79, 2.49, 0.5 )
+
+[node name="NetPole1" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, -2.5 )
+script = null
+
+[node name="NetPole2" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0, -2.5 )
+script = null
+
+[connection signal="body_entered" from="." to="." method="_on_Goal_body_entered"]

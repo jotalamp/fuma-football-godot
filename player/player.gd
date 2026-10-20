@@ -65,6 +65,9 @@ func _ready():
 	#arrow.modulate = getTeamColor()
 	
 	direction = -get_global_transform().basis.x
+	
+func resetPowerBar():
+	$"./PowerBar/ShootPowerBar".value = 0.0
 
 func getTeamId():
 	return team.id
@@ -114,7 +117,6 @@ func distanceToBall():
 
 func rightFootPosition():
 	return position #+ rightFoot.position
-
 
 
 func _deltaAngle(current: Vector2, target: Vector2):
@@ -173,17 +175,18 @@ func _physics_process(delta):
 	$"./Arrow".rotation = Vector3( $"./Arrow".rotation.x, inputAngle - rotation.y, $"./Arrow".rotation.z )
 		
 	# AI
-	var deltaPosition3D = ball.position - position - 1.0 * inputDirection3D
+	var deltaPosition3D = ball.position - position - 0 * inputDirection3D
 	var deltaPosition2D = Vector2(-deltaPosition3D.z,-deltaPosition3D.x)
+	var deltaDirection2D = deltaPosition2D.normalized()
 	
 	if (
 			isNearestPlayerToBall() 
 			and abs( ball.position.z ) < 50.0
 			#and not controller().isSuperCancelPressed()
-			and deltaPosition2D.length() < 0.01
+			and deltaPosition2D.length() < 1.5
 	):
 			currentState = State.STATE_DRIBBLE
-			input = 0.05 * deltaPosition2D * ( inputDirection2D.length() + 0.42 )
+			input = 2.0 * deltaDirection2D
 		
 	if input.length() > 1.0:
 		input = input.normalized()

@@ -25679,7 +25679,7 @@ bones/63/rotation = Quaternion(0.295501, 0.031077, -0.00841892, 0.9548)
 bones/64/position = Vector3(-2.2687e-06, 6.58901, -1.49011e-07)
 
 [node name="RightFoot" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="7"]
-transform = Transform3D(-0.872456, -0.428587, -0.234768, -0.37109, 0.893646, -0.25236, 0.317958, -0.133052, -0.93872, -11.5755, 53.4316, -9.3886)
+transform = Transform3D(-0.872456, -0.428586, -0.234768, -0.37109, 0.893646, -0.252358, 0.317958, -0.133051, -0.938721, -11.5755, 53.4316, -9.38858)
 visibility_parent = NodePath("../Ch38_Shoes")
 bone_name = "mixamorig5_RightToe_End"
 bone_idx = 64

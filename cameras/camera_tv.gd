@@ -19,10 +19,10 @@ func _process(_delta):
 	#var ballVelocity2D = Vector2( ball.linear_velocity.x, ball.linear_velocity.z )
 	rotation_degrees.x = 0.8 * rotation_degrees.x - 0.2 * 22.0
 	
-	if rotation_degrees.y > 165:
-		rotation_degrees.y = 165
-	elif rotation_degrees.y < 15:
-		rotation_degrees.y = 15
+	#if rotation_degrees.y > 165:
+		#rotation_degrees.y = 165
+	#elif rotation_degrees.y < 15:
+		#rotation_degrees.y = 15
 		
 	#fov = 0.995 * fov + 0.005 * ( 5.0 + 4.0 * ( targetPosition - ball.translation ).length() )
 	

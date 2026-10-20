@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfv2i5lpvkgc2"]
+
+[ext_resource type="PackedScene" uid="uid://drr61dfv8o7vj" path="res://resources/models/football_goal.glb" id="1_854gj"]
+[ext_resource type="Texture2D" uid="uid://r41ostnokw7i" path="res://goal/net01.png" id="2_whorw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u6xgy"]
+transparency = 1
+cull_mode = 2
+shading_mode = 0
+albedo_texture = ExtResource("2_whorw")
+
+[node name="football_goal" instance=ExtResource("1_854gj")]
+
+[node name="SoccerNet06 net" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_u6xgy")

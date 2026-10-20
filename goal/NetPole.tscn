@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://CornerFlag/corner_flag.gd" type="Script" id=1]
+
+[sub_resource type="SphereShape" id=5]
+radius = 0.02
+
+[sub_resource type="CylinderShape" id=1]
+radius = 0.02
+height = 3.0
+
+[sub_resource type="CylinderMesh" id=2]
+top_radius = 0.02
+bottom_radius = 0.02
+height = 3.0
+radial_segments = 5
+rings = 1
+
+[node name="NetPole" type="StaticBody"]
+script = ExtResource( 1 )
+
+[node name="PoleRootCollision" type="CollisionShape" parent="."]
+shape = SubResource( 5 )
+
+[node name="Pole" type="RigidBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+mass = 2.0
+continuous_cd = true
+
+[node name="PoleCollision" type="CollisionShape" parent="Pole"]
+shape = SubResource( 1 )
+
+[node name="PoleMesh" type="MeshInstance" parent="Pole/PoleCollision"]
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="ConeTwistJoint" type="ConeTwistJoint" parent="."]
+nodes/node_a = NodePath("..")
+nodes/node_b = NodePath("../Pole")
+swing_span = 40.0
+twist_span = 0.0
+bias = 0.1
+softness = 0.02
+relaxation = 4.0

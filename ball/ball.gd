@@ -1,20 +1,19 @@
 extends RigidBody3D
 
 var _initial_transform
-var maxShootPower = 9.0
+@export var maxShootPower : float
 var shooting = false
 var prepareToShoot = false
 var reset
 
-@export var magnusForceFactor = 0.03
-
 @onready var players = $"/root/Root/TeamHome"
 @export var nearestPlayer : RigidBody3D
 
-var shootHeightFactor = 0.0
-var shootPowerFactor = 0.0
-var shootCurveFactor = 0.0
-var shootSpinFactor = 0.0
+@export var magnusForceFactor = 0.3
+@export var shootHeightFactor = 2.0
+@export var shootPowerFactor = 1.0
+@export var shootCurveFactor = 2.0
+@export var shootSpinFactor = 2.0
 
 var collision_force : Vector3 = Vector3.ZERO
 
@@ -31,10 +30,14 @@ func _process(_delta):
 	
 	#var playerShootPowerBarValue = nearestPlayer.shootPowerBarValue()
 
-	var player_direction = Vector2()
-	player_direction = nearestPlayer.direction.normalized
+	#var player_direction = Vector2()
+	#player_direction = nearestPlayer.direction.normalized
 	
 	#if ( shooting or prepareToShoot ) and delta_position.length() < 0.5:
+	if shooting and delta_position.length() > 2.0:
+		shooting = false
+		nearestPlayer.resetPowerBar()
+		
 	if shooting and delta_position.length() < 0.5:
 		
 		#var player_direction_3d = Vector3( -player_direction.y, 0.0, -player_direction.x )
@@ -62,11 +65,11 @@ func _process(_delta):
 		$KickAndBounceSound.play()
 	
 	# Dribble
-	if delta_position.length() < 0.1 and nearestPlayer.inputDirection2D.length() > 0.1:
+	if delta_position.length() < 0.5 and nearestPlayer.inputDirection2D.length() > 0.1:
 		var positionAtFrontOfPlayer = nearestPlayer.position + 11.0 * nearestPlayer.inputDirection3D
 		var impulseDirection = positionAtFrontOfPlayer - position
 		impulseDirection.y = 0.25 * impulseDirection.length()
-		apply_central_impulse( 0.035 * impulseDirection );
+		apply_central_impulse( 0.01 * impulseDirection );
 
 func _physics_process(delta):
 	if position.y < 0.23:
@@ -76,7 +79,7 @@ func _physics_process(delta):
 		linear_damp = 0.12
 		angular_damp = 0.09
 	# magnus force
-	apply_central_force( magnusForceFactor * delta * angular_velocity.cross(linear_velocity) )
+	apply_central_force( 10.0 * magnusForceFactor * delta * angular_velocity.cross(linear_velocity) )
 
 func _integrate_forces(state):
 	if Input.is_action_pressed("reset"):

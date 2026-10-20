@@ -5,3 +5,4 @@
 
 [node name="ball" instance=ExtResource("1_6plaf")]
 script = ExtResource("2_pwunn")
+maxShootPower = 30.0
