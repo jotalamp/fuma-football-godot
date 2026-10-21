@@ -1,5 +1,4 @@
 res://scenes/world.tscn
 res://ground/football_pitch.gdshader
 res://player/player_animations.tscn
-res://goal/football_goal_2.tscn
 res://goal/football_goal.tscn

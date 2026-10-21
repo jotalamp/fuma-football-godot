@@ -97,7 +97,7 @@ shadow_enabled = true
 directional_shadow_mode = 0
 
 [node name="Ball" type="RigidBody3D" parent="." node_paths=PackedStringArray("nearestPlayer")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0.22, 0)
 rotation_edit_mode = 1
 top_level = true
 mass = 0.44
@@ -226,6 +226,7 @@ texture = ExtResource("12_o8fc1")
 script = ExtResource("12_lakw3")
 
 [node name="Player" type="RigidBody3D" parent="TeamHome" node_paths=PackedStringArray("currentCamera") groups=["Players"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 0, 0)
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 mass = 77.0
