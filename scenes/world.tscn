@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://dp0s6t76qkg24"]
+[gd_scene load_steps=36 format=3 uid="uid://dp0s6t76qkg24"]
 
 [ext_resource type="Script" uid="uid://ce3dienxqun3m" path="res://main/main.gd" id="1_4wyf3"]
 [ext_resource type="Script" uid="uid://ck8t3nsx8jj0k" path="res://ball/ball.gd" id="2_71j4m"]
@@ -11,6 +11,8 @@
 [ext_resource type="Script" uid="uid://iar3qdb0kpmg" path="res://cameras/camera_tv.gd" id="8_2lf6f"]
 [ext_resource type="PackedScene" uid="uid://d3pxk0pl7kvlm" path="res://controllers/Controllers.tscn" id="8_4mrxx"]
 [ext_resource type="PackedScene" uid="uid://cl0utxmipnucm" path="res://controllers/Controller.tscn" id="9_7r4gi"]
+[ext_resource type="Script" uid="uid://cyc7b16fb4ixr" path="res://cameras/camera_horizontal.gd" id="10_ctatt"]
+[ext_resource type="Script" uid="uid://gusldf0n700a" path="res://cameras/camera_vertical.gd" id="10_kpybi"]
 [ext_resource type="PackedScene" uid="uid://bxejaij4jf4q8" path="res://Team/TeamDatas.tscn" id="10_w7kh3"]
 [ext_resource type="Script" uid="uid://d1edu5uo81eng" path="res://radar/radar.gd" id="11_q5onr"]
 [ext_resource type="PackedScene" uid="uid://bvnf0godxhytr" path="res://radar/radar_player_dot.tscn" id="12_jhx03"]
@@ -34,7 +36,6 @@ sun_curve = 0.454715
 
 [sub_resource type="Sky" id="Sky_qfnet"]
 sky_material = SubResource("ProceduralSkyMaterial_71j4m")
-radiance_size = 4
 
 [sub_resource type="Environment" id="Environment_i7141"]
 background_mode = 2
@@ -42,10 +43,7 @@ sky = SubResource("Sky_qfnet")
 ambient_light_color = Color(1, 1, 1, 1)
 ambient_light_energy = 3.0
 reflected_light_source = 2
-ssr_enabled = true
-ssao_enabled = true
 ssao_intensity = 16.0
-glow_enabled = true
 glow_bloom = 0.6
 adjustment_brightness = 1.5
 adjustment_contrast = 1.1
@@ -107,10 +105,11 @@ can_sleep = false
 continuous_cd = true
 contact_monitor = true
 max_contacts_reported = 1
-linear_damp = 0.05
 script = ExtResource("2_71j4m")
 maxShootPower = 16.0
 nearestPlayer = NodePath("../TeamHome/Player")
+magnusForceFactor = 0.5
+shootSpinFactor = 1.0
 
 [node name="BallCollisionShape" type="CollisionShape3D" parent="Ball"]
 shape = SubResource("SphereShape3D_e5uuo")
@@ -160,17 +159,23 @@ texture_albedo = ExtResource("7_7iits")
 [node name="Cameras" type="Node" parent="."]
 script = ExtResource("7_i7141")
 
-[node name="Camera3D2" type="Camera3D" parent="Cameras"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-fov = 45.0
-
-[node name="Camera3D" type="Camera3D" parent="Cameras" node_paths=PackedStringArray("player")]
+[node name="Camera_TV" type="Camera3D" parent="Cameras" node_paths=PackedStringArray("player") groups=["cameras"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, -50)
-current = true
 fov = 45.0
 near = 0.1
 far = 200.0
 script = ExtResource("8_2lf6f")
+player = NodePath("../../TeamHome/Player")
+
+[node name="Camera_Horizontal" type="Camera3D" parent="Cameras" node_paths=PackedStringArray("player") groups=["cameras"]]
+current = true
+fov = 45.0
+script = ExtResource("10_ctatt")
+player = NodePath("../../TeamHome/Player")
+
+[node name="Camera_Vertical" type="Camera3D" parent="Cameras" node_paths=PackedStringArray("player") groups=["cameras"]]
+fov = 45.0
+script = ExtResource("10_kpybi")
 player = NodePath("../../TeamHome/Player")
 
 [node name="Controllers" parent="." instance=ExtResource("8_4mrxx")]
@@ -225,7 +230,7 @@ texture = ExtResource("12_o8fc1")
 [node name="TeamHome" type="Node" parent="."]
 script = ExtResource("12_lakw3")
 
-[node name="Player" type="RigidBody3D" parent="TeamHome" node_paths=PackedStringArray("currentCamera") groups=["Players"]]
+[node name="Player" type="RigidBody3D" parent="TeamHome" groups=["Players"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 0, 0)
 axis_lock_angular_x = true
 axis_lock_angular_z = true
@@ -242,7 +247,6 @@ controllerIDNumber = 1
 maxSpeed = 7.0
 maxTurningTorque = 17000.0
 shootPowerRiseSpeed = 0.02
-currentCamera = NodePath("../../Cameras/Camera3D")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TeamHome/Player"]
 transform = Transform3D(1, 0, 0, 0, 0.992546, -0.121869, 0, 0.121869, 0.992546, 0, 0.86, 0.05)

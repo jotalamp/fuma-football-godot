@@ -108,6 +108,7 @@ height = 7.52
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_854gj"]
 friction = 0.0
+bounce = 0.5
 absorbent = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_whorw"]

@@ -2,3 +2,7 @@ res://scenes/world.tscn
 res://ground/football_pitch.gdshader
 res://player/player_animations.tscn
 res://goal/football_goal.tscn
+res://player/player.gd
+res://ball/ball.gd
+res://cameras/camera_horizontal.gd
+res://cameras/camera_vertical.gd

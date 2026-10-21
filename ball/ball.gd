@@ -7,7 +7,7 @@ var prepareToShoot = false
 var reset
 
 @onready var players = $"/root/Root/TeamHome"
-@export var nearestPlayer : RigidBody3D
+@export var nearestPlayer : Player
 
 @export var magnusForceFactor = 0.3
 @export var shootHeightFactor = 2.0
@@ -34,6 +34,8 @@ func _process(_delta):
 	#player_direction = nearestPlayer.direction.normalized
 	
 	#if ( shooting or prepareToShoot ) and delta_position.length() < 0.5:
+	
+	# cancel shoot if ball is lost
 	if shooting and delta_position.length() > 2.0:
 		shooting = false
 		nearestPlayer.resetPowerBar()
@@ -49,14 +51,15 @@ func _process(_delta):
 				( 0.1 + 1.3 * shootPowerFactor * maxShootPower ) * 
 				Vector3( 
 					player_direction_3d.x, 
-					nearestPlayer.controller().getShootHeight() * 0.5 * shootPowerFactor, 
+					nearestPlayer.controller().getShootHeight() * 0.3 * shootPowerFactor, 
 					player_direction_3d.z 
 				).normalized() );
 		
 		#var top_spin = ( 0.7 - Input.get_joy_axis(0, 6) ) * player_direction_3d.cross(Vector3(0.0, 1.0, 0.0)).normalized()
-		var top_spin = ( 0.6 - 1.5 * shootSpinFactor ) * player_direction_3d.cross(Vector3(0.0, 1.0, 0.0)).normalized()
+		shootSpinFactor = nearestPlayer.getShootSpinFactor()
+		var top_spin = 0.1 * ( 0.1 - 1.1 * shootSpinFactor ) * player_direction_3d.cross(Vector3(0.0, 1.0, 0.0)).normalized()
 		#var top_spin = shootSpinFactor * player_direction_3d.cross(Vector3(0.0, 1.0, 0.0))
-		apply_torque_impulse( 0.07 * Vector3( top_spin.x, -5.0 * nearestPlayer.controller().getAxis("Curve"), top_spin.z ) )
+		apply_torque_impulse( 0.7 * Vector3( top_spin.x, -5.0 * nearestPlayer.controller().getAxis("Curve"), top_spin.z ) )
 		shooting = false
 		nearestPlayer.shooted()
 		prepareToShoot = false

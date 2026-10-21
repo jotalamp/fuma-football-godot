@@ -1,7 +1,7 @@
 extends Camera3D
 
 @onready var ball = $"/root/Root/Ball"
-@onready var player = $"../".player
+@export var player : RigidBody3D
 @onready var targetPosition = ball.position
 
 # Called when the node enters the scene tree for the first time.
@@ -10,7 +10,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	targetPosition = ball.position
+	targetPosition = player.position
 	position = targetPosition
 	position.y = 5.0
 	position.x += 15.0

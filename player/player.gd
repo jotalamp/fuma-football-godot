@@ -3,13 +3,13 @@ class_name Player
 
 @export var playerID = 0
 @export var controllerIDNumber = 0
-
 @export var maxSpeed = 0.6 * 10.0 # m/s
 @export var jogAnimationSpeed = 0.6
-var maxForce = 5.0 * mass * 6.0 # m/s2 = N
 @export var maxTurningTorque = 11000.0
 @export var shootPowerRiseSpeed = 0.05
+@export var ballLockRange = 3.0 # meters
 
+var maxForce = 5.0 * mass * 6.0 # m/s2 = N
 var direction = Vector2()
 var shootDirection = Vector3()
 var animationPlayer
@@ -32,7 +32,7 @@ var delta_position = Vector2()
 @onready var team = $"../"
 @onready var radar = $"/root/Root/Radar"
 
-@export var currentCamera : Camera3D
+var currentCamera : Camera3D
 
 enum State { STATE_IDLE, STATE_DRIBBLE, STATE_PREPARE_TO_KICK, STATE_KICK }
 
@@ -143,6 +143,8 @@ func isNearestPlayerToBall():
 	
 func _physics_process(delta):
 	
+	currentCamera = $"/root/Root/Cameras".currentCamera()
+	
 	# Game controller
 	var input = Vector2( Input.get_joy_axis(controllerIDNumber-1, JOY_AXIS_LEFT_X), -Input.get_joy_axis(controllerIDNumber-1, JOY_AXIS_LEFT_Y) )
 	
@@ -183,7 +185,7 @@ func _physics_process(delta):
 			isNearestPlayerToBall() 
 			and abs( ball.position.z ) < 50.0
 			#and not controller().isSuperCancelPressed()
-			and deltaPosition2D.length() < 1.5
+			and deltaPosition2D.length() < ballLockRange
 	):
 			currentState = State.STATE_DRIBBLE
 			input = 2.0 * deltaDirection2D
