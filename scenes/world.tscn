@@ -21,7 +21,7 @@
 [ext_resource type="Script" uid="uid://bxhqproqgqali" path="res://player/player.gd" id="13_xo05s"]
 [ext_resource type="Texture2D" uid="uid://cpgf0yrg484en" path="res://player/arrow.png" id="15_dss4m"]
 [ext_resource type="PackedScene" uid="uid://c3kn1f7pj6s0j" path="res://player/PowerBar.tscn" id="16_7t5mc"]
-[ext_resource type="PackedScene" uid="uid://c8ol2hnkg05vs" path="res://goal/football_goal_2.tscn" id="22_oo54l"]
+[ext_resource type="PackedScene" uid="uid://dkbgvahhfojcg" path="res://goal/football_goal.tscn" id="22_oo54l"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_71j4m"]
 sky_top_color = Color(2.35841e-06, 0.418987, 0.607327, 1)

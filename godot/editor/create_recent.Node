@@ -1,8 +1,9 @@
+StaticBody3D
+CollisionShape3D
 Decal
 AudioStreamPlayer3D
 AudioListener3D
 BoneAttachment3D
-CollisionShape3D
 RigidBody3D
 TextureRect
 AnimationTree
