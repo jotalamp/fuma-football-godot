@@ -106,9 +106,10 @@ continuous_cd = true
 contact_monitor = true
 max_contacts_reported = 1
 script = ExtResource("2_71j4m")
-maxShootPower = 16.0
+maxShootPower = 11.0
 nearestPlayer = NodePath("../TeamHome/Player")
 magnusForceFactor = 0.5
+shootHeightFactor = 3.0
 shootSpinFactor = 1.0
 
 [node name="BallCollisionShape" type="CollisionShape3D" parent="Ball"]
@@ -246,7 +247,7 @@ script = ExtResource("13_xo05s")
 controllerIDNumber = 1
 maxSpeed = 7.0
 maxTurningTorque = 17000.0
-shootPowerRiseSpeed = 0.02
+shootPowerRiseSpeed = 0.015
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TeamHome/Player"]
 transform = Transform3D(1, 0, 0, 0, 0.992546, -0.121869, 0, 0.121869, 0.992546, 0, 0.86, 0.05)

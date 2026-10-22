@@ -36,11 +36,11 @@ func _process(_delta):
 	#if ( shooting or prepareToShoot ) and delta_position.length() < 0.5:
 	
 	# cancel shoot if ball is lost
-	if shooting and delta_position.length() > 2.0:
+	if shooting and delta_position.length() > 3.0:
 		shooting = false
 		nearestPlayer.resetPowerBar()
 		
-	if shooting and delta_position.length() < 0.5:
+	if shooting and delta_position.length() < 0.6:
 		
 		#var player_direction_3d = Vector3( -player_direction.y, 0.0, -player_direction.x )
 		var player_direction_3d = Vector3.ZERO
@@ -51,7 +51,7 @@ func _process(_delta):
 				( 0.1 + 1.3 * shootPowerFactor * maxShootPower ) * 
 				Vector3( 
 					player_direction_3d.x, 
-					nearestPlayer.controller().getShootHeight() * 0.3 * shootPowerFactor, 
+					nearestPlayer.controller().getShootHeight() * 0.5 * shootPowerFactor, 
 					player_direction_3d.z 
 				).normalized() );
 		
@@ -68,9 +68,13 @@ func _process(_delta):
 		$KickAndBounceSound.play()
 	
 	# Dribble
-	if delta_position.length() < 0.5 and nearestPlayer.inputDirection2D.length() > 0.1:
+	var inputStrength = nearestPlayer.inputDirection2D.length()
+	if delta_position.length() < 0.5 and inputStrength > 0.1:
 		var positionAtFrontOfPlayer = nearestPlayer.position + 11.0 * nearestPlayer.inputDirection3D
 		var impulseDirection = positionAtFrontOfPlayer - position
+		if impulseDirection.length() > 1.0:
+			impulseDirection = impulseDirection.normalized()
+		impulseDirection *= 3.0 * inputStrength
 		impulseDirection.y = 0.25 * impulseDirection.length()
 		apply_central_impulse( 0.01 * impulseDirection );
 
