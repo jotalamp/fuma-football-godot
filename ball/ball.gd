@@ -36,11 +36,11 @@ func _process(_delta):
 	#if ( shooting or prepareToShoot ) and delta_position.length() < 0.5:
 	
 	# cancel shoot if ball is lost
-	if shooting and delta_position.length() > 3.0:
+	if shooting and delta_position.length() > 4.0:
 		shooting = false
 		nearestPlayer.resetPowerBar()
 		
-	if shooting and delta_position.length() < 0.6:
+	if shooting and delta_position.length() < 0.7:
 		
 		#var player_direction_3d = Vector3( -player_direction.y, 0.0, -player_direction.x )
 		var player_direction_3d = Vector3.ZERO
@@ -51,13 +51,14 @@ func _process(_delta):
 				( 0.1 + 1.3 * shootPowerFactor * maxShootPower ) * 
 				Vector3( 
 					player_direction_3d.x, 
-					nearestPlayer.controller().getShootHeight() * 0.5 * shootPowerFactor, 
+					( 0.2 + nearestPlayer.controller().getShootHeight() ) * 0.6 * shootPowerFactor, 
 					player_direction_3d.z 
 				).normalized() );
 		
 		#var top_spin = ( 0.7 - Input.get_joy_axis(0, 6) ) * player_direction_3d.cross(Vector3(0.0, 1.0, 0.0)).normalized()
 		shootSpinFactor = nearestPlayer.getShootSpinFactor()
 		var top_spin = 0.1 * ( 0.1 - 1.1 * shootSpinFactor ) * player_direction_3d.cross(Vector3(0.0, 1.0, 0.0)).normalized()
+		top_spin *= -1.0
 		#var top_spin = shootSpinFactor * player_direction_3d.cross(Vector3(0.0, 1.0, 0.0))
 		apply_torque_impulse( 0.7 * Vector3( top_spin.x, -5.0 * nearestPlayer.controller().getAxis("Curve"), top_spin.z ) )
 		shooting = false
@@ -69,19 +70,20 @@ func _process(_delta):
 	
 	# Dribble
 	var inputStrength = nearestPlayer.inputDirection2D.length()
-	if delta_position.length() < 0.5 and inputStrength > 0.1:
-		var positionAtFrontOfPlayer = nearestPlayer.position + 11.0 * nearestPlayer.inputDirection3D
-		var impulseDirection = positionAtFrontOfPlayer - position
-		if impulseDirection.length() > 1.0:
-			impulseDirection = impulseDirection.normalized()
-		impulseDirection *= 3.0 * inputStrength
+	if delta_position.length() < 0.5 and inputStrength > 0.01:
+		#var positionAtFrontOfPlayer = position + 30.0 * nearestPlayer.inputDirection3D
+		#var impulseDirection = positionAtFrontOfPlayer - position
+		var impulseDirection = 10.0 * nearestPlayer.inputDirection3D
+		#if impulseDirection.length() > 1.0:
+			#impulseDirection = impulseDirection.normalized()
+		#impulseDirection *= 1.0 * inputStrength * inputStrength
 		impulseDirection.y = 0.25 * impulseDirection.length()
 		apply_central_impulse( 0.01 * impulseDirection );
 
 func _physics_process(delta):
 	if position.y < 0.23:
 		linear_damp = 0.32
-		angular_damp = 0.32
+		#angular_damp = 0.32
 	else:
 		linear_damp = 0.12
 		angular_damp = 0.09
@@ -89,11 +91,17 @@ func _physics_process(delta):
 	apply_central_force( 10.0 * magnusForceFactor * delta * angular_velocity.cross(linear_velocity) )
 
 func _integrate_forces(state):
-	if Input.is_action_pressed("reset"):
+	if Input.is_action_just_pressed("reset"):
 		reset = true
 		
 	if reset:
-		state.set_transform(_initial_transform)
+		#state.set_transform(_initial_transform)
+		var transform = nearestPlayer.global_transform
+		transform.origin += 2.0 * transform.basis.z + Vector3.UP
+		if Input.is_action_pressed("CursorChange"):
+			state.set_transform(_initial_transform)
+		else:
+			state.set_transform(transform)
 		linear_velocity = Vector3()
 		reset = false
 		
@@ -106,15 +114,14 @@ func _on_ResetTimer_timeout():
 	reset = true
 	$"/root/Root/Referee/WhistleSound".play()
 
-func _on_Ball_body_shape_entered(_body_rid, body, _body_shape_index, _local_shape_index):
-	
-	if collision_force.length() > 0.4:
+func _on_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
+	if collision_force.length() > 0.5:
 		
-		if body.is_in_group("Posts"):
+		if body.is_in_group("posts"):
 			$HitPostSound.volume_db = 1.8 * collision_force.length()
 			$HitPostSound.play()
 			
-		elif collision_force.length() > 0.4:
+		elif collision_force.length() > 0.5:
 			$KickAndBounceSound.volume_db = 1.9 * collision_force.length()
 			$KickAndBounceSound.play()
 		pass

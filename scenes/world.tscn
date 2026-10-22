@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://dp0s6t76qkg24"]
+[gd_scene load_steps=38 format=3 uid="uid://dp0s6t76qkg24"]
 
 [ext_resource type="Script" uid="uid://ce3dienxqun3m" path="res://main/main.gd" id="1_4wyf3"]
 [ext_resource type="Script" uid="uid://ck8t3nsx8jj0k" path="res://ball/ball.gd" id="2_71j4m"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://dvnrwelj7vka2" path="res://fps/LabelFPS.gd" id="4_k0juu"]
 [ext_resource type="AudioStream" uid="uid://p5y1iy2warwc" path="res://sounds/BallKicked_01.mp3" id="4_pm21f"]
 [ext_resource type="ArrayMesh" uid="uid://bx8j5r1r36iv6" path="res://ball/Football.obj" id="4_qfnet"]
+[ext_resource type="AudioStream" uid="uid://iu1omg64igqa" path="res://sounds/SPRTField_Ball kicked (ID 1044)_BSB.wav" id="5_munwf"]
 [ext_resource type="Texture2D" uid="uid://dtbr0t42ve78u" path="res://pitch/overlay.png" id="7_7iits"]
 [ext_resource type="Script" uid="uid://cwkv3qcwpjlve" path="res://cameras/cameras.gd" id="7_i7141"]
 [ext_resource type="Script" uid="uid://iar3qdb0kpmg" path="res://cameras/camera_tv.gd" id="8_2lf6f"]
@@ -24,6 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://cpgf0yrg484en" path="res://player/arrow.png" id="15_dss4m"]
 [ext_resource type="PackedScene" uid="uid://c3kn1f7pj6s0j" path="res://player/PowerBar.tscn" id="16_7t5mc"]
 [ext_resource type="PackedScene" uid="uid://dkbgvahhfojcg" path="res://goal/football_goal.tscn" id="22_oo54l"]
+[ext_resource type="Script" uid="uid://365ergrn4yk8" path="res://Team/team_data.gd" id="23_xgqkh"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_71j4m"]
 sky_top_color = Color(2.35841e-06, 0.418987, 0.607327, 1)
@@ -51,14 +53,14 @@ adjustment_saturation = 1.1
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rwgxs"]
 resource_name = "BallPhysicsMaterial"
-friction = 0.5
+friction = 0.3
 bounce = 0.3
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_e5uuo"]
 radius = 0.11
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_71j4m"]
-friction = 0.5
+friction = 0.4
 rough = true
 bounce = 0.5
 
@@ -104,11 +106,11 @@ center_of_mass_mode = 1
 can_sleep = false
 continuous_cd = true
 contact_monitor = true
-max_contacts_reported = 1
+max_contacts_reported = 2
 script = ExtResource("2_71j4m")
-maxShootPower = 11.0
+maxShootPower = 9.5
 nearestPlayer = NodePath("../TeamHome/Player")
-magnusForceFactor = 0.5
+magnusForceFactor = 0.4
 shootHeightFactor = 3.0
 shootSpinFactor = 1.0
 
@@ -121,6 +123,9 @@ mesh = ExtResource("4_qfnet")
 
 [node name="KickAndBounceSound" type="AudioStreamPlayer3D" parent="Ball"]
 stream = ExtResource("4_pm21f")
+
+[node name="HitPostSound" type="AudioStreamPlayer3D" parent="Ball"]
+stream = ExtResource("5_munwf")
 
 [node name="LabelFPS" type="Label" parent="."]
 offset_right = 40.0
@@ -160,7 +165,7 @@ texture_albedo = ExtResource("7_7iits")
 [node name="Cameras" type="Node" parent="."]
 script = ExtResource("7_i7141")
 
-[node name="Camera_TV" type="Camera3D" parent="Cameras" node_paths=PackedStringArray("player") groups=["cameras"]]
+[node name="Camera_TV" type="Camera3D" parent="Cameras" node_paths=PackedStringArray("player") groups=["cameras", "posts"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, -50)
 fov = 45.0
 near = 0.1
@@ -231,7 +236,7 @@ texture = ExtResource("12_o8fc1")
 [node name="TeamHome" type="Node" parent="."]
 script = ExtResource("12_lakw3")
 
-[node name="Player" type="RigidBody3D" parent="TeamHome" groups=["Players"]]
+[node name="Player" type="RigidBody3D" parent="TeamHome" groups=["players"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 0, 0)
 axis_lock_angular_x = true
 axis_lock_angular_z = true
@@ -242,12 +247,13 @@ contact_monitor = true
 linear_damp_mode = 1
 linear_damp = 1.0
 angular_damp_mode = 1
-angular_damp = 11.0
+angular_damp = 8.0
 script = ExtResource("13_xo05s")
 controllerIDNumber = 1
 maxSpeed = 7.0
-maxTurningTorque = 17000.0
+maxTurningTorque = 8000.0
 shootPowerRiseSpeed = 0.015
+ballLockRange = 5.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TeamHome/Player"]
 transform = Transform3D(1, 0, 0, 0, 0.992546, -0.121869, 0, 0.121869, 0.992546, 0, 0.86, 0.05)
@@ -258,6 +264,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 
 
 [node name="Arrow" type="Decal" parent="TeamHome/Player"]
 texture_albedo = ExtResource("15_dss4m")
+texture_emission = ExtResource("15_dss4m")
 
 [node name="PowerBar" parent="TeamHome/Player" instance=ExtResource("16_7t5mc")]
 
@@ -267,11 +274,17 @@ texture_albedo = ExtResource("15_dss4m")
 
 [node name="TeamDatas" parent="." instance=ExtResource("10_w7kh3")]
 
+[node name="TeamDataA" type="Node" parent="TeamDatas" groups=["teamDatas"]]
+script = ExtResource("23_xgqkh")
+
 [node name="Players" type="Node" parent="."]
 script = ExtResource("13_jhx03")
 
-[node name="FootballGoal_A" parent="." instance=ExtResource("22_oo54l")]
+[node name="FootballGoal_A" parent="." groups=["posts"] instance=ExtResource("22_oo54l")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 55, 0, 0)
 
-[node name="FootballGoal_B" parent="." instance=ExtResource("22_oo54l")]
+[node name="FootballGoal_B" parent="." groups=["posts"] instance=ExtResource("22_oo54l")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -55, 0, 0)
+
+[connection signal="body_shape_entered" from="Ball" to="." method="_on_ball_body_shape_entered"]
+[connection signal="body_shape_entered" from="Ball" to="Ball" method="_on_body_shape_entered"]

@@ -47,7 +47,7 @@ func _ready():
 	
 	mat.albedo_color = getTeamColor()
 		
-	#mesh.set_surface_override_material(0, mat)
+	mesh.set_surface_override_material(0, mat)
 	
 	animationPlayer = $"./Animations/AnimationPlayer"
 	
@@ -62,7 +62,7 @@ func _ready():
 		#animation = animationPlayer.get_animation(animation)	
 		#animation.loop = true
 		
-	#arrow.modulate = getTeamColor()
+	arrow.modulate = getTeamColor()
 	
 	direction = -get_global_transform().basis.x
 	
@@ -86,8 +86,8 @@ func getAxis(name1: String):
 	return Input.get_axis( fullName + "-", fullName + "+")
 
 func getTeamColor():
-	#return getTeamData().getTeamColor()
-	return Color.RED
+	return getTeamData().getTeamColor()
+	#return Color.RED
 
 func getShootHeightBarValue():
 	return shootHeightBar.value
@@ -177,8 +177,8 @@ func _physics_process(delta):
 	$"./Arrow".rotation = Vector3( $"./Arrow".rotation.x, inputAngle - rotation.y, $"./Arrow".rotation.z )
 		
 	# AI
-	var deltaPosition3D = ball.position - position - 0 * inputDirection3D
-	var deltaPosition2D = Vector2(-deltaPosition3D.z,-deltaPosition3D.x)
+	var deltaPosition3D = position - ball.position
+	var deltaPosition2D = Vector2(deltaPosition3D.z,deltaPosition3D.x)
 	var deltaDirection2D = deltaPosition2D.normalized()
 	
 	if (
@@ -187,13 +187,13 @@ func _physics_process(delta):
 			#and not controller().isSuperCancelPressed()
 			and deltaPosition2D.length() < ballLockRange
 	):
-			currentState = State.STATE_DRIBBLE
-			input = 2.0 * deltaDirection2D
+		currentState = State.STATE_DRIBBLE
+		input = 0.4 * deltaDirection2D + 0.6 * input
 		
 	if input.length() > 1.0:
 		input = input.normalized()
 		
-	if deltaPosition2D.length() < 0.3 and input.length() < 0.2:
+	if deltaPosition2D.length() < 0.5 and input.length() < 0.4:
 		input = Vector2.ZERO
 		
 	direction = -get_global_transform().basis.x
@@ -238,7 +238,7 @@ func _physics_process(delta):
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
+func _process(delta):
 	
 	# Super Cancel
 	#if controller().isSuperCancelPressed():
@@ -291,7 +291,7 @@ func _process(_delta):
 		currentState = State.STATE_PREPARE_TO_KICK
 		$"./PowerBar/ShootPowerBar".value += shootPowerRiseSpeed
 	else:
-		$"./PowerBar/ShootPowerBar".value -= 0.1 * shootPowerRiseSpeed
+		$"./PowerBar/ShootPowerBar".value -= shootPowerRiseSpeed * delta
 	
 	$"./PowerBar/ShootHeightBar".value = 0.5 - 0.5 * Input.get_joy_axis(playerID, JOY_AXIS_RIGHT_Y)
 	

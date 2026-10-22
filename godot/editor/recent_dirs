@@ -1,9 +1,9 @@
-res://cameras
-res://goal
-res://pitch
 res://sounds
 res://Team
 res://player
+res://cameras
+res://goal
+res://pitch
 res://scenes
 res://radar
 res://ball

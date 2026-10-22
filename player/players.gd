@@ -1,6 +1,6 @@
 extends Node
 
-@onready var players = get_tree().get_nodes_in_group("Players")
+@onready var players = get_tree().get_nodes_in_group("players")
 var selectedPlayerNumber = 0
 
 var colors = [

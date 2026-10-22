@@ -1,8 +1,15 @@
-[gd_scene load_steps=36 format=3 uid="uid://c116qonbt4kg7"]
+[gd_scene load_steps=39 format=3 uid="uid://c116qonbt4kg7"]
 
 [ext_resource type="PackedScene" uid="uid://coukd8bfqc8fe" path="res://player/FootballAnimations_05.glb" id="1_tvnn1"]
 [ext_resource type="Script" uid="uid://ll3gvh3rdyx8" path="res://player/FootballAnimations.gd" id="2_6gjs0"]
 [ext_resource type="Animation" uid="uid://10ccaym3cdxe" path="res://player/Jog_01.res" id="4_612gk"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_it57i"]
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m2hm8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tvnn1"]
 
 [sub_resource type="Animation" id="Animation_yw30f"]
 resource_name = "BackwardDiagonal_01"
@@ -25677,6 +25684,15 @@ bones/62/rotation = Quaternion(0.429571, 0.136599, -0.00159382, 0.89264)
 bones/63/position = Vector3(-2.22378e-06, 16.7123, 5.91384e-07)
 bones/63/rotation = Quaternion(0.295501, 0.031077, -0.00841892, 0.9548)
 bones/64/position = Vector3(-2.2687e-06, 6.58901, -1.49011e-07)
+
+[node name="Ch38_Shirt" parent="Armature/Skeleton3D" index="3"]
+surface_material_override/0 = SubResource("StandardMaterial3D_it57i")
+
+[node name="Ch38_Shorts" parent="Armature/Skeleton3D" index="5"]
+surface_material_override/0 = SubResource("StandardMaterial3D_m2hm8")
+
+[node name="Ch38_Socks" parent="Armature/Skeleton3D" index="6"]
+surface_material_override/0 = SubResource("StandardMaterial3D_tvnn1")
 
 [node name="RightFoot" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="7"]
 transform = Transform3D(-0.872456, -0.428586, -0.234768, -0.37109, 0.893646, -0.252358, 0.317958, -0.133051, -0.938721, -11.5755, 53.4316, -9.38858)

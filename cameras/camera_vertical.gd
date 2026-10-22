@@ -26,14 +26,11 @@ func _process(_delta):
 	#elif rotation_degrees.y < 15:
 		#rotation_degrees.y = 15
 		
-	fov = 0.995 * fov + 0.005 * ( 5.0 + 4.0 * ( targetPosition - ball.position ).length() )
-	
-	if fov > 20.0:
-		fov = 20.0
+	#fov = 0.995 * fov + 0.005 * ( 5.0 + 4.0 * ( targetPosition - ball.position ).length() )
 		
 	if Input.is_action_just_released("mouse_wheel_down"):
 		fov += 1
 	elif Input.is_action_just_released("mouse_wheel_up"):
 		fov -= 1
 		
-	fov = 50.0
+	fov = clamp( fov, 1.0, 50.0 )

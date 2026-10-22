@@ -1,4 +1,6 @@
 StaticBody3D
+Node3D
+Node
 CollisionShape3D
 Decal
 AudioStreamPlayer3D
@@ -7,8 +9,6 @@ BoneAttachment3D
 RigidBody3D
 TextureRect
 AnimationTree
-Node
 Control
 MultiplayerSpawner
 MeshInstance3D
-ParallaxBackground
