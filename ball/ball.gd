@@ -69,16 +69,11 @@ func _process(_delta):
 		$KickAndBounceSound.play()
 	
 	# Dribble
-	var inputStrength = nearestPlayer.inputDirection2D.length()
-	if delta_position.length() < 0.5 and inputStrength > 0.01:
-		#var positionAtFrontOfPlayer = position + 30.0 * nearestPlayer.inputDirection3D
-		#var impulseDirection = positionAtFrontOfPlayer - position
-		var impulseDirection = 10.0 * nearestPlayer.inputDirection3D
-		#if impulseDirection.length() > 1.0:
-			#impulseDirection = impulseDirection.normalized()
-		#impulseDirection *= 1.0 * inputStrength * inputStrength
+	if delta_position.length() < 0.4 and nearestPlayer.inputDirection2D.length() > 0.1:
+		var positionAtFrontOfPlayer = nearestPlayer.position + 30.0 * nearestPlayer.inputDirection3D
+		var impulseDirection = positionAtFrontOfPlayer - position
 		impulseDirection.y = 0.25 * impulseDirection.length()
-		apply_central_impulse( 0.01 * impulseDirection );
+		apply_central_impulse( 0.5 * impulseDirection.normalized() * nearestPlayer.inputDirection2D.length() );
 
 func _physics_process(delta):
 	if position.y < 0.23:

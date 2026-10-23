@@ -77,6 +77,7 @@ size = Vector3(120, 0.01, 80)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lakw3"]
 friction = 0.0
+absorbent = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o8fc1"]
 radius = 0.3
@@ -102,11 +103,10 @@ rotation_edit_mode = 1
 top_level = true
 mass = 0.44
 physics_material_override = SubResource("PhysicsMaterial_rwgxs")
-center_of_mass_mode = 1
 can_sleep = false
 continuous_cd = true
 contact_monitor = true
-max_contacts_reported = 2
+max_contacts_reported = 1
 script = ExtResource("2_71j4m")
 maxShootPower = 9.5
 nearestPlayer = NodePath("../TeamHome/Player")
@@ -147,6 +147,7 @@ thin_line_color = Color(0, 0, 0, 0.2)
 thick_line_color = Color(0, 0, 0, 0.65098)
 
 [node name="GroundStaticBody" type="StaticBody3D" parent="Ground"]
+collision_mask = 3
 physics_material_override = SubResource("PhysicsMaterial_71j4m")
 
 [node name="GroundCollision" type="CollisionShape3D" parent="Ground/GroundStaticBody"]
@@ -251,9 +252,9 @@ angular_damp = 8.0
 script = ExtResource("13_xo05s")
 controllerIDNumber = 1
 maxSpeed = 7.0
-maxTurningTorque = 8000.0
+maxTurningTorque = 14000.0
 shootPowerRiseSpeed = 0.015
-ballLockRange = 5.0
+ballLockRange = 6.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TeamHome/Player"]
 transform = Transform3D(1, 0, 0, 0, 0.992546, -0.121869, 0, 0.121869, 0.992546, 0, 0.86, 0.05)

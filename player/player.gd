@@ -9,6 +9,7 @@ class_name Player
 @export var shootPowerRiseSpeed = 0.05
 @export var ballLockRange = 3.0 # meters
 
+var superCancelValue = 0.0 # 0.0: no super cancel - 1.0: full super cancel
 var maxForce = 5.0 * mass * 6.0 # m/s2 = N
 var direction = Vector2()
 var shootDirection = Vector3()
@@ -143,6 +144,8 @@ func isNearestPlayerToBall():
 	
 func _physics_process(delta):
 	
+	superCancelValue = Input.get_action_strength("SuperCancelValue")
+	
 	currentCamera = $"/root/Root/Cameras".currentCamera()
 	
 	# Game controller
@@ -167,7 +170,7 @@ func _physics_process(delta):
 	
 	direction = -get_global_transform().basis.x
 	
-	if inputDirection2D.length() < 0.3:
+	if inputDirection2D.length() < 0.1:
 		inputDirection2D = Vector2.ZERO
 		return
 	
@@ -177,24 +180,28 @@ func _physics_process(delta):
 	$"./Arrow".rotation = Vector3( $"./Arrow".rotation.x, inputAngle - rotation.y, $"./Arrow".rotation.z )
 		
 	# AI
-	var deltaPosition3D = position - ball.position
+	var deltaPosition3D = position - ( ball.position  )
 	var deltaPosition2D = Vector2(deltaPosition3D.z,deltaPosition3D.x)
-	var deltaDirection2D = deltaPosition2D.normalized()
 	
 	if (
 			isNearestPlayerToBall() 
 			and abs( ball.position.z ) < 50.0
-			#and not controller().isSuperCancelPressed()
+			and not controller().isSuperCancelPressed()
 			and deltaPosition2D.length() < ballLockRange
 	):
 		currentState = State.STATE_DRIBBLE
-		input = 0.4 * deltaDirection2D + 0.6 * input
+		#input = 1.1 * deltaPosition2D * ( inputDirection2D.length() + 0.3 )
+		var r = deltaPosition2D.normalized().dot(inputDirection2D.normalized())
+		if r > 0.0:
+			input = deltaPosition2D.normalized()*inputDirection2D.length()
+		else:
+			input = deltaPosition2D - 0.1 * inputDirection2D.normalized()
 		
-	if input.length() > 1.0:
-		input = input.normalized()
+	#if input.length() > 1.0:
+		#input = input.normalized()
 		
-	if deltaPosition2D.length() < 0.5 and input.length() < 0.4:
-		input = Vector2.ZERO
+	#if deltaPosition2D.length() < 0.3 and input.length() < 0.2:
+		#input = Vector2.ZERO
 		
 	direction = -get_global_transform().basis.x
 	
