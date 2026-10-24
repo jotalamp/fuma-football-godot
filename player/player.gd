@@ -52,16 +52,16 @@ func _ready():
 	
 	animationPlayer = $"./Animations/AnimationPlayer"
 	
-	#var animations = ['Jog_02','Kick_05','Idle_01']
+	var animations = ['Jog_02','Kick_05','Idle_01']
 	
 	#animationPlayer.playback_speed = 20.0
 	
-	#var animation = animationPlayer.get_animation('Jog_02')	
-	#animation.loop = true
+	var animation = animationPlayer.get_animation('Jog_02')	
+	animation.loop = true
 	
-	#for animation in animations:
-		#animation = animationPlayer.get_animation(animation)	
-		#animation.loop = true
+	for animation2 in animations:
+		animation2 = animationPlayer.get_animation(animation2)	
+		#animation2.loop = true
 		
 	arrow.modulate = getTeamColor()
 	
@@ -144,6 +144,8 @@ func isNearestPlayerToBall():
 	
 func _physics_process(delta):
 	
+	maxSpeed = 4.5 + 4.5 * Input.get_action_strength("C1_Run")
+	
 	superCancelValue = Input.get_action_strength("SuperCancelValue")
 	
 	currentCamera = $"/root/Root/Cameras".currentCamera()
@@ -180,7 +182,7 @@ func _physics_process(delta):
 	$"./Arrow".rotation = Vector3( $"./Arrow".rotation.x, inputAngle - rotation.y, $"./Arrow".rotation.z )
 		
 	# AI
-	var deltaPosition3D = position - ( ball.position  )
+	var deltaPosition3D = position - ( ball.position + 10.0 * ball.linear_velocity * delta  )
 	var deltaPosition2D = Vector2(deltaPosition3D.z,deltaPosition3D.x)
 	
 	if (
@@ -193,15 +195,17 @@ func _physics_process(delta):
 		#input = 1.1 * deltaPosition2D * ( inputDirection2D.length() + 0.3 )
 		var r = deltaPosition2D.normalized().dot(inputDirection2D.normalized())
 		if r > 0.0:
-			input = deltaPosition2D.normalized()*inputDirection2D.length()
+			#input = deltaPosition2D.normalized()*inputDirection2D.length()
+			input = deltaPosition2D.normalized()
 		else:
-			input = deltaPosition2D - 0.1 * inputDirection2D.normalized()
+			#input = deltaPosition2D - 0.1 * inputDirection2D.normalized()
+			input = deltaPosition2D.normalized()
 		
 	#if input.length() > 1.0:
 		#input = input.normalized()
 		
-	#if deltaPosition2D.length() < 0.3 and input.length() < 0.2:
-		#input = Vector2.ZERO
+	if deltaPosition2D.length() < 0.3 and input.length() < 0.2:
+		input = Vector2.ZERO
 		
 	direction = -get_global_transform().basis.x
 	
@@ -234,7 +238,7 @@ func _physics_process(delta):
 	var right_normal = tf.basis.x
 	#get the orthogonal velocity vector
 	var right_vel = right_normal.dot(vel) * right_normal
-	apply_central_impulse( - 0.08 * mass * right_vel );
+	apply_central_impulse( - mass * right_vel );
 	
 	delta_position = $"/root/Root/Ball".position - (position - 1.0 * Vector3(direction.normalized().y,0.0,direction.normalized().x))
 	
@@ -258,20 +262,28 @@ func _process(delta):
 	
 	$"./PowerBar/ShootPowerBar".position = Vector2( screen_pos.x -25, screen_pos.y + 15 )
 	
-	#var _animationTree = $"./Animations/AnimationTree"
-	#var stateMachine = animationTree.get("parameters/playback")
+	var animationTree = $"./Animations/AnimationTree"
+	var stateMachine = animationTree.get("parameters/playback")
 	
-	#if stateMachine.get_current_node() == "Jog_02":
-	##if stateMachine.get_current_node() == "FastRun-loop":		
-		#var tf = get_global_transform()
-		#var right_normal = tf.basis.z
-		#animationTree.advance( 1.0 * jogAnimationSpeed * linear_velocity.dot(right_normal) * delta )
-	#elif stateMachine.get_current_node() == "Kick_05":
-		#animationTree.advance( 1.8 * delta )
-	#else:
-		#animationTree.advance(delta)
+	var tf = get_global_transform()
+	var right_normal = tf.basis.z
+	
+	#animationTree.set("parameters/WalkRun/Blend2/blend_amount", 0.5*linear_velocity.dot(right_normal)/maxSpeed)
+	
+	animationTree.root_motion_track = ""
+	
+	if stateMachine.get_current_node() == "Jog_02":
+		animationTree.advance( jogAnimationSpeed * linear_velocity.dot(right_normal) * delta )
+	elif stateMachine.get_current_node() == "FastRun":
+		animationTree.advance( 0.05 * linear_velocity.dot(right_normal) * delta )
+	elif stateMachine.get_current_node() == "Kick_05":
+		animationTree.root_motion_track = "Armature/Skeleton3D:mixamorig5_Hips"
+		animationTree.advance( delta )
+	else:
+		animationTree.advance(delta)
 	
 	if Input.is_action_just_pressed( controller().getAction("Shoot") ):
+		#stateMachine.travel("Kick_05")
 		currentState = State.STATE_PREPARE_TO_KICK
 		shootDirection = Vector3( -direction.y, 0.0, -direction.x )
 		ball.prepareToShoot = true
@@ -279,23 +291,29 @@ func _process(delta):
 		ball.shootCurveFactor = getShootCurveFactor()
 		ball.shootSpinFactor = getShootSpinFactor()
 		
-	if linear_velocity.length() == 0.0:
+	if linear_velocity.length() < 0.3:
 		currentState = State.STATE_IDLE
-		#stateMachine.travel("Idle_01")
-	#else:
-		#stateMachine.travel("Jog_02")
-		#stateMachine.travel("FastRun-loop")
+		stateMachine.travel("Idle_12")
+	elif linear_velocity.length() < 5.0:
+		stateMachine.travel("Jog_02")
+	else:
+		stateMachine.travel("FastRun")
+		
 		
 	if Input.is_action_just_released( controller().getAction("Shoot") ):
+		stateMachine.travel("Kick_05")
 		ball.shooting = true
 		ball.shootPowerFactor = getShootPowerBarValue()
+		currentState = State.STATE_KICK
 		
 	if ball.prepareToShoot and delta_position.length() < 0.8:
+		#pass
 		currentState = State.STATE_KICK
-		#stateMachine.travel("Kick_05")
+		stateMachine.travel("Kick_05")
 		
 	if Input.is_action_pressed( controller().getActionShoot() ):
 		currentState = State.STATE_PREPARE_TO_KICK
+		#stateMachine.travel("Kick_05")
 		$"./PowerBar/ShootPowerBar".value += shootPowerRiseSpeed
 	else:
 		$"./PowerBar/ShootPowerBar".value -= shootPowerRiseSpeed * delta

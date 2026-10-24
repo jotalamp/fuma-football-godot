@@ -1,6 +1,7 @@
+AnimationTree
+Node
 StaticBody3D
 Node3D
-Node
 CollisionShape3D
 Decal
 AudioStreamPlayer3D
@@ -8,7 +9,6 @@ AudioListener3D
 BoneAttachment3D
 RigidBody3D
 TextureRect
-AnimationTree
 Control
 MultiplayerSpawner
 MeshInstance3D

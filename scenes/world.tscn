@@ -80,8 +80,8 @@ friction = 0.0
 absorbent = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o8fc1"]
-radius = 0.3
-height = 1.78
+radius = 0.25
+height = 1.1
 
 [node name="Root" type="Node3D"]
 process_mode = 3
@@ -239,6 +239,7 @@ script = ExtResource("12_lakw3")
 
 [node name="Player" type="RigidBody3D" parent="TeamHome" groups=["players"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 0, 0)
+axis_lock_linear_y = true
 axis_lock_angular_x = true
 axis_lock_angular_z = true
 mass = 77.0
@@ -248,16 +249,17 @@ contact_monitor = true
 linear_damp_mode = 1
 linear_damp = 1.0
 angular_damp_mode = 1
-angular_damp = 8.0
+angular_damp = 15.0
 script = ExtResource("13_xo05s")
 controllerIDNumber = 1
-maxSpeed = 7.0
-maxTurningTorque = 14000.0
+maxSpeed = 9.0
+jogAnimationSpeed = 0.55
+maxTurningTorque = 12000.0
 shootPowerRiseSpeed = 0.015
-ballLockRange = 6.0
+ballLockRange = 2.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TeamHome/Player"]
-transform = Transform3D(1, 0, 0, 0, 0.992546, -0.121869, 0, 0.121869, 0.992546, 0, 0.86, 0.05)
+transform = Transform3D(1, 0, 0, 0, 0.992546, -0.121869, 0, 0.121869, 0.992546, -0.03, 1.2, 0.05)
 shape = SubResource("CapsuleShape3D_o8fc1")
 
 [node name="Animations" parent="TeamHome/Player" instance=ExtResource("13_o8fc1")]

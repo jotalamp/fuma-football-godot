@@ -7,8 +7,8 @@ extends Node3D
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var ap = $"./AnimationPlayer"
-	#var animations = ['Chip','Idle_02','Idle_03','Idle_04','Kick_02','Kick_03']
-	var animations = ['Idle_02']
+	var animations = ['Chip','Idle_01','Idle_03','Idle_04','Kick_02','Kick_03']
+	#var animations = ['Idle_02']
 	ap.speed_scale = 2.0
 	#ap.autoplay = true
 	#ap.set_autoplay(ap.get_current_animation())

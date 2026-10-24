@@ -8,7 +8,7 @@ func _ready():
 	pass # Replace with function body.
 
 func getTeamData():
-	var teamDatas = $"/root/Root/TeamDatas"
+	teamDatas = $"/root/Root/TeamDatas"
 	return teamDatas.getTeamData(id)
 	#pass
 

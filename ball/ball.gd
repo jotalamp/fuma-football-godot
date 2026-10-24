@@ -40,7 +40,8 @@ func _process(_delta):
 		shooting = false
 		nearestPlayer.resetPowerBar()
 		
-	if shooting and delta_position.length() < 0.7:
+	
+	if shooting and delta_position.length() < 0.6:
 		
 		#var player_direction_3d = Vector3( -player_direction.y, 0.0, -player_direction.x )
 		var player_direction_3d = Vector3.ZERO
@@ -73,7 +74,7 @@ func _process(_delta):
 		var positionAtFrontOfPlayer = nearestPlayer.position + 30.0 * nearestPlayer.inputDirection3D
 		var impulseDirection = positionAtFrontOfPlayer - position
 		impulseDirection.y = 0.25 * impulseDirection.length()
-		apply_central_impulse( 0.5 * impulseDirection.normalized() * nearestPlayer.inputDirection2D.length() );
+		apply_central_impulse( 0.2 * impulseDirection.normalized() * nearestPlayer.inputDirection2D.length() );
 
 func _physics_process(delta):
 	if position.y < 0.23:
@@ -91,7 +92,7 @@ func _integrate_forces(state):
 		
 	if reset:
 		#state.set_transform(_initial_transform)
-		var transform = nearestPlayer.global_transform
+		transform = nearestPlayer.global_transform
 		transform.origin += 2.0 * transform.basis.z + Vector3.UP
 		if Input.is_action_pressed("CursorChange"):
 			state.set_transform(_initial_transform)
@@ -109,7 +110,7 @@ func _on_ResetTimer_timeout():
 	reset = true
 	$"/root/Root/Referee/WhistleSound".play()
 
-func _on_body_shape_entered(body_rid: RID, body: Node, body_shape_index: int, local_shape_index: int) -> void:
+func _on_body_shape_entered(_body_rid: RID, body: Node, _body_shape_index: int, _local_shape_index: int) -> void:
 	if collision_force.length() > 0.5:
 		
 		if body.is_in_group("posts"):
