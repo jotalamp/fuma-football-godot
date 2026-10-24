@@ -301,7 +301,7 @@ func _process(delta):
 		
 		
 	if Input.is_action_just_released( controller().getAction("Shoot") ):
-		stateMachine.travel("Kick_05")
+		#stateMachine.travel("Kick_05")
 		ball.shooting = true
 		ball.shootPowerFactor = getShootPowerBarValue()
 		currentState = State.STATE_KICK
@@ -309,7 +309,7 @@ func _process(delta):
 	if ball.prepareToShoot and delta_position.length() < 0.8:
 		#pass
 		currentState = State.STATE_KICK
-		stateMachine.travel("Kick_05")
+		#stateMachine.travel("Kick_05")
 		
 	if Input.is_action_pressed( controller().getActionShoot() ):
 		currentState = State.STATE_PREPARE_TO_KICK
