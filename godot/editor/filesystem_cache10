@@ -1,5 +1,5 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1792855100
+::res://::1792963493
 icon.png::CompressedTexture2D/CompressedTexture2D::2306569814846725186::1698874306::1791108827::1::::<><><>0<>0<>d274defcd370e87c7e973997456a22af<>res://godot/imported/icon.png-487276ed1e3a0c39cad0279d744ee560.ctex::
 icon.svg::CompressedTexture2D/CompressedTexture2D::3575311167025591340::1791092589::1791099289::1::::<><><>0<>0<>21a4b7898803cbf76b4b7da77157600e<>res://godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
 ::res://addons/::1791101778
@@ -17,10 +17,10 @@ infinite_grid_3d.gd::GDScript/GDScript::6726242829662658026::1786074439::0::1:::
 infinite_grid_3d.gdshader::Shader/Shader::1745010868698111999::1786074439::0::1::::<><><>0<>0<><>::
 infinite_grid_3d.tscn::PackedScene/PackedScene::6799971430889778100::1792530471::0::1::::<><><>0<>0<><>::uid://c23iibu16i6ws::::res://addons/infinite_grid/infinite_grid_3d.gd
 README.md::TextFile/TextFile::-1::1786074439::0::1::::<><><>0<>0<><>::
-::res://ball/::1792854213
+::res://ball/::1792873089
 ball2.tscn::PackedScene/PackedScene::2631361327659103850::1791111930::0::1::::<><><>0<>0<><>::uid://chi1n7lr2qmia::::res://resources/models/ball.glb
 Ball OBJ.obj::Mesh/Mesh::6388314801511660831::1451401177::1791112189::1::::<><><>0<>0<>f7668f5d4a961122b7a52ad968e4bfd3<>res://godot/imported/Ball OBJ.obj-4c7fcb9cc53958a761f759863786e445.mesh<*>res://godot/imported/Ball OBJ.obj-4c7fcb9cc53958a761f759863786e445.mesh::
-ball.gd::GDScript::5544058606441908664::1792854213::0::1::::<>RigidBody3D<><>0<>0<><>::
+ball.gd::GDScript/GDScript::5544058606441908664::1792873089::0::1::::<>RigidBody3D<><>0<>0<><>::
 ball.tscn::PackedScene/PackedScene::5542459797447180220::1792530471::0::1::::<><><>0<>0<><>::uid://chi1n7lr2qmia::::res://resources/models/ball.glb<>uid://ck8t3nsx8jj0k::::res://ball/ball.gd
 Football.obj::Mesh/Mesh::4069489513876778849::1791112916::1791112920::1::::<><><>0<>0<>a0cb8204ff6910f695309b5df45db419<>res://godot/imported/Football.obj-df965c86eb1a0dcedbcd31a0b9b50c00.mesh<*>res://godot/imported/Football.obj-df965c86eb1a0dcedbcd31a0b9b50c00.mesh::
 ::res://cameras/::1792699584
@@ -35,7 +35,7 @@ Controllers.gd::GDScript/GDScript::3080509892842342446::1786738051::0::1::::<>No
 Controllers.tscn::PackedScene/PackedScene::9156931024826574150::1792530471::0::1::::<><><>0<>0<><>::uid://bj5hsvlmm1qew::::res://controllers/Controllers.gd
 ::res://fps/::1791307609
 LabelFPS.gd::GDScript/GDScript::8661136382162465611::1791307609::0::1::::<>Label<><>0<>0<><>::
-::res://goal/::1792854703
+::res://goal/::1792963317
 FootballGoal_01.fbx::PackedScene/PackedScene::8361153449973954896::1698874305::1792567997::1::::<><><>0<>0<>b560ecd0936e55e48111a2ec0ea1be90<>res://godot/imported/FootballGoal_01.fbx-4d1b485fbf7470b0ef0ec6bf87b53e57.scn::uid://dq1rqlprwr7hk::::res://goal/net01.png
 FootballNet10.obj::Mesh/Mesh::8514523582905350519::1698874305::1792567997::1::::<><><>0<>0<>924b7c9be30bc6d4ffc2838b8267eefb<>res://godot/imported/FootballNet10.obj-1b353220a4510566cacbd20e325cc0a3.mesh<*>res://godot/imported/FootballNet10.obj-1b353220a4510566cacbd20e325cc0a3.mesh::
 FootballNet12.obj::Mesh/Mesh::8040002491998802464::1698874305::1792567997::1::::<><><>0<>0<>c364541aecce4f334100e15891b58fae<>res://godot/imported/FootballNet12.obj-f1edba92c12d22789788163d843dc8ab.mesh<*>res://godot/imported/FootballNet12.obj-f1edba92c12d22789788163d843dc8ab.mesh::
@@ -43,7 +43,7 @@ FootballNet13.obj::Mesh/Mesh::6435127872280552965::1698874305::1792567997::1::::
 FootballNet14.obj::Mesh/Mesh::5057877173140953201::1698874305::1792567997::1::::<><><>0<>0<>ce73cedb89ce6696ac06c6dd5d160aed<>res://godot/imported/FootballNet14.obj-be5b4e9e9ad075ef6626c384402427db.mesh<*>res://godot/imported/FootballNet14.obj-be5b4e9e9ad075ef6626c384402427db.mesh::
 FootballNet15.obj::Mesh/Mesh::2822541570724906147::1698874305::1792567997::1::::<><><>0<>0<>c0b92ff768a95365848157da94329153<>res://godot/imported/FootballNet15.obj-65c15f5893ebebdf2f1ee7c3d23b4686.mesh<*>res://godot/imported/FootballNet15.obj-65c15f5893ebebdf2f1ee7c3d23b4686.mesh::
 FootballNet.obj::Mesh/Mesh::5086981605050931432::1698874305::1792567997::1::::<><><>0<>0<>795b3b971378c2cf1313fea98d052656<>res://godot/imported/FootballNet.obj-b4443fd3b4b6e7e2adc6fa47b15f3f6c.mesh<*>res://godot/imported/FootballNet.obj-b4443fd3b4b6e7e2adc6fa47b15f3f6c.mesh::
-football_goal.tscn::PackedScene::7863616679981209678::1792854703::0::1::::<><><>0<>0<><>::uid://dq1rqlprwr7hk::::res://goal/net01.png
+football_goal.tscn::PackedScene::7863616679981209678::1792963317::0::1::::<><><>0<>0<><>::uid://dq1rqlprwr7hk::::res://goal/net01.png
 goal.gd::GDScript/GDScript::7503628392572225972::1698874305::0::1::::<>Area<><>0<>0<><>::
 Goal.tscn::PackedScene/PackedScene::-1::1698874305::0::1::::<><><>0<>0<><>::res://Goal/FootballGoal_01.tscn<>res://Goal/Net_19.tres<>res://Goal/Material_001.material<>res://Goal/goal.gd<>res://Goal/NetPole.tscn
 Goal_02.tscn::PackedScene/PackedScene::-1::1698874305::0::1::::<><><>0<>0<><>::uid://bgm5opv2kicq4::::res://Goal/FootballGoal_01.fbx<>uid://bw58ecjwjcsqy::::res://Goal/net01.png
@@ -51,16 +51,16 @@ Material.material::StandardMaterial3D/StandardMaterial3D::-1::1698874305::0::1::
 Material_001.material::StandardMaterial3D/StandardMaterial3D::-1::1698874305::0::1::::<><><>0<>0<><>::res://Goal/net_02.png
 net01.png::CompressedTexture2D/CompressedTexture2D::8337018734204308544::1698874305::1792567998::1::::<><><>0<>0<>147a752a85e74bfdc13417ec6acf514c<>res://godot/imported/net01.png-db6ae487a69b378a2a773eade6fca098.s3tc.ctex::
 NetPole.tscn::PackedScene/PackedScene::690308780036815539::1698874305::0::1::::<><><>0<>0<><>::uid://d2mxl225dowgt::::res://CornerFlag/corner_flag.gd
-::res://ground/::1792854986
-football_pitch.gdshader::Shader::7040674172763191593::1792854986::0::1::::<><><>0<>0<><>::
+::res://ground/::1792963318
+football_pitch.gdshader::Shader::7040674172763191593::1792963318::0::1::::<><><>0<>0<><>::
 ::res://main/::1792695739
 main.gd::GDScript/GDScript::5111595987624600120::1792695739::0::1::::<>Node3D<><>0<>0<><>::
 ::res://pitch/::1792528046
 overlay.png::CompressedTexture2D/CompressedTexture2D::8495992335678626182::1699009357::1792528046::1::::<><><>0<>0<>aa06a43e186ab5dba34b9a5e49e22874<>res://godot/imported/overlay.png-8134b5177e33b9d05e4020eee04f2afa.ctex::
-::res://player/::1792854703
+::res://player/::1792963318
 Animations.tscn::PackedScene/PackedScene::-1::1792264507::0::1::::<><><>0<>0<><>::
 arrow.png::CompressedTexture2D/CompressedTexture2D::5838409805427276769::1699009359::1792271297::1::::<><><>0<>0<>7a57b2582025df9cc35c18b620d61b17<>res://godot/imported/arrow.png-0f08de2aff7713893d085b9d32b49dd7.s3tc.ctex::
-FootballAnimations.gd::GDScript::796497340972944119::1792854439::0::1::::<>Node3D<><>0<>0<><>::
+FootballAnimations.gd::GDScript/GDScript::796497340972944119::1792857297::0::1::::<>Node3D<><>0<>0<><>::
 FootballAnimations_05.glb::PackedScene/PackedScene::5797386995773264930::1699009359::1792258200::1::::<><><>0<>0<>e8bf874f09c3556c36f5c20d10456e82<>res://godot/imported/FootballAnimations_05.glb-dbe4e56fd543abbc69ee5da5aa3743b7.scn::uid://qbha73wlwsa1::::res://player/FootballAnimations_05_Ch38_1001_Diffuse.png<>uid://d02b4cbetvc0b::::res://player/FootballAnimations_05_Ch38_1001_Glossiness.png<>uid://ddyqbftc6bwhs::::res://player/FootballAnimations_05_Ch38_1001_Normal.png<>uid://bc8eejf3vg3pk::::res://player/FootballAnimations_05_Ch38_1002_Diffuse.png<>uid://cnhaam45ics3q::::res://player/FootballAnimations_05_Ch38_1002_Normal.png
 FootballAnimations_05.tscn::PackedScene/PackedScene::-1::1699009359::0::1::::<><><>0<>0<><>::
 FootballAnimations_05_Ch38_1001_Diffuse.png::CompressedTexture2D/CompressedTexture2D::1125512619928835970::1792258182::1792258202::1::::<><><>0<>0<>24a82cac92bc008141fd935d97d82e28<>res://godot/imported/FootballAnimations_05_Ch38_1001_Diffuse.png-c5b0d9d4f2b1d97dd6ac20b192b5e163.s3tc.ctex::
@@ -69,11 +69,11 @@ FootballAnimations_05_Ch38_1001_Normal.png::CompressedTexture2D/CompressedTextur
 FootballAnimations_05_Ch38_1002_Diffuse.png::CompressedTexture2D/CompressedTexture2D::2595173329734520888::1792258197::1792258202::1::::<><><>0<>0<>66d859380050d4a3e8f882942791036e<>res://godot/imported/FootballAnimations_05_Ch38_1002_Diffuse.png-0805b96a5fc3af8a59ac37ac9b9c992f.s3tc.ctex::
 FootballAnimations_05_Ch38_1002_Normal.png::CompressedTexture2D/CompressedTexture2D::5699747655412425120::1792258195::1792258201::1::::<><><>0<>0<>77c45451905cac3b72843d8c99614efa<>res://godot/imported/FootballAnimations_05_Ch38_1002_Normal.png-c8c0dc20ad69718a145ca6ef9145ef99.s3tc.ctex::
 Jog_01.res::Animation/Animation::1876644421671710446::1792261331::0::1::::<><><>0<>0<><>::
-player.gd::GDScript::4016213905698929502::1792854097::0::1::::Player<>RigidBody3D<><>0<>0<><>::
+player.gd::GDScript/GDScript::4016213905698929502::1792871285::0::1::::Player<>RigidBody3D<><>0<>0<><>::
 player.tscn::PackedScene/PackedScene::3590904966392396900::1792530471::0::1::::<><><>0<>0<><>::uid://cpgf0yrg484en::::res://player/arrow.png
 players.gd::GDScript/GDScript::7164771168642206084::1792697317::0::1::::<>Node<><>0<>0<><>::
-player_animations.tscn::PackedScene::6653336678540173836::1792854703::0::1::::<><><>0<>0<><>::uid://coukd8bfqc8fe::::res://player/FootballAnimations_05.glb<>uid://ll3gvh3rdyx8::::res://player/FootballAnimations.gd<>uid://10ccaym3cdxe::::res://player/Jog_01.res
-PowerBar.tscn::PackedScene::6759608831084488459::1792854703::0::1::::<><><>0<>0<><>::
+player_animations.tscn::PackedScene::6653336678540173836::1792963318::0::1::::<><><>0<>0<><>::uid://coukd8bfqc8fe::::res://player/FootballAnimations_05.glb<>uid://ll3gvh3rdyx8::::res://player/FootballAnimations.gd<>uid://10ccaym3cdxe::::res://player/Jog_01.res
+PowerBar.tscn::PackedScene::6759608831084488459::1792963317::0::1::::<><><>0<>0<><>::
 ::res://radar/::1792530471
 radar.gd::GDScript/GDScript::8992648970818596208::1792352339::0::1::::<>Control<><>0<>0<><>::
 radar_player_dot.tscn::PackedScene/PackedScene::3887571877640721151::1792530471::0::1::::<><><>0<>0<><>::uid://dtohaq3xus17v::::res://radar/SoccerRadarSpot01.png
@@ -99,8 +99,8 @@ stadium_crowd01.png::CompressedTexture2D/CompressedTexture2D::457849965836467854
 stadium_greenish_floor.png::CompressedTexture2D/CompressedTexture2D::8216785378818770650::1791099831::1791099833::1::::<><><>0<>0<>044b71a1fbcc91230cd79bba5d093a3b<>res://godot/imported/stadium_greenish_floor.png-e2be1f92523eccf2b5fc7be47d9e97b4.s3tc.ctex::
 stadium_hekje.png::CompressedTexture2D/CompressedTexture2D::2836654423752502816::1791099831::1791099833::1::::<><><>0<>0<>ff26ef60c86f15573dc38431fb7120da<>res://godot/imported/stadium_hekje.png-36c2dc047330a7801837c35b9b29ba56.s3tc.ctex::
 stadium_lightgrey.png::CompressedTexture2D/CompressedTexture2D::8956147559240163750::1791099831::1791099832::1::::<><><>0<>0<>da9113314ebb6d44f9397552a5f1bc63<>res://godot/imported/stadium_lightgrey.png-22c62f9ab20c11288572d5fff87ab3ce.s3tc.ctex::
-::res://scenes/::1792854702
-world.tscn::PackedScene::8264853463789805947::1792854702::0::1::::<><><>0<>0<><>::uid://ce3dienxqun3m::::res://main/main.gd<>uid://ck8t3nsx8jj0k::::res://ball/ball.gd<>uid://c347shudmgc4c::::res://addons/infinite_grid/infinite_grid_3d.tscn<>uid://dvnrwelj7vka2::::res://fps/LabelFPS.gd<>uid://p5y1iy2warwc::::res://sounds/BallKicked_01.mp3<>uid://bx8j5r1r36iv6::::res://ball/Football.obj<>uid://iu1omg64igqa::::res://sounds/SPRTField_Ball kicked (ID 1044)_BSB.wav<>uid://dtbr0t42ve78u::::res://pitch/overlay.png<>uid://cwkv3qcwpjlve::::res://cameras/cameras.gd<>uid://iar3qdb0kpmg::::res://cameras/camera_tv.gd<>uid://d3pxk0pl7kvlm::::res://controllers/Controllers.tscn<>uid://cl0utxmipnucm::::res://controllers/Controller.tscn<>uid://cyc7b16fb4ixr::::res://cameras/camera_horizontal.gd<>uid://gusldf0n700a::::res://cameras/camera_vertical.gd<>uid://bxejaij4jf4q8::::res://Team/TeamDatas.tscn<>uid://d1edu5uo81eng::::res://radar/radar.gd<>uid://bvnf0godxhytr::::res://radar/radar_player_dot.tscn<>uid://c5qy0n012lfof::::res://Team/team.gd<>uid://dqxboo1vyqdj5::::res://radar/SoccerRadar02.png<>uid://dacwy76lsfs7u::::res://player/players.gd<>uid://c116qonbt4kg7::::res://player/player_animations.tscn<>uid://bxhqproqgqali::::res://player/player.gd<>uid://cpgf0yrg484en::::res://player/arrow.png<>uid://c3kn1f7pj6s0j::::res://player/PowerBar.tscn<>uid://dkbgvahhfojcg::::res://goal/football_goal.tscn<>uid://365ergrn4yk8::::res://Team/team_data.gd
+::res://scenes/::1792963317
+world.tscn::PackedScene::8264853463789805947::1792963317::0::1::::<><><>0<>0<><>::uid://ce3dienxqun3m::::res://main/main.gd<>uid://ck8t3nsx8jj0k::::res://ball/ball.gd<>uid://c347shudmgc4c::::res://addons/infinite_grid/infinite_grid_3d.tscn<>uid://dvnrwelj7vka2::::res://fps/LabelFPS.gd<>uid://p5y1iy2warwc::::res://sounds/BallKicked_01.mp3<>uid://bx8j5r1r36iv6::::res://ball/Football.obj<>uid://iu1omg64igqa::::res://sounds/SPRTField_Ball kicked (ID 1044)_BSB.wav<>uid://dtbr0t42ve78u::::res://pitch/overlay.png<>uid://cwkv3qcwpjlve::::res://cameras/cameras.gd<>uid://iar3qdb0kpmg::::res://cameras/camera_tv.gd<>uid://d3pxk0pl7kvlm::::res://controllers/Controllers.tscn<>uid://cl0utxmipnucm::::res://controllers/Controller.tscn<>uid://cyc7b16fb4ixr::::res://cameras/camera_horizontal.gd<>uid://gusldf0n700a::::res://cameras/camera_vertical.gd<>uid://bxejaij4jf4q8::::res://Team/TeamDatas.tscn<>uid://d1edu5uo81eng::::res://radar/radar.gd<>uid://bvnf0godxhytr::::res://radar/radar_player_dot.tscn<>uid://c5qy0n012lfof::::res://Team/team.gd<>uid://dqxboo1vyqdj5::::res://radar/SoccerRadar02.png<>uid://dacwy76lsfs7u::::res://player/players.gd<>uid://c116qonbt4kg7::::res://player/player_animations.tscn<>uid://bxhqproqgqali::::res://player/player.gd<>uid://cpgf0yrg484en::::res://player/arrow.png<>uid://c3kn1f7pj6s0j::::res://player/PowerBar.tscn<>uid://dkbgvahhfojcg::::res://goal/football_goal.tscn<>uid://365ergrn4yk8::::res://Team/team_data.gd
 ::res://scoreboard/::1792853502
 scoreboard.gd::GDScript/GDScript::5157163118036298734::1786737002::0::1::::<>Node2D<><>0<>0<><>::
 scoreboard.png::CompressedTexture2D/CompressedTexture2D::6012632241144285585::1699009359::1792853502::1::::<><><>0<>0<>b1a1dbe2a78bb3c0d3956c760338a1b9<>res://godot/imported/scoreboard.png-0877078b82aafbd48799e2b42be8fe08.ctex::
@@ -108,7 +108,7 @@ scoreboard.png::CompressedTexture2D/CompressedTexture2D::6012632241144285585::16
 BallKicked_01.mp3::AudioStreamMP3/AudioStreamMP3::1116268084178484850::1699009356::1792356730::1::::<><><>0<>0<>40d2185f0d0d4b915d91ddaeddee18b9<>res://godot/imported/BallKicked_01.mp3-c92a410bddf14cbbcdf1a1a5037ed3a2.mp3str::
 SPRTField_Ball kicked (ID 1044)_BSB.wav::AudioStreamWAV/AudioStreamWAV::604402588108653224::1699009356::1792356730::1::::<><><>0<>0<>9d2401ccf301642b497660197c4d07e5<>res://godot/imported/SPRTField_Ball kicked (ID 1044)_BSB.wav-42f76967214cd8cb8d9d40a8603fc086.sample::
 ::res://Team/::1792854213
-team.gd::GDScript::6913039295907650557::1792854213::0::1::::<>Node<><>0<>0<><>::
+team.gd::GDScript/GDScript::6913039295907650557::1792854213::0::1::::<>Node<><>0<>0<><>::
 Team.tscn::PackedScene/PackedScene::-1::1786735939::0::1::::<><><>0<>0<><>::res://Team/team.gd
 TeamData.tscn::PackedScene/PackedScene::-1::1786735939::0::1::::<><><>0<>0<><>::res://Team/team_data.gd
 TeamDatas.tscn::PackedScene/PackedScene::4009568486738909005::1792530471::0::1::::<><><>0<>0<><>::uid://l7lej8gpq4u6::::res://Team/team_datas.gd

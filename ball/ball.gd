@@ -40,8 +40,11 @@ func _process(_delta):
 		shooting = false
 		nearestPlayer.resetPowerBar()
 		
+	var ballToRightFootDistance = (nearestPlayer.rightFootPosition() - position).length()
+	var ballToLeftFootDistance = (nearestPlayer.leftFootPosition() - position).length()
 	
-	if shooting and delta_position.length() < 0.6:
+	#if shooting and delta_position.length() < 0.6:
+	if shooting and ((ballToRightFootDistance < 0.4)or(ballToLeftFootDistance < 0.4)):
 		
 		#var player_direction_3d = Vector3( -player_direction.y, 0.0, -player_direction.x )
 		var player_direction_3d = Vector3.ZERO
@@ -70,18 +73,19 @@ func _process(_delta):
 		$KickAndBounceSound.play()
 	
 	# Dribble
-	if delta_position.length() < 0.4 and nearestPlayer.inputDirection2D.length() > 0.1:
+	#if delta_position.length() < 0.4 and nearestPlayer.inputDirection2D.length() > 0.1:
+	if ((ballToRightFootDistance < 0.35)or(ballToLeftFootDistance < 0.35)) and nearestPlayer.inputDirection2D.length() > 0.1:
 		var positionAtFrontOfPlayer = nearestPlayer.position + 30.0 * nearestPlayer.inputDirection3D
 		var impulseDirection = positionAtFrontOfPlayer - position
 		impulseDirection.y = 0.25 * impulseDirection.length()
-		apply_central_impulse( 0.2 * impulseDirection.normalized() * nearestPlayer.inputDirection2D.length() );
+		apply_central_impulse( 0.15 * impulseDirection.normalized() * nearestPlayer.inputDirection2D.length() );
 
 func _physics_process(delta):
 	if position.y < 0.23:
-		linear_damp = 0.32
+		linear_damp = 0.8 * 0.32
 		#angular_damp = 0.32
 	else:
-		linear_damp = 0.12
+		linear_damp = 0.9 * 0.12
 		angular_damp = 0.09
 	# magnus force
 	apply_central_force( 10.0 * magnusForceFactor * delta * angular_velocity.cross(linear_velocity) )

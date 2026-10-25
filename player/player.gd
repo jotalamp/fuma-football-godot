@@ -8,6 +8,10 @@ class_name Player
 @export var maxTurningTorque = 11000.0
 @export var shootPowerRiseSpeed = 0.05
 @export var ballLockRange = 3.0 # meters
+@export var skeleton : Skeleton3D
+@export var physicalBoneSimulator : PhysicalBoneSimulator3D
+@export var rightFoot : PhysicalBone3D
+@export var leftFoot : PhysicalBone3D
 
 var superCancelValue = 0.0 # 0.0: no super cancel - 1.0: full super cancel
 var maxForce = 5.0 * mass * 6.0 # m/s2 = N
@@ -67,6 +71,8 @@ func _ready():
 	
 	direction = -get_global_transform().basis.x
 	
+	#physicalBoneSimulator.physical_bones_start_simulation()
+	
 func resetPowerBar():
 	$"./PowerBar/ShootPowerBar".value = 0.0
 
@@ -117,7 +123,16 @@ func distanceToBall():
 	return (position - ball.position).length()
 
 func rightFootPosition():
-	return position #+ rightFoot.position
+	var bone_idx: int = skeleton.find_bone("mixamorig5_RightToeBase")
+	var local_bone_transform: Transform3D = skeleton.get_bone_global_pose(bone_idx)
+	var global_bone_pos: Vector3 = skeleton.to_global(local_bone_transform.origin)
+	return global_bone_pos
+	
+func leftFootPosition():
+	var bone_idx: int = skeleton.find_bone("mixamorig5_LeftToeBase")
+	var local_bone_transform: Transform3D = skeleton.get_bone_global_pose(bone_idx)
+	var global_bone_pos: Vector3 = skeleton.to_global(local_bone_transform.origin)
+	return global_bone_pos
 
 
 func _deltaAngle(current: Vector2, target: Vector2):
@@ -196,10 +211,10 @@ func _physics_process(delta):
 		var r = deltaPosition2D.normalized().dot(inputDirection2D.normalized())
 		if r > 0.0:
 			#input = deltaPosition2D.normalized()*inputDirection2D.length()
-			input = deltaPosition2D.normalized()
+			input = deltaPosition2D*inputDirection2D.length()
 		else:
 			#input = deltaPosition2D - 0.1 * inputDirection2D.normalized()
-			input = deltaPosition2D.normalized()
+			input = deltaPosition2D*inputDirection2D.length()
 		
 	#if input.length() > 1.0:
 		#input = input.normalized()
