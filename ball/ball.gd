@@ -22,7 +22,7 @@ func _ready():
 	#shootPowerBar.value = 0.0
 	_initial_transform = self.global_transform
 
-func _process(_delta):
+func _process(delta):
 	
 	#nearestPlayer = players.nearestPlayerToBall()
 	
@@ -55,7 +55,7 @@ func _process(_delta):
 				( 0.1 + 1.3 * shootPowerFactor * maxShootPower ) * 
 				Vector3( 
 					player_direction_3d.x, 
-					( 0.2 + nearestPlayer.controller().getShootHeight() ) * 0.6 * shootPowerFactor, 
+					( 0.1 + nearestPlayer.controller().getShootHeight() ) * 0.5 * shootPowerFactor, 
 					player_direction_3d.z 
 				).normalized() );
 		
@@ -78,7 +78,7 @@ func _process(_delta):
 		var positionAtFrontOfPlayer = nearestPlayer.position + 30.0 * nearestPlayer.inputDirection3D
 		var impulseDirection = positionAtFrontOfPlayer - position
 		impulseDirection.y = 0.25 * impulseDirection.length()
-		apply_central_impulse( 0.15 * impulseDirection.normalized() * nearestPlayer.inputDirection2D.length() );
+		apply_central_impulse( 2.0 * nearestPlayer.linear_velocity.length() * delta * impulseDirection.normalized() * nearestPlayer.inputDirection2D.length() );
 
 func _physics_process(delta):
 	if position.y < 0.23:

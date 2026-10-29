@@ -6,7 +6,7 @@ class_name Player
 @export var maxSpeed = 0.6 * 10.0 # m/s
 @export var jogAnimationSpeed = 0.6
 @export var maxTurningTorque = 11000.0
-@export var shootPowerRiseSpeed = 0.05
+@export var shootPowerRiseSpeed : float = 3.0
 @export var ballLockRange = 3.0 # meters
 @export var skeleton : Skeleton3D
 @export var physicalBoneSimulator : PhysicalBoneSimulator3D
@@ -187,9 +187,9 @@ func _physics_process(delta):
 	
 	direction = -get_global_transform().basis.x
 	
-	if inputDirection2D.length() < 0.1:
+	if inputDirection2D.length() < 0.05:
 		inputDirection2D = Vector2.ZERO
-		return
+		#return
 	
 	input = inputDirection2D
 	
@@ -197,7 +197,7 @@ func _physics_process(delta):
 	$"./Arrow".rotation = Vector3( $"./Arrow".rotation.x, inputAngle - rotation.y, $"./Arrow".rotation.z )
 		
 	# AI
-	var deltaPosition3D = position - ( ball.position + 10.0 * ball.linear_velocity * delta  )
+	var deltaPosition3D = position - ( ball.position + 2.0 * ball.linear_velocity * delta  )
 	var deltaPosition2D = Vector2(deltaPosition3D.z,deltaPosition3D.x)
 	
 	if (
@@ -211,15 +211,15 @@ func _physics_process(delta):
 		var r = deltaPosition2D.normalized().dot(inputDirection2D.normalized())
 		if r > 0.0:
 			#input = deltaPosition2D.normalized()*inputDirection2D.length()
-			input = deltaPosition2D*inputDirection2D.length()
+			input = deltaPosition2D*(0.3+0.7*inputDirection2D.length())
 		else:
 			#input = deltaPosition2D - 0.1 * inputDirection2D.normalized()
-			input = deltaPosition2D*inputDirection2D.length()
+			input = deltaPosition2D*(0.3+0.7*inputDirection2D.length())
 		
 	#if input.length() > 1.0:
 		#input = input.normalized()
 		
-	if deltaPosition2D.length() < 0.3 and input.length() < 0.2:
+	if deltaPosition2D.length() < 0.1:# and input.length() < 0.2:
 		input = Vector2.ZERO
 		
 	direction = -get_global_transform().basis.x
@@ -237,7 +237,7 @@ func _physics_process(delta):
 	elif deltaAngle < -PI:
 		deltaAngle += 2.0 * PI
 	
-	apply_torque( mass * delta * maxTurningTorque * deltaAngle * Vector3.UP / ( linear_velocity.length() + 1.0 ) );
+	apply_torque( input.length() * mass * delta * maxTurningTorque * deltaAngle * Vector3.UP / ( linear_velocity.length() + 1.0 ) );
 	
 	if deltaAngle > 0.5 * PI:
 		#pass
@@ -329,9 +329,9 @@ func _process(delta):
 	if Input.is_action_pressed( controller().getActionShoot() ):
 		currentState = State.STATE_PREPARE_TO_KICK
 		#stateMachine.travel("Kick_05")
-		$"./PowerBar/ShootPowerBar".value += shootPowerRiseSpeed
+		$"./PowerBar/ShootPowerBar".value += delta * shootPowerRiseSpeed
 	else:
-		$"./PowerBar/ShootPowerBar".value -= shootPowerRiseSpeed * delta
+		$"./PowerBar/ShootPowerBar".value -= 0.5 * delta * shootPowerRiseSpeed
 	
 	$"./PowerBar/ShootHeightBar".value = 0.5 - 0.5 * Input.get_joy_axis(playerID, JOY_AXIS_RIGHT_Y)
 	
