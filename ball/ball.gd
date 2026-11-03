@@ -64,7 +64,7 @@ func _process(delta):
 		var top_spin = 0.1 * ( 0.1 - 1.1 * shootSpinFactor ) * player_direction_3d.cross(Vector3(0.0, 1.0, 0.0)).normalized()
 		top_spin *= -1.0
 		#var top_spin = shootSpinFactor * player_direction_3d.cross(Vector3(0.0, 1.0, 0.0))
-		apply_torque_impulse( 0.7 * Vector3( top_spin.x, -5.0 * nearestPlayer.controller().getAxis("Curve"), top_spin.z ) )
+		apply_torque_impulse( Vector3( top_spin.x, -6.0 * nearestPlayer.controller().getAxis("Curve"), top_spin.z ) )
 		shooting = false
 		nearestPlayer.shooted()
 		prepareToShoot = false
@@ -78,7 +78,7 @@ func _process(delta):
 		var positionAtFrontOfPlayer = nearestPlayer.position + 30.0 * nearestPlayer.inputDirection3D
 		var impulseDirection = positionAtFrontOfPlayer - position
 		impulseDirection.y = 0.25 * impulseDirection.length()
-		apply_central_impulse( 2.0 * nearestPlayer.linear_velocity.length() * delta * impulseDirection.normalized() * nearestPlayer.inputDirection2D.length() );
+		apply_central_impulse( 4.0 * nearestPlayer.linear_velocity.length() * delta * impulseDirection.normalized() * nearestPlayer.inputDirection2D.length() );
 
 func _physics_process(delta):
 	if position.y < 0.23:
@@ -86,7 +86,7 @@ func _physics_process(delta):
 		#angular_damp = 0.32
 	else:
 		linear_damp = 0.9 * 0.12
-		angular_damp = 0.09
+		angular_damp = 0.1 * 0.09
 	# magnus force
 	apply_central_force( 10.0 * magnusForceFactor * delta * angular_velocity.cross(linear_velocity) )
 

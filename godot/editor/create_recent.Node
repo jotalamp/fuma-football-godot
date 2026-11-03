@@ -1,9 +1,11 @@
+Label
+TextEdit
+Node
 PhysicalBoneSimulator3D
 MeshInstance3D
 PhysicalBone3D
 CollisionShape3D
 AnimationTree
-Node
 StaticBody3D
 Node3D
 Decal
@@ -11,5 +13,3 @@ AudioStreamPlayer3D
 AudioListener3D
 BoneAttachment3D
 RigidBody3D
-TextureRect
-Control

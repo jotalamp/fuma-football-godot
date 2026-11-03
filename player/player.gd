@@ -197,7 +197,7 @@ func _physics_process(delta):
 	$"./Arrow".rotation = Vector3( $"./Arrow".rotation.x, inputAngle - rotation.y, $"./Arrow".rotation.z )
 		
 	# AI
-	var deltaPosition3D = position - ( ball.position + 2.0 * ball.linear_velocity * delta  )
+	var deltaPosition3D = position - ( ball.position + 0.5 * ball.linear_velocity * delta  )
 	var deltaPosition2D = Vector2(deltaPosition3D.z,deltaPosition3D.x)
 	
 	if (
@@ -211,10 +211,10 @@ func _physics_process(delta):
 		var r = deltaPosition2D.normalized().dot(inputDirection2D.normalized())
 		if r > 0.0:
 			#input = deltaPosition2D.normalized()*inputDirection2D.length()
-			input = deltaPosition2D*(0.3+0.7*inputDirection2D.length())
+			input = deltaPosition2D*(0.9+0.1*inputDirection2D.length())
 		else:
 			#input = deltaPosition2D - 0.1 * inputDirection2D.normalized()
-			input = deltaPosition2D*(0.3+0.7*inputDirection2D.length())
+			input = deltaPosition2D*(0.1+0.9*inputDirection2D.length())
 		
 	#if input.length() > 1.0:
 		#input = input.normalized()
@@ -237,7 +237,7 @@ func _physics_process(delta):
 	elif deltaAngle < -PI:
 		deltaAngle += 2.0 * PI
 	
-	apply_torque( input.length() * mass * delta * maxTurningTorque * deltaAngle * Vector3.UP / ( linear_velocity.length() + 1.0 ) );
+	apply_torque( (0.4+0.6*input.length()) * mass * delta * maxTurningTorque * deltaAngle * Vector3.UP / ( linear_velocity.length() + 1.0 ) );
 	
 	if deltaAngle > 0.5 * PI:
 		#pass

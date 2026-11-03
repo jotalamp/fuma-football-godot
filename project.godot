@@ -142,6 +142,9 @@ common/physics_jitter_fix=0.0
 3d/physics_engine="Jolt Physics"
 jolt_physics_3d/simulation/velocity_steps=99
 jolt_physics_3d/simulation/position_steps=4
+jolt_physics_3d/limits/max_angular_velocity=78.5398
+3d/default_linear_damp=0.01
+3d/default_angular_damp=0.01
 3d/solver/contact_max_allowed_penetration=0.001
 common/physics_interpolation=true
 
