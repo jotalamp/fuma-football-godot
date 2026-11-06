@@ -4,6 +4,7 @@ extends Label
 var maxBallSpeed = 0.0
 var maxBallRotationSpeed = 0.0
 const revPerSecondFactor = 1.0 / ( 2 * PI ) 
+@onready var cameras = $"/root/Root/Cameras"
 
 func _process(_delta: float) -> void:
 	
@@ -33,5 +34,6 @@ func _process(_delta: float) -> void:
 		"\nBall speed: " + String("%4.1f" % ballSpeed) + " km/h" +
 		"\nMax ball speed: " + String("%4.1f" % maxBallSpeed) + " km/h" +
 		"\nBall rotation speed: " + String("%4.1f" % ballRotationSpeed) +
-		"\nMax ball rotation speed: " + String("%4.1f" % maxBallRotationSpeed) + " rev/s"
+		"\nMax ball rotation speed: " + String("%4.1f" % maxBallRotationSpeed) + " rev/s" +
+		"\nCamera: " + cameras.getCurrentCameraName()
 	)

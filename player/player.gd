@@ -187,18 +187,18 @@ func _physics_process(delta):
 	
 	direction = -get_global_transform().basis.x
 	
-	if inputDirection2D.length() < 0.05:
-		inputDirection2D = Vector2.ZERO
-		#return
-	
 	input = inputDirection2D
 	
 	var inputAngle = atan2( input.y, input.x )
 	$"./Arrow".rotation = Vector3( $"./Arrow".rotation.x, inputAngle - rotation.y, $"./Arrow".rotation.z )
 		
 	# AI
-	var deltaPosition3D = position - ( ball.position + 0.5 * ball.linear_velocity * delta  )
+	var deltaPosition3D = position - ( ball.position + ball.linear_velocity * delta  )
 	var deltaPosition2D = Vector2(deltaPosition3D.z,deltaPosition3D.x)
+	
+	#if deltaPosition2D.length() < 0.2:
+		#input = Vector2.ZERO
+		#return
 	
 	if (
 			isNearestPlayerToBall() 
@@ -206,21 +206,19 @@ func _physics_process(delta):
 			and not controller().isSuperCancelPressed()
 			and deltaPosition2D.length() < ballLockRange
 	):
-		currentState = State.STATE_DRIBBLE
-		#input = 1.1 * deltaPosition2D * ( inputDirection2D.length() + 0.3 )
-		var r = deltaPosition2D.normalized().dot(inputDirection2D.normalized())
-		if r > 0.0:
-			#input = deltaPosition2D.normalized()*inputDirection2D.length()
-			input = deltaPosition2D*(0.9+0.1*inputDirection2D.length())
+		if ( ( currentState == State.STATE_PREPARE_TO_KICK ) or ( currentState == State.STATE_KICK ) ):
+			input = 3.0 * deltaPosition2D
 		else:
-			#input = deltaPosition2D - 0.1 * inputDirection2D.normalized()
-			input = deltaPosition2D*(0.1+0.9*inputDirection2D.length())
-		
-	#if input.length() > 1.0:
-		#input = input.normalized()
-		
-	if deltaPosition2D.length() < 0.1:# and input.length() < 0.2:
-		input = Vector2.ZERO
+			currentState = State.STATE_DRIBBLE
+
+			var r = deltaPosition2D.normalized().dot(inputDirection2D.normalized())
+			
+			if delta_position.length() * inputDirection2D.length() < 0.3:
+				input = lerp( deltaPosition2D, inputDirection2D, 0.9 )
+			elif r > 0.0: # input direction similar to direction to ball
+				input = lerp( deltaPosition2D, inputDirection2D, 0.1 )
+			else: # input direction opposite to direction to ball
+				input = lerp( deltaPosition2D, -0.1*inputDirection2D.normalized(), 0.2 )
 		
 	direction = -get_global_transform().basis.x
 	
@@ -237,16 +235,14 @@ func _physics_process(delta):
 	elif deltaAngle < -PI:
 		deltaAngle += 2.0 * PI
 	
-	apply_torque( (0.4+0.6*input.length()) * mass * delta * maxTurningTorque * deltaAngle * Vector3.UP / ( linear_velocity.length() + 1.0 ) );
+	if deltaPosition2D.length() > 0.3:
+		apply_torque( 0.6 * input.length() * deltaPosition2D.length() * deltaPosition2D.length() * mass * delta * maxTurningTorque * (deltaAngle*abs(deltaAngle)-0.*angular_velocity.y) * Vector3.UP / ( linear_velocity.length() + 1.0 ) );
 	
 	if deltaAngle > 0.5 * PI:
-		#pass
 		apply_central_force( -abs(deltaAngle) * delta * mass * maxForce * input.length() * Vector3( sin( rotation.y ), 0.0, cos( rotation.y ) ));
 	
-	if( linear_velocity.length() < maxSpeed and input.length() > 0.3):
-		#pass
-		apply_central_force( 5.0 * delta * mass * maxForce * input.length() * Vector3( sin( rotation.y ), 0.0, cos( rotation.y ) ));
-		#apply_central_force(input.length()*Vector3( sin( rotation.y ), 0.0, cos( rotation.y ) ))
+	if( linear_velocity.length() < maxSpeed ):
+		apply_central_force( delta * mass * maxForce * (input.length()*(2.0+deltaPosition2D.length())) * Vector3( sin( rotation.y ), 0.0, cos( rotation.y ) ));
 	
 	var tf = get_global_transform()
 	var vel = get_linear_velocity()
@@ -256,11 +252,6 @@ func _physics_process(delta):
 	apply_central_impulse( - mass * right_vel );
 	
 	delta_position = $"/root/Root/Ball".position - (position - 1.0 * Vector3(direction.normalized().y,0.0,direction.normalized().x))
-	
-	#if delta_position.length() < 4.0:
-		
-		#var direction_to_get_ball = delta_position
-		#var direction_to_get_ball_2 = right_normal.dot(direction_to_get_ball) * right_normal
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -331,8 +322,6 @@ func _process(delta):
 		#stateMachine.travel("Kick_05")
 		$"./PowerBar/ShootPowerBar".value += delta * shootPowerRiseSpeed
 	else:
-		$"./PowerBar/ShootPowerBar".value -= 0.5 * delta * shootPowerRiseSpeed
+		$"./PowerBar/ShootPowerBar".value -= 0.1 * delta * shootPowerRiseSpeed
 	
-	$"./PowerBar/ShootHeightBar".value = 0.5 - 0.5 * Input.get_joy_axis(playerID, JOY_AXIS_RIGHT_Y)
-	
-	#var speed = 0.2
+	$"./PowerBar/ShootHeightBar".value = 0.7 + 0.7*Input.get_action_strength("C1_ShootHeight+") - 0.3*Input.get_action_strength("C1_ShootHeight-")

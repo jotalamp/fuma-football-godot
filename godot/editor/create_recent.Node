@@ -1,10 +1,10 @@
+MeshInstance3D
+CollisionShape3D
+PhysicalBone3D
 Label
 TextEdit
 Node
 PhysicalBoneSimulator3D
-MeshInstance3D
-PhysicalBone3D
-CollisionShape3D
 AnimationTree
 StaticBody3D
 Node3D
@@ -12,4 +12,3 @@ Decal
 AudioStreamPlayer3D
 AudioListener3D
 BoneAttachment3D
-RigidBody3D

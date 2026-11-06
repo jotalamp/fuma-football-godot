@@ -4,23 +4,27 @@ extends Node
 #@onready var player = get_tree().get_nodes_in_group("Player")[0]
 @export var player : Node3D
 var cameraNumber = 0
+const defaultCameraNumber = 2
+const CAMERA_NAMES := ["TV Camera", "Horizontal Camera", "Vertical Camera"]
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	cameraNumber = defaultCameraNumber
+	cameras[cameraNumber].make_current()
 
 func currentCamera():
 	return get_viewport().get_camera_3d()
+	
+func getCurrentCameraName():
+	return CAMERA_NAMES[cameraNumber]
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if Input.is_action_just_pressed("selectCameraTV"):
-		cameras[0].make_current()
+		cameraNumber = 0
 	if Input.is_action_just_pressed("selectCameraHorizontal"):
-		cameras[1].make_current()
+		cameraNumber = 1
 	if Input.is_action_just_pressed("selectCameraVertical"):
-		cameras[2].make_current()
-		
+		cameraNumber = 2
 	if Input.is_action_just_pressed("selectNextCamera"):
 		cameraNumber = (cameraNumber+1)%3
-		cameras[cameraNumber].make_current()
+		
+	cameras[cameraNumber].make_current()

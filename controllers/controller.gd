@@ -20,8 +20,7 @@ func getShootHeight():
 	return 0.5 + 0.5 * getAxis("ShootHeight")
 	
 func isSuperCancelPressed():
-	return Input.is_action_pressed( IDString + "R1" ) and Input.is_action_pressed( IDString + "R2" )
-
+	return Input.is_action_pressed( IDString + "R1" )
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

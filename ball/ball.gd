@@ -55,16 +55,16 @@ func _process(delta):
 				( 0.1 + 1.3 * shootPowerFactor * maxShootPower ) * 
 				Vector3( 
 					player_direction_3d.x, 
-					( 0.1 + nearestPlayer.controller().getShootHeight() ) * 0.5 * shootPowerFactor, 
+					( 0.2 + nearestPlayer.controller().getShootHeight() ) * 0.4 * shootPowerFactor, 
 					player_direction_3d.z 
-				).normalized() );
+				).normalized() + 0.5 * nearestPlayer.linear_velocity);
 		
 		#var top_spin = ( 0.7 - Input.get_joy_axis(0, 6) ) * player_direction_3d.cross(Vector3(0.0, 1.0, 0.0)).normalized()
 		shootSpinFactor = nearestPlayer.getShootSpinFactor()
 		var top_spin = 0.1 * ( 0.1 - 1.1 * shootSpinFactor ) * player_direction_3d.cross(Vector3(0.0, 1.0, 0.0)).normalized()
 		top_spin *= -1.0
 		#var top_spin = shootSpinFactor * player_direction_3d.cross(Vector3(0.0, 1.0, 0.0))
-		apply_torque_impulse( Vector3( top_spin.x, -6.0 * nearestPlayer.controller().getAxis("Curve"), top_spin.z ) )
+		apply_torque_impulse( Vector3( 0.5 * top_spin.x, -6.0 * nearestPlayer.controller().getAxis("Curve"), 0.5 * top_spin.z ) )
 		shooting = false
 		nearestPlayer.shooted()
 		prepareToShoot = false
@@ -78,7 +78,8 @@ func _process(delta):
 		var positionAtFrontOfPlayer = nearestPlayer.position + 30.0 * nearestPlayer.inputDirection3D
 		var impulseDirection = positionAtFrontOfPlayer - position
 		impulseDirection.y = 0.25 * impulseDirection.length()
-		apply_central_impulse( 4.0 * nearestPlayer.linear_velocity.length() * delta * impulseDirection.normalized() * nearestPlayer.inputDirection2D.length() );
+		apply_central_impulse( 6.0 * nearestPlayer.linear_velocity.length() * delta 
+			* impulseDirection.normalized() * nearestPlayer.inputDirection2D.length() - 0*2.0 * linear_velocity * delta );
 
 func _physics_process(delta):
 	if position.y < 0.23:
