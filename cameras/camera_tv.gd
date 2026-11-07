@@ -13,7 +13,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	targetPosition.y = 2.0 + 0.1 * targetPosition.y
-	targetPosition = 0.95 * targetPosition + 0.05 * ( 0.8 * ball.position + 0.3 * ball.linear_velocity + 0.2 * player.position )
+	targetPosition = 0.98 * targetPosition + 0.02 * ( 0.8 * ball.position + 0.3 * ball.linear_velocity + 0.2 * player.position )
 	look_at( targetPosition, Vector3.UP )
 	#var deltaVectorToBall = targetPosition - translation
 	#var ballVelocity2D = Vector2( ball.linear_velocity.x, ball.linear_velocity.z )

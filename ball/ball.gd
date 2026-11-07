@@ -74,17 +74,23 @@ func _process(delta):
 	
 	# Dribble
 	#if delta_position.length() < 0.4 and nearestPlayer.inputDirection2D.length() > 0.1:
-	if ((ballToRightFootDistance < 0.35)or(ballToLeftFootDistance < 0.35)) and nearestPlayer.inputDirection2D.length() > 0.1:
-		var positionAtFrontOfPlayer = nearestPlayer.position + 30.0 * nearestPlayer.inputDirection3D
-		var impulseDirection = positionAtFrontOfPlayer - position
-		impulseDirection.y = 0.25 * impulseDirection.length()
-		apply_central_impulse( 6.0 * nearestPlayer.linear_velocity.length() * delta 
-			* impulseDirection.normalized() * nearestPlayer.inputDirection2D.length() - 0*2.0 * linear_velocity * delta );
-
+	#if nearestPlayer.inputDirection2D.length() < 0.2:
+		
+	if ( ( ballToRightFootDistance < 0.3 ) or ( ballToLeftFootDistance < 0.3) ):
+		if nearestPlayer.inputDirection2D.length() > 0.2:
+			var positionAtFrontOfPlayer = nearestPlayer.position + 30.0 * nearestPlayer.inputDirection3D
+			var impulseDirection = positionAtFrontOfPlayer - position
+			impulseDirection.y = 0.25 * impulseDirection.length()
+			apply_central_impulse( 6.0 * nearestPlayer.linear_velocity.length() * delta 
+				* impulseDirection.normalized() * nearestPlayer.inputDirection2D.length() - 0*2.0 * linear_velocity * delta );
+		else: # stop the ball
+			var impulseDirection = -0.5*linear_velocity
+			apply_central_impulse( delta * impulseDirection );
+			
 func _physics_process(delta):
 	if position.y < 0.23:
-		linear_damp = 0.8 * 0.32
-		#angular_damp = 0.32
+		linear_damp = 0.32
+		angular_damp = 0.32
 	else:
 		linear_damp = 0.9 * 0.12
 		angular_damp = 0.1 * 0.09

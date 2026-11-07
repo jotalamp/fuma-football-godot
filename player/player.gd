@@ -12,7 +12,10 @@ class_name Player
 @export var physicalBoneSimulator : PhysicalBoneSimulator3D
 @export var rightFoot : PhysicalBone3D
 @export var leftFoot : PhysicalBone3D
+@export var IK : SkeletonIK3D
+@export var IK2 : SkeletonIK3D
 
+#var ragdoll : ActiveRagdoll
 var superCancelValue = 0.0 # 0.0: no super cancel - 1.0: full super cancel
 var maxForce = 5.0 * mass * 6.0 # m/s2 = N
 var direction = Vector2()
@@ -72,6 +75,10 @@ func _ready():
 	direction = -get_global_transform().basis.x
 	
 	#physicalBoneSimulator.physical_bones_start_simulation()
+	# Skeleton retargeted to SkeletonProfileHumanoid bone names (import with a BoneMap).
+	#ragdoll = ActiveRagdoll.create(skeleton, RagdollProfile.humanoid())
+	#ragdoll.collision_layer = 1 << 9   # own layer, not in the mask
+	#ragdoll.collision_mask = 1         # world
 	
 func resetPowerBar():
 	$"./PowerBar/ShootPowerBar".value = 0.0
@@ -196,15 +203,12 @@ func _physics_process(delta):
 	var deltaPosition3D = position - ( ball.position + ball.linear_velocity * delta  )
 	var deltaPosition2D = Vector2(deltaPosition3D.z,deltaPosition3D.x)
 	
-	#if deltaPosition2D.length() < 0.2:
-		#input = Vector2.ZERO
-		#return
-	
 	if (
 			isNearestPlayerToBall() 
 			and abs( ball.position.z ) < 50.0
 			and not controller().isSuperCancelPressed()
 			and deltaPosition2D.length() < ballLockRange
+			and deltaPosition2D.length() > 0.7
 	):
 		if ( ( currentState == State.STATE_PREPARE_TO_KICK ) or ( currentState == State.STATE_KICK ) ):
 			input = 3.0 * deltaPosition2D
@@ -213,12 +217,15 @@ func _physics_process(delta):
 
 			var r = deltaPosition2D.normalized().dot(inputDirection2D.normalized())
 			
-			if delta_position.length() * inputDirection2D.length() < 0.3:
-				input = lerp( deltaPosition2D, inputDirection2D, 0.9 )
+			if ( deltaPosition2D.length() < 0.6 ) and ( inputDirection2D.length() < 0.3 ):
+				#input = Vector2.ZERO
+				pass
 			elif r > 0.0: # input direction similar to direction to ball
 				input = lerp( deltaPosition2D, inputDirection2D, 0.1 )
 			else: # input direction opposite to direction to ball
 				input = lerp( deltaPosition2D, -0.1*inputDirection2D.normalized(), 0.2 )
+	else:
+		input = inputDirection2D
 		
 	direction = -get_global_transform().basis.x
 	
@@ -235,14 +242,17 @@ func _physics_process(delta):
 	elif deltaAngle < -PI:
 		deltaAngle += 2.0 * PI
 	
-	if deltaPosition2D.length() > 0.3:
-		apply_torque( 0.6 * input.length() * deltaPosition2D.length() * deltaPosition2D.length() * mass * delta * maxTurningTorque * (deltaAngle*abs(deltaAngle)-0.*angular_velocity.y) * Vector3.UP / ( linear_velocity.length() + 1.0 ) );
+	if deltaPosition2D.length() > 0.1:
+		apply_torque( 0.7 * input.length() * deltaPosition2D.length() * deltaPosition2D.length() * mass * delta * maxTurningTorque * (deltaAngle*abs(deltaAngle)-0.*angular_velocity.y) * Vector3.UP / ( linear_velocity.length() + 1.0 ) );
 	
 	if deltaAngle > 0.5 * PI:
 		apply_central_force( -abs(deltaAngle) * delta * mass * maxForce * input.length() * Vector3( sin( rotation.y ), 0.0, cos( rotation.y ) ));
 	
-	if( linear_velocity.length() < maxSpeed ):
+	if( linear_velocity.length() < maxSpeed and deltaPosition2D.length() > 0.8):
 		apply_central_force( delta * mass * maxForce * (input.length()*(2.0+deltaPosition2D.length())) * Vector3( sin( rotation.y ), 0.0, cos( rotation.y ) ));
+	else:
+		apply_central_force( -0.02 * linear_velocity * delta + 0.9 * input.length() * delta * mass * maxForce * Vector3( sin( rotation.y ), 0.0, cos( rotation.y ) ));
+		
 	
 	var tf = get_global_transform()
 	var vel = get_linear_velocity()
@@ -289,6 +299,14 @@ func _process(delta):
 		animationTree.advance(delta)
 	
 	if Input.is_action_just_pressed( controller().getAction("Shoot") ):
+		# Puppet mode
+		#ragdoll.puppet(true)
+		#var dir = Vector3.UP
+		#ragdoll.puppet_hit(&"mixamorig5_LeftArm", dir * 12.0)
+		#ragdoll.puppet_hit(&"Head", dir * 12.0)
+		#ragdoll.balance_lost.connect(func(): ragdoll.release("fall"))
+		# while ragdoll.stumbling(): move the character at ragdoll.stumble_velocity()
+		
 		#stateMachine.travel("Kick_05")
 		currentState = State.STATE_PREPARE_TO_KICK
 		shootDirection = Vector3( -direction.y, 0.0, -direction.x )
@@ -325,3 +343,10 @@ func _process(delta):
 		$"./PowerBar/ShootPowerBar".value -= 0.1 * delta * shootPowerRiseSpeed
 	
 	$"./PowerBar/ShootHeightBar".value = 0.7 + 0.7*Input.get_action_strength("C1_ShootHeight+") - 0.3*Input.get_action_strength("C1_ShootHeight-")
+
+	if delta_position.length() < 0.8:
+		IK.start()
+		IK.start()
+	else:
+		IK.stop()
+		IK.stop()

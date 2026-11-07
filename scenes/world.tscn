@@ -54,7 +54,7 @@ adjustment_saturation = 1.1
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rwgxs"]
 resource_name = "BallPhysicsMaterial"
 friction = 0.3
-bounce = 0.35
+bounce = 0.33
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_e5uuo"]
 radius = 0.11
@@ -76,7 +76,7 @@ material = SubResource("StandardMaterial3D_qfnet")
 size = Vector3(120, 0.01, 80)
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lakw3"]
-friction = 0.0
+friction = 0.1
 absorbent = true
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_o8fc1"]
@@ -134,7 +134,7 @@ shadow_enabled = true
 directional_shadow_mode = 0
 
 [node name="Ball" type="RigidBody3D" parent="." node_paths=PackedStringArray("nearestPlayer")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0.22, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 0.3, 0)
 rotation_edit_mode = 1
 top_level = true
 mass = 0.44
@@ -269,7 +269,7 @@ texture = ExtResource("12_o8fc1")
 [node name="TeamHome" type="Node" parent="."]
 script = ExtResource("12_lakw3")
 
-[node name="Player" type="RigidBody3D" parent="TeamHome" node_paths=PackedStringArray("skeleton", "physicalBoneSimulator", "rightFoot", "leftFoot") groups=["players"]]
+[node name="Player" type="RigidBody3D" parent="TeamHome" node_paths=PackedStringArray("skeleton", "physicalBoneSimulator", "rightFoot", "leftFoot", "IK", "IK2") groups=["players"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39, 0, 0)
 axis_lock_linear_y = true
 axis_lock_angular_x = true
@@ -279,19 +279,24 @@ physics_material_override = SubResource("PhysicsMaterial_lakw3")
 continuous_cd = true
 contact_monitor = true
 linear_damp_mode = 1
-linear_damp = 1.0
+linear_damp = 1.1
 angular_damp_mode = 1
 angular_damp = 15.0
 script = ExtResource("13_xo05s")
 controllerIDNumber = 1
 maxSpeed = 9.0
 jogAnimationSpeed = 0.55
-maxTurningTorque = 12000.0
+maxTurningTorque = 10000.0
 ballLockRange = 5.0
 skeleton = NodePath("Animations/Armature/Skeleton3D")
 physicalBoneSimulator = NodePath("Animations/Armature/Skeleton3D/PhysicalBoneSimulator3D")
 rightFoot = NodePath("Animations/Armature/Skeleton3D/PhysicalBoneSimulator3D/RightFoot")
 leftFoot = NodePath("Animations/Armature/Skeleton3D/PhysicalBoneSimulator3D/LeftFoot")
+IK = NodePath("Animations/Armature/Skeleton3D/SkeletonIK3D")
+IK2 = NodePath("Animations/Armature/Skeleton3D/SkeletonIK3D2")
+
+[node name="RightFootGround" type="Node3D" parent="TeamHome/Player"]
+transform = Transform3D(-1, 7.57103e-08, 4.37114e-08, 0, -0.5, 0.866025, 8.74228e-08, 0.866025, 0.5, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TeamHome/Player"]
 transform = Transform3D(1, 0, 0, 0, 0.992546, -0.121869, 0, 0.121869, 0.992546, -0.03, 1.2, 0.05)
@@ -301,76 +306,113 @@ shape = SubResource("CapsuleShape3D_o8fc1")
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 
 [node name="Skeleton3D" parent="TeamHome/Player/Animations/Armature" index="0"]
-bones/1/rotation = Quaternion(-0.0467813, -0.00379288, 0.00340257, 0.998892)
-bones/2/rotation = Quaternion(0.00468624, -0.0275237, 0.0064457, 0.999589)
-bones/3/rotation = Quaternion(0.00434973, -0.0274207, 0.00666624, 0.999592)
-bones/4/rotation = Quaternion(0.0541811, 0.0144272, -0.0252986, 0.998106)
-bones/5/rotation = Quaternion(0.000866997, 0.0122383, -0.0268525, 0.999564)
-bones/7/rotation = Quaternion(-0.524236, -0.438834, 0.633996, -0.361456)
-bones/8/rotation = Quaternion(0.428223, 0.164589, 0.0826937, 0.884702)
+bones/0/position = Vector3(-0.225599, 0.803213, -85.9622)
+bones/0/rotation = Quaternion(-0.719531, -0.0688875, 0.0825137, 0.686091)
+bones/1/rotation = Quaternion(-0.0409087, 0.00109992, -0.00402528, 0.999154)
+bones/2/rotation = Quaternion(0.0149804, -0.0186131, -0.00632461, 0.999695)
+bones/3/rotation = Quaternion(0.015165, -0.0186696, -0.00573177, 0.999694)
+bones/4/rotation = Quaternion(0.0617042, 0.00551373, -0.00370835, 0.998072)
+bones/5/rotation = Quaternion(0.0087233, 0.00514758, -0.00405562, 0.999941)
+bones/7/rotation = Quaternion(-0.549186, -0.437578, 0.5807, -0.411956)
+bones/8/rotation = Quaternion(0.474202, 0.148642, 0.062426, 0.865529)
 bones/9/position = Vector3(1.66197e-06, 27.7219, 1.54078e-05)
-bones/9/rotation = Quaternion(0.0260002, -0.00149324, 0.255765, 0.966388)
-bones/10/rotation = Quaternion(0.109372, 0.107211, -0.179076, 0.971841)
-bones/11/rotation = Quaternion(0.157304, -0.0444501, 0.129622, 0.977997)
-bones/12/rotation = Quaternion(0.00399456, 0.0142861, -0.0784754, 0.996806)
-bones/13/rotation = Quaternion(-0.0254653, -0.00187646, 0.0901961, 0.995597)
-bones/15/rotation = Quaternion(0.189794, 0.005831, 0.0309677, 0.981318)
-bones/16/rotation = Quaternion(0.275517, -0.000595145, -0.0440054, 0.960288)
+bones/9/rotation = Quaternion(0.0249042, -0.00149774, 0.244983, 0.969206)
+bones/10/rotation = Quaternion(0.0935526, 0.100916, -0.172411, 0.975366)
+bones/11/rotation = Quaternion(0.15407, -0.0425905, 0.106059, 0.981427)
+bones/12/rotation = Quaternion(0.0063133, -0.0303777, -0.0292516, 0.99909)
+bones/13/rotation = Quaternion(-0.0279442, -0.00118075, 0.106842, 0.993883)
+bones/15/rotation = Quaternion(0.170778, 0.0049362, 0.0358337, 0.984645)
+bones/16/rotation = Quaternion(0.304278, -0.000676305, -0.0481679, 0.951365)
 bones/17/position = Vector3(-0.003708, 3.12807, -1.97874e-07)
-bones/17/rotation = Quaternion(0.128215, 0.00033592, -0.0215991, 0.991511)
-bones/19/rotation = Quaternion(0.23888, 0.00826752, 0.0197471, 0.970813)
-bones/20/rotation = Quaternion(0.182921, -8.39532e-05, -0.0308667, 0.982643)
-bones/21/rotation = Quaternion(0.123406, 0.000384015, -0.017474, 0.992202)
-bones/23/rotation = Quaternion(0.284713, 0.000514872, 0.0203141, 0.958397)
-bones/24/rotation = Quaternion(0.136048, 0.00013984, -0.022495, 0.990447)
-bones/25/rotation = Quaternion(0.0931412, -6.00048e-05, -0.0125121, 0.995574)
+bones/17/rotation = Quaternion(0.151238, 0.000430647, -0.02495, 0.988182)
+bones/19/rotation = Quaternion(0.211743, 0.00797014, 0.0211843, 0.977063)
+bones/20/rotation = Quaternion(0.207847, -0.000106361, -0.0344795, 0.977553)
+bones/21/rotation = Quaternion(0.129706, 0.00040212, -0.0183922, 0.991382)
+bones/23/rotation = Quaternion(0.260742, 0.00216751, 0.0158792, 0.965276)
+bones/24/rotation = Quaternion(0.149277, 0.000155568, -0.0246055, 0.988489)
+bones/25/rotation = Quaternion(0.0960964, -6.12073e-05, -0.0129846, 0.995287)
 bones/26/position = Vector3(0.00672221, 2.41622, -1.04308e-06)
-bones/27/rotation = Quaternion(0.377412, 0.0186446, -0.0306655, 0.92535)
+bones/27/rotation = Quaternion(0.346423, 0.0215348, -0.0384332, 0.937043)
 bones/28/position = Vector3(0.0114716, 2.69011, -8.96948e-07)
-bones/28/rotation = Quaternion(0.173336, 0.00595348, 0.00520737, 0.984831)
+bones/28/rotation = Quaternion(0.186857, 0.0064287, 0.0030118, 0.982361)
 bones/29/rotation = Quaternion(0.0664744, 0.000156015, -0.0108329, 0.997729)
-bones/31/rotation = Quaternion(0.567009, -0.436687, 0.543454, 0.438707)
+bones/31/rotation = Quaternion(0.614578, -0.401352, 0.526408, 0.429076)
 bones/32/position = Vector3(1.00235e-06, 13.2967, -1.42071e-06)
-bones/32/rotation = Quaternion(0.467994, -0.157308, -0.125311, 0.860542)
+bones/32/rotation = Quaternion(0.451565, -0.155017, -0.119216, 0.870544)
 bones/33/position = Vector3(-4.15635e-08, 27.7288, 5.43985e-06)
-bones/33/rotation = Quaternion(0.0232495, 0.00170929, -0.232477, 0.972323)
+bones/33/rotation = Quaternion(0.0254672, 0.00169957, -0.254649, 0.966697)
 bones/34/position = Vector3(5.86754e-06, 21.2617, 1.25161e-05)
-bones/34/rotation = Quaternion(0.0132369, -0.0296336, 0.172411, 0.98449)
-bones/35/rotation = Quaternion(0.164855, -0.083165, -0.0379171, 0.982074)
-bones/36/rotation = Quaternion(0.0248855, -0.0529463, -0.0509024, 0.996989)
-bones/37/rotation = Quaternion(-0.029922, -0.00236823, -0.0183833, 0.99938)
-bones/39/rotation = Quaternion(0.052132, -0.0036831, -0.00464664, 0.998623)
-bones/40/rotation = Quaternion(0.353505, 0.000115074, 0.0513315, 0.934023)
+bones/34/rotation = Quaternion(0.014792, -0.0021091, 0.163853, 0.986372)
+bones/35/rotation = Quaternion(0.168238, -0.0886001, -0.0327613, 0.98121)
+bones/36/rotation = Quaternion(0.0237113, -0.0489714, -0.0564677, 0.996921)
+bones/37/rotation = Quaternion(-0.030522, -0.00253242, -0.0229637, 0.999267)
+bones/39/rotation = Quaternion(0.0455389, -0.00340941, -0.00215359, 0.998954)
+bones/40/rotation = Quaternion(0.370047, 0.00012161, 0.0535816, 0.927466)
 bones/41/position = Vector3(0.00796342, 3.04046, -5.28425e-06)
-bones/41/rotation = Quaternion(0.0904778, -0.000203438, 0.0117402, 0.995829)
-bones/43/rotation = Quaternion(0.115334, -0.00927489, 0.0136784, 0.993189)
+bones/41/rotation = Quaternion(0.0928162, -0.000208082, 0.0120613, 0.99561)
+bones/43/rotation = Quaternion(0.0767077, -0.0067, 0.0138754, 0.996935)
 bones/44/position = Vector3(-0.00910521, 3.52729, -7.52326e-07)
-bones/44/rotation = Quaternion(0.278134, -0.000205226, 0.0416894, 0.959637)
-bones/45/rotation = Quaternion(0.0664945, 0.012017, 0.00650523, 0.997693)
-bones/47/rotation = Quaternion(0.217621, -0.00645535, 0.000934356, 0.976012)
-bones/48/rotation = Quaternion(0.213401, -0.00011139, 0.0323827, 0.976428)
-bones/49/rotation = Quaternion(0.0810416, 0.014217, 0.0115161, 0.996543)
-bones/51/rotation = Quaternion(0.3025, -0.0166873, 0.0249993, 0.952675)
-bones/52/rotation = Quaternion(0.169893, 0.000168834, 0.0277785, 0.985071)
-bones/53/rotation = Quaternion(0.0782929, -0.000104353, 0.0128188, 0.996848)
-bones/55/rotation = Quaternion(0.0566636, 0.0835112, 0.993043, -0.0606666)
-bones/56/rotation = Quaternion(-0.192092, -0.0842269, 0.0115346, 0.977688)
-bones/57/rotation = Quaternion(0.560168, -0.0628689, -0.0160696, 0.825833)
+bones/44/rotation = Quaternion(0.324398, -0.000254862, 0.0479908, 0.944703)
+bones/45/rotation = Quaternion(0.0826645, 0.00453749, 0.00830325, 0.996533)
+bones/47/rotation = Quaternion(0.186254, -0.00646154, 0.00467238, 0.982469)
+bones/48/rotation = Quaternion(0.267882, -0.000145379, 0.0403616, 0.962606)
+bones/49/rotation = Quaternion(0.0945342, 0.00618166, 0.0129155, 0.995419)
+bones/51/rotation = Quaternion(0.269841, -0.0177421, 0.0310932, 0.962239)
+bones/52/rotation = Quaternion(0.20374, 0.000232667, 0.0325736, 0.978483)
+bones/53/rotation = Quaternion(0.107935, -0.000207394, 0.0170351, 0.994012)
+bones/55/rotation = Quaternion(0.0259205, 0.11361, 0.992637, -0.0330705)
+bones/56/rotation = Quaternion(-0.29323, -0.0836617, 0.00545787, 0.952359)
+bones/57/rotation = Quaternion(0.621106, -0.0814852, 0.0441182, 0.778229)
 bones/58/position = Vector3(-3.45121e-08, 16.3923, 6.80703e-07)
-bones/58/rotation = Quaternion(0.285995, -0.0221134, 0.00657889, 0.957953)
-bones/60/rotation = Quaternion(-0.0952262, 0.119541, 0.987993, 0.0226341)
-bones/61/rotation = Quaternion(-0.244422, 0.0540819, 0.00263075, 0.968156)
-bones/62/rotation = Quaternion(0.589908, 0.0964184, -0.0775944, 0.797929)
-bones/63/rotation = Quaternion(0.281528, 0.0288574, -0.0083895, 0.959082)
+bones/58/rotation = Quaternion(0.287991, -0.0224349, 0.00659185, 0.957348)
+bones/60/rotation = Quaternion(-0.12335, 0.108615, 0.98488, 0.0547639)
+bones/61/rotation = Quaternion(-0.245967, 0.0379109, -0.00919226, 0.968493)
+bones/62/rotation = Quaternion(0.576252, 0.0993334, -0.0131736, 0.811106)
+bones/63/rotation = Quaternion(0.28067, 0.0287211, -0.0083876, 0.959338)
 
-[node name="PhysicalBoneSimulator3D" type="PhysicalBoneSimulator3D" parent="TeamHome/Player/Animations/Armature/Skeleton3D" index="7"]
+[node name="LookAtModifier3D" type="LookAtModifier3D" parent="TeamHome/Player/Animations/Armature/Skeleton3D" index="0"]
+transform = Transform3D(100, 3.35283e-19, 2.77556e-13, -2.77556e-13, -4.37114e-06, 100, 1.21324e-20, -100, -4.37114e-06, 3900, -1.08247e-11, 4.73162e-19)
+target_node = NodePath("../../../../../../Ball")
+bone_name = "mixamorig5_Head"
+bone = 5
+duration = 10.0
+ease_type = 2
+use_angle_limitation = true
+symmetry_limitation = true
+primary_limit_angle = 2.0944
+primary_damp_threshold = 0.5
+secondary_limit_angle = 1.39626
+secondary_damp_threshold = 0.5
+
+[node name="SkeletonIK3D" type="SkeletonIK3D" parent="TeamHome/Player/Animations/Armature/Skeleton3D" index="1"]
+influence = 0.2
+root_bone = &"mixamorig5_RightUpLeg"
+tip_bone = &"mixamorig5_RightToe_End"
+override_tip_basis = false
+target_node = NodePath("../../../../../../Ball")
+min_distance = 0.1
+max_iterations = 1
+
+[node name="SkeletonIK3D2" type="SkeletonIK3D" parent="TeamHome/Player/Animations/Armature/Skeleton3D" index="2"]
+transform = Transform3D(1, 0, 6.18467e-28, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+influence = 0.2
+root_bone = &"mixamorig5_LeftUpLeg"
+tip_bone = &"mixamorig5_LeftToe_End"
+override_tip_basis = false
+target_node = NodePath("../../../../../../Ball")
+min_distance = 0.1
+max_iterations = 1
+
+[node name="PhysicalBoneSimulator3D" type="PhysicalBoneSimulator3D" parent="TeamHome/Player/Animations/Armature/Skeleton3D" index="10"]
 transform = Transform3D(100, 3.35283e-19, 2.77556e-13, -2.77556e-13, -4.37114e-06, 100, 1.21324e-20, -100, -4.37114e-06, 0, 0, 0)
+active = false
+influence = 0.0
 
 [node name="RightFoot" type="PhysicalBone3D" parent="TeamHome/Player/Animations/Armature/Skeleton3D/PhysicalBoneSimulator3D"]
-transform = Transform3D(-0.803656, -0.595091, -0.00191225, 0.0664101, -0.0928775, 0.99346, -0.591377, 0.798273, 0.114162, -0.338291, -0.013518, 0.141748)
+transform = Transform3D(-0.79532, -0.604714, -0.0422698, 0.0555137, -0.142094, 0.988295, -0.603642, 0.783665, 0.14658, -0.381695, -0.025113, 0.13334)
 joint_type = 3
-joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0843881, -0.222656, -0.0108756)
-body_offset = Transform3D(99.2337, 12.3567, 0.386174, -12.3619, 99.2064, 2.31355, -0.0973167, -2.34349, 99.9726, 11.1296, 21.0709, 0.557255)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0837316, -0.248049, -0.0124593)
+body_offset = Transform3D(98.828, 15.2554, 0.682484, -15.2676, 98.7948, 2.56098, -0.283558, -2.63499, 99.965, 12.0676, 23.2595, 0.568146)
 mass = 0.1
 can_sleep = false
 bone_name = "mixamorig5_RightToeBase"
@@ -392,10 +434,10 @@ mesh = SubResource("SphereMesh_munwf")
 skeleton = NodePath("../RightFootCollision")
 
 [node name="LeftFoot" type="PhysicalBone3D" parent="TeamHome/Player/Animations/Armature/Skeleton3D/PhysicalBoneSimulator3D"]
-transform = Transform3D(-0.870562, 0.486905, -0.0710259, -0.124632, -0.0785556, 0.989088, 0.476013, 0.869915, 0.129072, 0.370018, 0.0269125, -0.056854)
+transform = Transform3D(-0.857956, 0.502092, -0.108694, -0.17512, -0.0869343, 0.980702, 0.482953, 0.860434, 0.162512, 0.367329, 0.0542312, -0.0922147)
 joint_type = 3
-joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.112541, -0.0149052, -0.011363)
-body_offset = Transform3D(99.9335, -2.96084, 2.14552, 2.91878, 99.9383, 1.95682, -2.20218, -1.89286, 99.9578, -11.2664, 1.18335, 1.35544)
+joint_offset = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.138313, -0.0243402, -0.0105922)
+body_offset = Transform3D(99.9143, -3.34158, 2.456, 3.28682, 99.9213, 2.2282, -2.52851, -2.14555, 99.945, -13.8748, 2.0011, 1.35614)
 mass = 0.1
 bone_name = "mixamorig5_LeftToeBase"
 joint_constraints/angular_limit_enabled = false
@@ -416,8 +458,8 @@ mesh = SubResource("SphereMesh_munwf")
 skeleton = NodePath("../LeftFootCollision")
 
 [node name="RightLowerLeg" type="PhysicalBone3D" parent="TeamHome/Player/Animations/Armature/Skeleton3D/PhysicalBoneSimulator3D"]
-transform = Transform3D(-0.956519, 0.100265, -0.273894, 0.0123937, -0.924236, -0.381621, -0.291406, -0.368422, 0.882807, -0.0996017, 0.466898, 0.0402419)
-body_offset = Transform3D(99.8736, -1.58876, 4.78625, 1.4693, 99.9575, 2.52002, -4.82409, -2.44671, 99.8539, 0, 0, 0)
+transform = Transform3D(-0.951598, 0.0723566, -0.298707, 0.064561, -0.903149, -0.424446, -0.300488, -0.423187, 0.854763, -0.118069, 0.4677, 0.038521)
+body_offset = Transform3D(99.8087, -1.99165, 5.8674, 1.81468, 99.937, 3.05369, -5.9244, -2.94159, 99.7812, 0, 0, 0)
 mass = 0.2
 bone_name = "mixamorig5_RightLeg"
 
@@ -432,9 +474,9 @@ visible = false
 mesh = SubResource("CapsuleMesh_ts3gi")
 
 [node name="PhysicalBone3D" type="PhysicalBone3D" parent="TeamHome/Player/Animations/Armature/Skeleton3D/PhysicalBoneSimulator3D"]
-transform = Transform3D(-0.906106, 0.0805976, 0.415303, -0.213492, -0.934628, -0.284414, 0.365231, -0.346373, 0.864079, 0.159073, 0.477808, 0.00364427)
+transform = Transform3D(-0.930286, 0.0300515, 0.365601, -0.198162, -0.879879, -0.431908, 0.308705, -0.474246, 0.824495, 0.145844, 0.477164, 0.0272886)
 joint_type = 1
-body_offset = Transform3D(99.8797, 0.765333, -4.85029, -0.674423, 99.9799, 1.88779, 4.86363, -1.85282, 99.8645, 0, 0, 0)
+body_offset = Transform3D(99.8241, 0.923573, -5.86169, -0.790054, 99.9705, 2.29674, 5.88104, -2.24643, 99.8017, 0, 0, 0)
 mass = 0.2
 bone_name = "mixamorig5_LeftLeg"
 joint_constraints/bias = 0.3
@@ -450,6 +492,9 @@ disabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, -0.02)
 visible = false
 mesh = SubResource("CapsuleMesh_37qwj")
+
+[node name="AnimationPlayer" parent="TeamHome/Player/Animations" index="1"]
+active = false
 
 [node name="Arrow" type="Decal" parent="TeamHome/Player"]
 size = Vector3(2, 0.04, 2)
@@ -474,6 +519,9 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 55, 0,
 
 [node name="FootballGoal_B" parent="." groups=["posts"] instance=ExtResource("22_oo54l")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -55, 0, 0)
+
+[node name="Down" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1e+08, 0)
 
 [connection signal="body_shape_entered" from="Ball" to="." method="_on_ball_body_shape_entered"]
 [connection signal="body_shape_entered" from="Ball" to="Ball" method="_on_body_shape_entered"]

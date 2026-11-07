@@ -1,13 +1,8 @@
 res://scenes/world.tscn
 res://ground/football_pitch.gdshader
-res://cameras/camera_vertical.gd
 res://goal/football_goal.tscn
 res://player/PowerBar.tscn
 res://player/player_animations.tscn
-res://cameras/camera_horizontal.gd
-res://cameras/cameras.gd
-res://cameras/camera_tv.gd
-res://info/info_text.gd
 res://player/player.gd
 res://ball/ball.gd
-res://controllers/controller.gd
+res://cameras/camera_tv.gd
