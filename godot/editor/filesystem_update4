@@ -2,7 +2,4 @@ res://scenes/world.tscn
 res://ground/football_pitch.gdshader
 res://goal/football_goal.tscn
 res://player/PowerBar.tscn
-res://player/player_animations.tscn
-res://player/player.gd
-res://ball/ball.gd
-res://cameras/camera_tv.gd
+res://player/active_ragdoll.tscn

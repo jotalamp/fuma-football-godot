@@ -1,8 +1,10 @@
 Node3D
+CollisionShape3D
+RigidBody3D
+CSGBox3D
 LookAtModifier3D
 SkeletonIK3D
 MeshInstance3D
-CollisionShape3D
 PhysicalBone3D
 Label
 TextEdit
@@ -10,5 +12,3 @@ Node
 PhysicalBoneSimulator3D
 AnimationTree
 StaticBody3D
-Decal
-AudioStreamPlayer3D
