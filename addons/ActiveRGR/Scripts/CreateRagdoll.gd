@@ -45,6 +45,17 @@ func _set_create_ragdoll(value):
 			for bone_id in range(self.get_bone_count()):
 				_add_ragdoll_bone(bone_id)
 
+func get_bone_length(bone_id: int) -> float:
+	var child_indices = get_bone_children(bone_id)
+
+	if child_indices.size() > 0:
+		var pos_self = global_transform * get_bone_global_pose(bone_id).origin
+		var pos_child = global_transform * get_bone_global_pose(child_indices[0]).origin
+		return pos_self.distance_to(pos_child)
+  
+	return 0.1
+
+
 """
 	CREATE THE RIGID BODIES FROM THE SKELETON
 """
@@ -57,9 +68,19 @@ func _add_ragdoll_bone( bone_id : int ):
 	## Create the collisions for the rigid bodies
 	var collision := CollisionShape3D.new()
 	collision.shape = CapsuleShape3D.new()
-	collision.shape.radius = .1
-	collision.shape.height = .1
-	collision.rotate_x(PI/2)
+	collision.shape.radius = 0.05
+
+	var bone_length = get_bone_length(bone_id)
+	collision.shape.height = bone_length
+	collision.translate_object_local(Vector3(0,100*0.5*bone_length,0))
+	
+	collision.scale.x = 100.0
+	collision.scale.y = 100.0
+	collision.scale.z = 100.0
+	collision.debug_color = Color(1,0,0,1)
+	collision.debug_fill = true
+	
+	#collision.rotate_x(PI/2)
 	BONE.add_child(collision)
 	
 	self.add_child(BONE)
@@ -107,13 +128,13 @@ func _add_joint_for( bone_id : int ):
 			self.add_child(JOINT)
 			JOINT.set_owner(owner)
 			
-			JOINT.set("nodes/node_a", JOINT.get_path_to(node_a) )
-			JOINT.set("nodes/node_b", JOINT.get_path_to(node_b) )
+			JOINT.node_a = JOINT.get_path_to(node_a)
+			JOINT.node_b = JOINT.get_path_to(node_b)
 			
 			## For enabling and disabling animation tracing
 			self.connect("trace_animation_skeleton", Callable(JOINT, "trace_skeleton"))
-	else:
-		set_deferred("freeze", true)
+	#else:
+		#set_deferred("freeze", true)
 
 """
 CREATION OF MESHES THAT ARE THE VISUAL REPRESENTATION OF BONES FOR DEBUG
