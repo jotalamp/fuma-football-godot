@@ -1,7 +1,9 @@
-res://player/gk_idle.tres
-res://scenes/world.tscn
-res://ground/football_pitch.gdshader
-res://player/Idle_01.tres
 res://player/PowerBar.tscn
+res://player/player_physics_material.tres
+res://ground/football_pitch.gdshader
+res://scenes/world.tscn
+res://ball/ball.gd
+res://addons/ActiveRGR/Scripts/RagdollBone.gd
+res://info/info_text.gd
 res://addons/ActiveRGR/Scripts/ActiveRagdollJoint.gd
-res://addons/ActiveRGR/Scripts/CreateRagdoll.gd
+res://scenes/node_3d.gd

@@ -96,6 +96,7 @@ func _physics_process(delta):
 		angular_damp = 0.1 * 0.09
 	# magnus force
 	apply_central_force( 10.0 * magnusForceFactor * delta * angular_velocity.cross(linear_velocity) )
+	
 
 func _integrate_forces(state):
 	if Input.is_action_just_pressed("reset"):
