@@ -4,7 +4,7 @@ extends Camera3D
 @export var player : RigidBody3D
 @onready var targetPosition = ball.position
 
-func _process(_delta):
+func _physics_process(_delta):
 	targetPosition = 0.97 * targetPosition + 0.03 * player.position
 	position = targetPosition
 	position.y = 5.0

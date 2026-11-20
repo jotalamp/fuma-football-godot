@@ -1,15 +1,15 @@
 [remap]
 
-importer="scene"
+importer="animation_library"
 importer_version=1
-type="PackedScene"
-uid="uid://bl5koebekevjs"
-path="res://godot/imported/Goalkeeper Idle 2.fbx-bda30989a774a787787af1ec3560cac6.scn"
+type="AnimationLibrary"
+uid="uid://c4w11dbbvt5xx"
+path="res://godot/imported/Goalkeeper Body Block.fbx-3c5e7ed0285ca21234f25c6227eb47fc.res"
 
 [deps]
 
-source_file="res://player/Goalkeeper Idle 2.fbx"
-dest_files=["res://godot/imported/Goalkeeper Idle 2.fbx-bda30989a774a787787af1ec3560cac6.scn"]
+source_file="res://player/Goalkeeper Body Block.fbx"
+dest_files=["res://godot/imported/Goalkeeper Body Block.fbx-3c5e7ed0285ca21234f25c6227eb47fc.res"]
 
 [params]
 

@@ -26,7 +26,7 @@ func _ready() -> void:
 		BONE_INDEX = get_parent().find_bone(bone_name)
 		assert(BONE_INDEX >= 0, "The Ragdoll Bone's[%s] bone name[%s] does not match any bone in the skeleton" % [self.name, bone_name])
 
-@onready var skeleton: Skeleton3D = $Skeleton3D
+@export var skeleton: Skeleton3D
 
 """
 	APPLY OWN ROTATION TO THE RESPECTIVE BONE IN PARENT SKELETON

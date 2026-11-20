@@ -274,7 +274,9 @@ func _process(delta):
 		#ball.shootPowerFactor = 0.0
 		#$"./ShootPowerBar".value = 0.0
 	
-	var screen_pos = cameras.currentCamera().unproject_position( position )
+	var screen_pos : Vector2
+	if cameras.currentCamera().is_position_in_frustum(position):
+		screen_pos = cameras.currentCamera().unproject_position( position )
 	
 	$"./PowerBar/ShootPowerBar".position = Vector2( screen_pos.x -25, screen_pos.y + 15 )
 	

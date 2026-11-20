@@ -3,4 +3,7 @@ res://player/player_physics_material.tres
 res://ground/football_pitch.gdshader
 res://scenes/world.tscn
 res://goal/football_goal.tscn
-res://player/active_ragdoll.gd
+res://player/gk_idle.tres
+res://cameras/camera_horizontal.gd
+res://cameras/camera_tv.gd
+res://cameras/camera_vertical.gd
