@@ -1,3 +1,4 @@
+res://goal
 res://player
 res://addons/ActiveRGR/Scripts
 res://info
@@ -5,7 +6,6 @@ res://scoreboard
 res://sounds
 res://Team
 res://cameras
-res://goal
 res://pitch
 res://scenes
 res://radar

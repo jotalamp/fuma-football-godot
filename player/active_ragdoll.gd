@@ -11,6 +11,9 @@ func _physics_process(delta: float) -> void:
 		target_pos.z = (1.1-0.9*ball_distance_from_goal)*ball_pos.z
 		var pos_delta = target_pos - gk_pos
 		pos_delta.y = 0*pos_delta.y
-		apply_central_force(500*pos_delta.normalized()-90*linear_velocity)
+		if pos_delta.length() > 2.0:
+			apply_central_force(800*pos_delta.normalized()-90*linear_velocity)
+		else:
+			apply_central_force(600*pos_delta-90*linear_velocity)
 
 	#apply_torque(Vector3(0,10,0))

@@ -1,6 +1,8 @@
+PinJoint3D
+RigidBody3D
+SoftBody3D
 MeshInstance3D
 CollisionShape3D
-RigidBody3D
 Node3D
 Label
 BoneAttachment3D
@@ -11,4 +13,3 @@ SkeletonIK3D
 PhysicalBone3D
 TextEdit
 Node
-PhysicalBoneSimulator3D

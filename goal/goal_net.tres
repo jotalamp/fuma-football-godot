@@ -1,0 +1,42 @@
+[gd_resource type="ArrayMesh" load_steps=4 format=4 uid="uid://4gvuihdgjgk1"]
+
+[ext_resource type="Texture2D" uid="uid://dq1rqlprwr7hk" path="res://goal/net01.png" id="1_28308"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r8mg4"]
+resource_name = "Material.001"
+transparency = 4
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_28308")
+emission_enabled = true
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_c0tqm"]
+_surfaces = [{
+"aabb": AABB(-0.0371, 0, 0, 0.0742, 0.02, 0.0249),
+"format": 34359742465,
+"index_count": 24,
+"index_data": PackedByteArray("AAABAAIAAgADAAAAAAADAAQABAADAAIABAAFAAAAAgAGAAQABwAFAAQABAAGAAcA"),
+"name": "Material.001",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 8,
+"vertex_data": PackedByteArray("LPYXPQrXozwAAAAALPYXPQAAAAAAAAAALPYXPQAAAAAW+8s8LPYXPQrXozwW+8s8LPYXvQrXozwW+8s8LPYXvQrXozwAAAAALPYXvQAAAAAW+8s8LPYXvQAAAAAAAAAA")
+}]
+blend_shape_mode = 0
+
+[resource]
+resource_name = "SoccerNet06 net"
+_surfaces = [{
+"aabb": AABB(-0.0371, 0, 0, 0.0742, 0.02, 0.0249),
+"attribute_data": PackedByteArray("kQlaO7PFs0Hl9onBssWzQef2icFEJn8/nt5ZO0Qmfz+Z/H9CRCZ/P5n8f0K4xbNBkQlaO7PFs0Ge3lk7RCZ/P5n8f0JEJn8/un2iQkQmfz+6faJCucWzQZn8f0K4xbNBH7xZO4MEgsGZ/H9ChwSCwZn8f0JEJn8/nt5ZO0Qmfz8="),
+"format": 34359742487,
+"index_count": 24,
+"index_data": PackedByteArray("AAABAAIAAgADAAAABAAFAAYABgAHAAQACAAJAAoACgALAAgADAANAA4ADgAPAAwA"),
+"material": SubResource("StandardMaterial3D_r8mg4"),
+"name": "Material.001",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("LPYXPQrXozwAAAAALPYXPQAAAAAAAAAALPYXPQAAAAAW+8s8LPYXPQrXozwW+8s8LPYXvQrXozwW+8s8LPYXvQrXozwAAAAALPYXPQrXozwAAAAALPYXPQrXozwW+8s8LPYXvQrXozwW+8s8LPYXvQAAAAAW+8s8LPYXvQAAAAAAAAAALPYXvQrXozwAAAAALPYXPQAAAAAW+8s8LPYXvQAAAAAW+8s8LPYXvQrXozwW+8s8LPYXPQrXozwW+8s8////f/9///////9//3///////3//f///////f/9/////f///AAD/v/9///8AAP+//3///wAA/7//f///AAD/vwAA/3//fwCAAAD/f/9/AIAAAP9//38AgAAA/3//fwCA/3//fwAA/7//f/9/AAD/v/9//38AAP+//3//fwAA/78=")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_c0tqm")
