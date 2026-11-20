@@ -1,10 +1,10 @@
-Label
 MeshInstance3D
-Node3D
-BoneAttachment3D
-Marker3D
 CollisionShape3D
 RigidBody3D
+Node3D
+Label
+BoneAttachment3D
+Marker3D
 CSGBox3D
 LookAtModifier3D
 SkeletonIK3D

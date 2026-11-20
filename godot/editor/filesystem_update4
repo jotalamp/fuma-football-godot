@@ -1,9 +1,8 @@
-res://player/PowerBar.tscn
+res://scenes/world.tscn
 res://player/player_physics_material.tres
 res://ground/football_pitch.gdshader
-res://scenes/world.tscn
-res://ball/ball.gd
 res://addons/ActiveRGR/Scripts/RagdollBone.gd
-res://info/info_text.gd
+res://player/PowerBar.tscn
+res://player/active_ragdoll.gd
 res://addons/ActiveRGR/Scripts/ActiveRagdollJoint.gd
-res://scenes/node_3d.gd
+res://addons/ActiveRGR/Scripts/CreateRagdoll.gd
