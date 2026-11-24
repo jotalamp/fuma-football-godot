@@ -3,7 +3,7 @@ extends CharacterBody3D
 @export_range(0.0, 1.0) var sensitivity = 0.25
 @export var anim_tree: AnimationTree
 
-const SPEED = 9.0
+const SPEED = 7.0
 const JUMP_VELOCITY = 5
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -20,7 +20,7 @@ func _input(event):
 func _process(_delta):
 	mouse_position *= sensitivity
 	var yaw = mouse_position.x
-	rotate_y(deg_to_rad(-yaw))
+	#rotate_y(deg_to_rad(-yaw))
 
 func _physics_process(delta):
 	# Add the gravity.
@@ -35,6 +35,28 @@ func _physics_process(delta):
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir = Input.get_vector("left", "right", "forward", "backward")
 	var direction = (transform.basis * Vector3(input_dir.y, 0, -input_dir.x)).normalized()
+	
+	var ball_pos = %Ball.global_position
+	
+	if ball_pos.x < 0:
+		var gk_pos = global_position
+		var goal_pos = Vector3(-53,0,0)
+		var ball_distance_from_goal = (goal_pos-ball_pos).length()/55.0
+		var target_pos = (0.2*ball_pos+0.8*goal_pos)
+		target_pos.z = (1.1-0.9*ball_distance_from_goal)*ball_pos.z
+		var pos_delta = target_pos - gk_pos
+		pos_delta.y = 0*pos_delta.y
+		#if pos_delta.length() > 2.0:
+		direction = pos_delta
+
+	var dir2 = %Ball.global_position - global_position
+	direction.y = 0
+	
+	if dir2.length() > 0.1:
+		dir2 = dir2.normalized()
+		#rotate_y(atan2(direction.z,direction.x))
+		rotation.y = atan2(dir2.z,-dir2.x)
+	
 	if direction:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
