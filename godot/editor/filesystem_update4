@@ -1,8 +1,5 @@
 res://player/PowerBar.tscn
-res://player/player_physics_material.tres
 res://ground/football_pitch.gdshader
 res://scenes/world.tscn
 res://goal/football_goal.tscn
-res://player/physical_animation.gd
 res://scenes/simple_move.gd
-res://player/gk_idle.tres

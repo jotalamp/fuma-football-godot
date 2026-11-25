@@ -17,19 +17,12 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		mouse_position = event.relative
 
-func _process(_delta):
-	mouse_position *= sensitivity
-	var yaw = mouse_position.x
-	#rotate_y(deg_to_rad(-yaw))
-
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-
-	# Handle Jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+		move_and_slide()
+		return
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -38,16 +31,20 @@ func _physics_process(delta):
 	
 	var ball_pos = %Ball.global_position
 	
-	if ball_pos.x < 0:
-		var gk_pos = global_position
-		var goal_pos = Vector3(-53,0,0)
-		var ball_distance_from_goal = (goal_pos-ball_pos).length()/55.0
-		var target_pos = (0.2*ball_pos+0.8*goal_pos)
-		target_pos.z = (1.1-0.9*ball_distance_from_goal)*ball_pos.z
-		var pos_delta = target_pos - gk_pos
-		pos_delta.y = 0*pos_delta.y
-		#if pos_delta.length() > 2.0:
-		direction = pos_delta
+	var gk_pos = global_position
+	var goal_pos = Vector3(-54,0,0)
+	var ball_gk_dist = (ball_pos - gk_pos).length()
+	var ball_distance_from_goal = (goal_pos-ball_pos).length()/55.0
+	var target_pos = (0.1*ball_pos+0.9*goal_pos)
+	target_pos.z = (0.9-0.8*ball_distance_from_goal)*ball_pos.z
+	var pos_delta = target_pos - gk_pos
+	pos_delta.y = 0
+	#if pos_delta.length() > 2.0:
+	direction = pos_delta
+		
+	# Handle Jump.
+	if is_on_floor() and ball_pos.y > 1.6 and ball_gk_dist < 11.0:
+			velocity.y = JUMP_VELOCITY
 
 	var dir2 = %Ball.global_position - global_position
 	direction.y = 0
