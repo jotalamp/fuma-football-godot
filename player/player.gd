@@ -243,15 +243,15 @@ func _physics_process(delta):
 		deltaAngle += 2.0 * PI
 	
 	if deltaPosition2D.length() > 0.1:
-		apply_torque( 0.7 * input.length() * deltaPosition2D.length() * deltaPosition2D.length() * mass * delta * maxTurningTorque * (deltaAngle*abs(deltaAngle)-0.*angular_velocity.y) * Vector3.UP / ( linear_velocity.length() + 1.0 ) );
+		apply_torque( 0.0005 * input.length() * deltaPosition2D.length() * deltaPosition2D.length() * mass * maxTurningTorque * (deltaAngle*abs(deltaAngle)-0.*angular_velocity.y) * Vector3.UP / ( linear_velocity.length() + 1.0 ) );
 	
 	if deltaAngle > 0.5 * PI:
-		apply_central_force( -abs(deltaAngle) * delta * mass * maxForce * input.length() * Vector3( sin( rotation.y ), 0.0, cos( rotation.y ) ));
+		apply_central_force( 0.001*-abs(deltaAngle) * mass * maxForce * input.length() * Vector3( sin( rotation.y ), 0.0, cos( rotation.y ) ));
 	
 	if( linear_velocity.length() < maxSpeed and deltaPosition2D.length() > 0.8):
-		apply_central_force( delta * mass * maxForce * (input.length()*(2.0+deltaPosition2D.length())) * Vector3( sin( rotation.y ), 0.0, cos( rotation.y ) ));
+		apply_central_force( 0.001*mass * maxForce * (input.length()*(2.0+deltaPosition2D.length())) * Vector3( sin( rotation.y ), 0.0, cos( rotation.y ) ));
 	else:
-		apply_central_force( -0.02 * linear_velocity * delta + 0.9 * input.length() * delta * mass * maxForce * Vector3( sin( rotation.y ), 0.0, cos( rotation.y ) ));
+		apply_central_force( 0.001*-0.02 * linear_velocity + 0.001*0.9 * input.length() * mass * maxForce * Vector3( sin( rotation.y ), 0.0, cos( rotation.y ) ));
 		
 	
 	var tf = get_global_transform()

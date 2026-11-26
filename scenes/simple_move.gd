@@ -3,7 +3,7 @@ extends CharacterBody3D
 @export_range(0.0, 1.0) var sensitivity = 0.25
 @export var anim_tree: AnimationTree
 
-const SPEED = 7.0
+const SPEED = 4.0
 const JUMP_VELOCITY = 5
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -16,13 +16,18 @@ func _ready():
 func _input(event):
 	if event is InputEventMouseMotion:
 		mouse_position = event.relative
+		
+func _process(_delta: float) -> void:
+	mouse_position *= sensitivity
+	var yaw = mouse_position.x
+	rotate_y(deg_to_rad(-yaw))
 
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-		move_and_slide()
-		return
+		#move_and_slide()
+		#return
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -40,7 +45,7 @@ func _physics_process(delta):
 	var pos_delta = target_pos - gk_pos
 	pos_delta.y = 0
 	#if pos_delta.length() > 2.0:
-	direction = pos_delta
+	#direction = pos_delta
 		
 	# Handle Jump.
 	if is_on_floor() and ball_pos.y > 1.6 and ball_gk_dist < 11.0:
@@ -52,7 +57,9 @@ func _physics_process(delta):
 	if dir2.length() > 0.1:
 		dir2 = dir2.normalized()
 		#rotate_y(atan2(direction.z,direction.x))
-		rotation.y = atan2(dir2.z,-dir2.x)
+		#rotation.y = atan2(dir2.z,-dir2.x)
+		
+	#rotate_y(mouse_position.x)
 	
 	if direction:
 		velocity.x = direction.x * SPEED
@@ -62,6 +69,7 @@ func _physics_process(delta):
 		velocity.z = move_toward(velocity.z, 0, SPEED)
 		
 	var local_vel = transform.basis.inverse() * velocity
-	anim_tree.set("parameters/blend_position", Vector2(local_vel.x, -local_vel.z))
-
+	anim_tree.set("parameters/blend_position", Vector2(local_vel.z, -local_vel.x))
+	anim_tree.set("parameters/TimeScale/scale", 20.0)
+	%AnimationPlayer.speed_scale = 10.0
 	move_and_slide()
