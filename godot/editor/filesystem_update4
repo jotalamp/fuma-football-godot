@@ -1,3 +1,5 @@
+res://player/animations/left.tres
+res://player/animations/left4.tres
 res://scenes/world.tscn
 res://ground/football_pitch.gdshader
-res://player/player.gd
+res://scenes/simple_move.gd

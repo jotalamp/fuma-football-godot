@@ -21,7 +21,7 @@ run/main_scene="uid://dp0s6t76qkg24"
 config/use_hidden_project_data_directory=false
 config/features=PackedStringArray("4.7", "Forward Plus")
 boot_splash/bg_color=Color(0, 0.383333, 0.5, 1)
-config/icon="uid://74k4rih3e8hq"
+config/icon="uid://bbvm06wnj8y1v"
 
 [display]
 
