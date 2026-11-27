@@ -1,12 +1,3 @@
-res://player/animations/goalkeeper_scoop.res
 res://scenes/world.tscn
 res://ground/football_pitch.gdshader
-res://player/animations/gk_scoop.tres
-res://player/PowerBar.tscn
-res://goal/football_goal.tscn
 res://player/player.gd
-res://scenes/simple_move.gd
-res://player/animations/gk_catch.tres
-res://player/animations/right.tres
-res://player/animations/backwards.tres
-res://player/animations/left.tres
