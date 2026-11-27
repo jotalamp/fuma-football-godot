@@ -3,3 +3,6 @@ res://player/animations/left4.tres
 res://scenes/world.tscn
 res://ground/football_pitch.gdshader
 res://scenes/simple_move.gd
+res://player/physical_animation.gd
+res://player/animations/tpose.tres
+res://player/animations/right.tres

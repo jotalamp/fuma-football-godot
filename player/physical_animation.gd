@@ -26,14 +26,23 @@ func _physics_process(delta):
 		var target_transform: Transform3D = target_skeleton.global_transform * target_skeleton.get_bone_global_pose(b.get_bone_id())
 		var current_transform: Transform3D = global_transform * get_bone_global_pose(b.get_bone_id())
 		
-		var rotation_difference: Basis = (target_transform.basis * current_transform.basis.inverse())
+		var target_q = target_transform.basis.get_rotation_quaternion()
+		var current_q = current_transform.basis.get_rotation_quaternion()
+		
+		# Ensure shortest-path hemisphere (q and -q represent the same rotation)
+		if current_q.dot(target_q) < 0.0:
+			target_q = -target_q
+		
+		var rotation_diff_q = (target_q * current_q.inverse()).normalized()
+		
+		#var rotation_difference: Basis = (target_transform.basis * current_transform.basis.inverse())
 		var position_difference:Vector3 = target_transform.origin - b.global_position
 		
 		var force: Vector3 = hookes_law(position_difference, b.linear_velocity, linear_spring_stiffness, linear_spring_damping)
 		force = force.limit_length(max_linear_force)
 		b.linear_velocity += (force * delta)
 		
-		var torque = hookes_law(rotation_difference.get_euler(), b.angular_velocity, angular_spring_stiffness, angular_spring_damping)
+		var torque = hookes_law(rotation_diff_q.get_euler(), b.angular_velocity, angular_spring_stiffness, angular_spring_damping)
 		torque = torque.limit_length(max_angular_force)
 		
 		b.angular_velocity += torque * delta

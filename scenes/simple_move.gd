@@ -3,7 +3,7 @@ extends CharacterBody3D
 @export_range(0.0, 1.0) var sensitivity = 0.25
 @export var anim_tree: AnimationTree
 
-const SPEED = 4.0
+const SPEED = 5.0
 const JUMP_VELOCITY = 5
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -19,7 +19,7 @@ func _input(event):
 		
 func _process(_delta: float) -> void:
 	mouse_position *= sensitivity
-	var _yaw = mouse_position.x
+	#var yaw = mouse_position.x
 	#rotate_y(deg_to_rad(-yaw))
 
 func _physics_process(delta):
@@ -35,13 +35,16 @@ func _physics_process(delta):
 	var direction = (transform.basis * Vector3(input_dir.y, 0, -input_dir.x)).normalized()
 	
 	var ball_pos = %Ball.global_position
+	var ball_future_pos = ball_pos + %Ball.linear_velocity
 	
 	var gk_pos = global_position
 	var goal_pos = Vector3(-54,0,0)
 	var ball_gk_dist = (ball_pos - gk_pos).length()
 	var ball_distance_from_goal = (goal_pos-ball_pos).length()/55.0
-	var target_pos = (0.1*ball_pos+0.9*goal_pos)
-	target_pos.z = (0.9-0.8*ball_distance_from_goal)*ball_pos.z
+	var target_pos = (0.2*ball_future_pos+0.8*goal_pos)
+	if target_pos.x < -54.0:
+		target_pos.x = -54
+	target_pos.z = (1.0-0.7*ball_distance_from_goal)*ball_pos.z
 	var pos_delta = target_pos - gk_pos
 	pos_delta.y = 0
 	#if pos_delta.length() > 2.0:
