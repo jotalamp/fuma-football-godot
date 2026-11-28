@@ -1,8 +1,9 @@
-res://player/animations/left.tres
-res://player/animations/left4.tres
+res://player/animations/tpose.tres
 res://scenes/world.tscn
 res://ground/football_pitch.gdshader
+res://player/player.gd
 res://scenes/simple_move.gd
-res://player/physical_animation.gd
-res://player/animations/tpose.tres
-res://player/animations/right.tres
+res://player/PowerBar.tscn
+res://cameras/camera_vertical.gd
+res://player/animations/gk_catch.tres
+res://ball/ball.gd

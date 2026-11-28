@@ -1,15 +1,17 @@
 [gd_scene format=3 uid="uid://c3kn1f7pj6s0j"]
 
-[node name="PowerBar" type="Node2D"]
+[node name="PowerBar" type="Node2D" unique_id=1375690449]
 
-[node name="ShootPowerBar" type="ProgressBar" parent="."]
+[node name="ShootPowerBar" type="ProgressBar" parent="." unique_id=1158496451]
+unique_name_in_owner = true
 offset_right = 50.0
 offset_bottom = 3.0
 pivot_offset = Vector2(-50, 0)
 max_value = 1.0
 show_percentage = false
 
-[node name="ShootHeightBar" type="ProgressBar" parent="."]
+[node name="ShootHeightBar" type="ProgressBar" parent="." unique_id=68632094]
+unique_name_in_owner = true
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0

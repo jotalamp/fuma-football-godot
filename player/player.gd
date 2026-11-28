@@ -61,24 +61,15 @@ func _ready():
 	
 	var animations = ['Jog_02','Kick_05','Idle_01']
 	
-	#animationPlayer.playback_speed = 20.0
-	
 	var animation = animationPlayer.get_animation('Jog_02')	
 	animation.loop = true
 	
 	for animation2 in animations:
 		animation2 = animationPlayer.get_animation(animation2)	
-		#animation2.loop = true
 		
 	arrow.modulate = getTeamColor()
 	
 	direction = -get_global_transform().basis.x
-	
-	#physicalBoneSimulator.physical_bones_start_simulation()
-	# Skeleton retargeted to SkeletonProfileHumanoid bone names (import with a BoneMap).
-	#ragdoll = ActiveRagdoll.create(skeleton, RagdollProfile.humanoid())
-	#ragdoll.collision_layer = 1 << 9   # own layer, not in the mask
-	#ragdoll.collision_mask = 1         # world
 	
 func resetPowerBar():
 	$"./PowerBar/ShootPowerBar".value = 0.0
@@ -101,7 +92,6 @@ func getAxis(name1: String):
 
 func getTeamColor():
 	return getTeamData().getTeamColor()
-	#return Color.RED
 
 func getShootHeightBarValue():
 	return shootHeightBar.value

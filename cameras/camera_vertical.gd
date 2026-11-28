@@ -8,6 +8,7 @@ extends Camera3D
 
 func _physics_process(_delta):
 	targetPosition = 0.97 * targetPosition + 0.03 * player.position
+	targetPosition = %Player2.position
 	position = targetPosition
 	position.y = 5.0
 	position.x += 15.0

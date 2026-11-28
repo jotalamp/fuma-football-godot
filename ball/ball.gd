@@ -104,8 +104,10 @@ func _integrate_forces(state):
 		
 	if reset:
 		#state.set_transform(_initial_transform)
-		transform = nearestPlayer.global_transform
-		transform.origin += 2.0 * transform.basis.z + Vector3.UP
+		#transform = nearestPlayer.global_transform
+		transform = %Player2.global_transform
+		#transform.origin += 2.0 * transform.basis.z + Vector3.UP
+		transform.origin += -2.0 * transform.basis.x + Vector3.UP
 		if Input.is_action_pressed("CursorChange"):
 			state.set_transform(_initial_transform)
 		else:
